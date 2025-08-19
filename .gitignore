@@ -29,3 +29,9 @@ dist/
 build/
 .next/
 out/
+
+# Vite
+.vite/
+
+# Tests
+coverage/
