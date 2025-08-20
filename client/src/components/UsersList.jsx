@@ -79,7 +79,7 @@ const UsersList = () => {
                     ) : (
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {users.map((user) => (
-                                <DisplayUser user={user} />
+                                <DisplayUser key={user.id} user={user} />
                             ))}
                         </div>
                     )}

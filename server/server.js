@@ -27,5 +27,5 @@ app.get("/api/test", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 
-const PORT = process.env.PORT || 5306;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`🌍 Server running on port ${PORT}`));

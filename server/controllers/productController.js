@@ -1,21 +1,113 @@
-import db from "../config/db.js";
+import { createProduct, getAllProducts, getProductById, getProductsByUserId } from "../services/productService.js";
 
 export const getProducts = async (req, res) => {
     try {
-        const [rows] = await db.query(
-            "SELECT id, user_id, title, description, price, image, created_at FROM products ORDER BY created_at DESC"
-        );
+        const products = await getAllProducts();
         
         res.json({
             success: true,
-            count: rows.length,
-            data: rows
+            count: products.length,
+            data: products
         });
     } catch (error) {
         console.error("Error fetching products:", error);
         res.status(500).json({
             success: false,
             message: "Failed to fetch products",
+            error: error.message
+        });
+    }
+};
+
+export const createNewProduct = async (req, res) => {
+    console.log(123);
+    try {
+        // Simulate slower processing to see loading spinner
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        const { user_id, title, description, price, image } = req.body;
+
+        // Validation
+        if (!user_id || !title || !description || !price) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields: user_id, title, description, price"
+            });
+        }
+
+        if (price <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Price must be greater than 0"
+            });
+        }
+
+        const productData = {
+            user_id,
+            title: title.trim(),
+            description: description.trim(),
+            price: parseFloat(price),
+            image: image || null
+        };
+
+        const newProduct = await createProduct(productData);
+
+        res.status(201).json({
+            success: true,
+            message: "Product created successfully",
+            data: newProduct
+        });
+    } catch (error) {
+        console.error("Error creating product:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to create product",
+            error: error.message
+        });
+    }
+};
+
+export const getProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await getProductById(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            data: product
+        });
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch product",
+            error: error.message
+        });
+    }
+};
+
+export const getUserProducts = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const products = await getProductsByUserId(userId);
+
+        res.json({
+            success: true,
+            count: products.length,
+            data: products
+        });
+    } catch (error) {
+        console.error("Error fetching user products:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch user products",
             error: error.message
         });
     }

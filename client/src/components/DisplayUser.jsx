@@ -1,7 +1,6 @@
 const DisplayUser = ({ user }) => {
     return (
         <div
-            key={user.id}
             className="bg-gray-700 rounded-lg p-4 hover:bg-gray-600 transition-colors duration-200"
         >
             <div className="flex items-center space-x-3">

@@ -1,5 +1,6 @@
 import './App.css'
 import UsersList from './components/UsersList'
+import ProductForm from './components/ProductForm'
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
             </div>
             
             <UsersList />
+            <ProductForm />
         </div>
     );
 }
