@@ -1,31 +1,24 @@
 import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Navigation from './components/Navigation'
+import Home from './components/Home'
 import UsersList from './components/UsersList'
 import ProductForm from './components/ProductForm'
+import RegisterForm from './components/RegisterForm'
 
 function App() {
     return (
-        <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-green-400">
-            <div className="text-center py-12">
-                <h1 className="text-6xl font-extrabold mb-6 drop-shadow-lg hover:scale-105 transition-transform duration-300">
-                    🚀 TradeHub Marketplace
-                </h1>
-                <p className="text-xl mb-10 opacity-90">
-                    Buy, sell and discover unique products with style.
-                </p>
-
-                <div className="flex justify-center gap-6 mb-12">
-                    <button className="px-8 py-3 bg-white text-indigo-600 text-lg font-bold rounded-full shadow-lg hover:bg-gray-200 hover:scale-105 transition transform duration-300">
-                        Get Started
-                    </button>
-                    <button className="px-8 py-3 border-2 border-white text-white text-lg font-bold rounded-full shadow-lg hover:bg-white hover:text-indigo-600 hover:scale-105 transition transform duration-300">
-                        Learn More
-                    </button>
-                </div>
+        <Router>
+            <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-green-400">
+                <Navigation />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/register" element={<RegisterForm />} />
+                    <Route path="/users" element={<UsersList />} />
+                    <Route path="/create" element={<ProductForm />} />
+                </Routes>
             </div>
-            
-            <UsersList />
-            <ProductForm />
-        </div>
+        </Router>
     );
 }
 
