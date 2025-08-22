@@ -4,19 +4,28 @@ import Navigation from './components/Navigation'
 import Home from './components/Home'
 import UsersList from './components/UsersList'
 import ProductForm from './components/ProductForm'
-import RegisterForm from './components/RegisterForm'
+import Register from './pages/Register/Register'
+import Login from './pages/Login/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
     return (
         <Router>
-            <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-green-400">
+            <div className="min-h-screen flex flex-col bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-green-400">
                 <Navigation />
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/register" element={<RegisterForm />} />
-                    <Route path="/users" element={<UsersList />} />
-                    <Route path="/create" element={<ProductForm />} />
-                </Routes>
+                <main className="flex-1">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/users" element={<UsersList />} />
+                        <Route path="/create" element={
+                            <ProtectedRoute>
+                                <ProductForm />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/login" element={<Login />} />
+                    </Routes>
+                </main>
             </div>
         </Router>
     );
