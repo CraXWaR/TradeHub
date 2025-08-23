@@ -2,18 +2,20 @@ import db from "../config/db.js";
 
 export const createProduct = async (productData) => {
     const { user_id, title, description, price, image } = productData;
-    
+
     try {
         const [result] = await db.query(
-            "INSERT INTO products (user_id, title, description, price, image, created_at) VALUES (?, ?, ?, ?, ?, NOW())",
+            `INSERT INTO products (user_id, title, description, price, image, created_at) 
+             VALUES (?, ?, ?, ?, ?, NOW())`,
             [user_id, title, description, price, image]
         );
-        
+
         const [rows] = await db.query(
-            "SELECT id, user_id, title, description, price, image, created_at FROM products WHERE id = ?",
+            `SELECT id, user_id, title, description, price, image, created_at 
+             FROM products WHERE id = ?`,
             [result.insertId]
         );
-        
+
         return rows[0];
     } catch (error) {
         throw new Error(`Failed to create product: ${error.message}`);

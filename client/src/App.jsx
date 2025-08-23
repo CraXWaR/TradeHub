@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import Home from './components/Home'
 import UsersList from './components/UsersList'
-import ProductForm from './components/ProductForm'
+import CreateProduct from './pages/CreateProduct/CreateProduct'
 import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -20,7 +20,7 @@ function App() {
                         <Route path="/users" element={<UsersList />} />
                         <Route path="/create" element={
                             <ProtectedRoute>
-                                <ProductForm />
+                                <CreateProduct />
                             </ProtectedRoute>
                         } />
                         <Route path="/login" element={<Login />} />

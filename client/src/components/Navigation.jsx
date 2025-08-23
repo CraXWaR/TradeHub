@@ -1,25 +1,25 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
 const Navigation = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [token, setToken] = useState(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const checkAuth = () => {
-            const authStatus = localStorage.getItem("isAuthenticated");
-            const userData = localStorage.getItem("user");
+            const storedUser = localStorage.getItem("user");
+            const storedToken = localStorage.getItem("token");
 
-            if (authStatus === "true" && userData) {
-                setIsAuthenticated(true);
-                setUser(JSON.parse(userData));
+            if (storedUser && storedToken) {
+                setUser(JSON.parse(storedUser));
+                setToken(storedToken);
             } else {
-                setIsAuthenticated(false);
                 setUser(null);
+                setToken(null);
             }
         };
 
@@ -30,9 +30,9 @@ const Navigation = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("user");
-        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("token");
         setUser(null);
-        setIsAuthenticated(false);
+        setToken(null);
         setIsMobileMenuOpen(false);
         navigate("/");
     };
@@ -42,10 +42,10 @@ const Navigation = () => {
             { path: "/", label: "Home" },
             { path: "/users", label: "Users" },
         ];
-        return isAuthenticated
+        return token
             ? [...base, { path: "/create", label: "Create Product" }]
             : [...base, { path: "/login", label: "Login" }];
-    }, [isAuthenticated]);
+    }, [token]);
 
     const NavLinks = ({ onClick, mobile = false }) =>
         navItems.map((item) => (
@@ -63,14 +63,14 @@ const Navigation = () => {
         ));
 
     const UserSection = ({ mobile = false }) =>
-        isAuthenticated &&
+        token &&
         user && (
             <div
                 className={`${
                     mobile ? "mt-6 border-t pt-4" : "flex items-center space-x-3 ml-4 pl-4 border-l"
                 } border-orange-200`}>
                 <span className="text-gray-700 font-medium">
-                    Welcome, {user.name}
+                    Welcome, {user.name || user.email}
                 </span>
                 <button
                     onClick={handleLogout}

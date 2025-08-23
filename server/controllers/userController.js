@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 import userService from "../services/userService.js";
+import jwt from "jsonwebtoken";
 
 export const getUsers = async (req, res) => {
     try {
@@ -45,11 +46,9 @@ export const login = async (req, res) => {
     try {
         const user = await userService.authenticateUser(req.body.email, req.body.password);
 
-        res.json({
-            success: true,
-            message: "Login successful",
-            data: user,
-        });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        res.json({ success: true, data: { ...user, token } });
+    
     } catch (error) {
         console.error("Error logging in user:", error);
 

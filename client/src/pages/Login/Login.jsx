@@ -51,9 +51,9 @@ const Login = () => {
             if (data.success) {
                 setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
                 
-                localStorage.setItem('user', JSON.stringify(data.data));
-                localStorage.setItem('isAuthenticated', 'true');
-                
+                localStorage.setItem("token", data.data.token);
+                localStorage.setItem("user", JSON.stringify(data.data));
+
                 setTimeout(() => {
                     navigate('/');
                 }, 1000);

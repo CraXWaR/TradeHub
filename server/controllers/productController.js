@@ -20,25 +20,22 @@ export const getProducts = async (req, res) => {
 };
 
 export const createNewProduct = async (req, res) => {
-    console.log(123);
     try {
-        // Simulate slower processing to see loading spinner
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        
-        const { user_id, title, description, price, image } = req.body;
+        const { title, description, price, image } = req.body;
+        const user_id = req.user.id;
 
-        // Validation
-        if (!user_id || !title || !description || !price) {
+        if (!title || !description || !price) {
             return res.status(400).json({
                 success: false,
-                message: "Missing required fields: user_id, title, description, price"
+                message: "Missing required fields: title, description, price"
             });
         }
 
-        if (price <= 0) {
+        const numericPrice = parseFloat(price);
+        if (isNaN(numericPrice) || numericPrice <= 0) {
             return res.status(400).json({
                 success: false,
-                message: "Price must be greater than 0"
+                message: "Price must be a valid number greater than 0"
             });
         }
 
@@ -46,7 +43,7 @@ export const createNewProduct = async (req, res) => {
             user_id,
             title: title.trim(),
             description: description.trim(),
-            price: parseFloat(price),
+            price: numericPrice,
             image: image || null
         };
 
@@ -66,6 +63,7 @@ export const createNewProduct = async (req, res) => {
         });
     }
 };
+
 
 export const getProduct = async (req, res) => {
     try {

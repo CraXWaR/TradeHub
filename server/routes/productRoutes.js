@@ -1,5 +1,6 @@
 import express from "express";
 import { getProducts, createNewProduct, getProduct, getUserProducts } from "../controllers/productController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -7,7 +8,7 @@ const router = express.Router();
 router.get("/", getProducts);
 
 // POST /api/products - Create a new product
-router.post("/create", createNewProduct);
+router.post("/create", authMiddleware, createNewProduct);
 
 // GET /api/products/:id - Get a specific product by ID
 router.get("/:id", getProduct);

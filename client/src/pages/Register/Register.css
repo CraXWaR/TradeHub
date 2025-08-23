@@ -104,6 +104,7 @@
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   outline: none;
+  color: #2d1b1b;
 }
 
 .form-input:focus {
