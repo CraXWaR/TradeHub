@@ -35,3 +35,6 @@ out/
 
 # Tests
 coverage/
+
+# Uploads (user-uploaded files)
+uploads/

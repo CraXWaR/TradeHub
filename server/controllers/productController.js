@@ -3,7 +3,7 @@ import { createProduct, getAllProducts, getProductById, getProductsByUserId } fr
 export const getProducts = async (req, res) => {
     try {
         const products = await getAllProducts();
-        
+
         res.json({
             success: true,
             count: products.length,
@@ -31,6 +31,7 @@ export const createNewProduct = async (req, res) => {
             });
         }
 
+
         const numericPrice = parseFloat(price);
         if (isNaN(numericPrice) || numericPrice <= 0) {
             return res.status(400).json({
@@ -39,12 +40,24 @@ export const createNewProduct = async (req, res) => {
             });
         }
 
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = `/uploads/${req.file.filename}`;
+        } else if (image) {
+            imageUrl = image;
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Image is required (upload a file or provide a URL)"
+            });
+        }
+
         const productData = {
             user_id,
             title: title.trim(),
             description: description.trim(),
             price: numericPrice,
-            image: image || null
+            image: imageUrl
         };
 
         const newProduct = await createProduct(productData);
@@ -83,6 +96,11 @@ export const getProduct = async (req, res) => {
         });
     } catch (error) {
         console.error("Error fetching product:", error);
+
+        if (req.file) {
+            await fs.unlink(req.file.path).catch(() => { });
+        }
+
         res.status(500).json({
             success: false,
             message: "Failed to fetch product",

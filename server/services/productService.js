@@ -6,19 +6,34 @@ export const createProduct = async (productData) => {
     try {
         const [result] = await db.query(
             `INSERT INTO products (user_id, title, description, price, image, created_at) 
-             VALUES (?, ?, ?, ?, ?, NOW())`,
+         VALUES (?, ?, ?, ?, ?, NOW())`,
             [user_id, title, description, price, image]
         );
 
         const [rows] = await db.query(
             `SELECT id, user_id, title, description, price, image, created_at 
-             FROM products WHERE id = ?`,
+         FROM products WHERE id = ?`,
             [result.insertId]
         );
 
-        return rows[0];
+        const product = rows[0];
+        const baseUrl = process.env.BASE_URL || "http://localhost:5000";
+
+        return {
+            id: product.id,
+            userId: product.user_id,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            image: product.image ? `${baseUrl}${product.image}` : null,
+            createdAt: product.created_at
+        };
     } catch (error) {
-        throw new Error(`Failed to create product: ${error.message}`);
+        throw {
+            message: "Failed to create product",
+            code: error.code,
+            detail: error.message
+        };
     }
 };
 
