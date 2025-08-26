@@ -40,6 +40,7 @@ const Navigation = () => {
     const navItems = useMemo(() => {
         const base = [
             { path: "/", label: "Home" },
+            { path: "/products", label: "Products" },
             { path: "/users", label: "Users" },
         ];
         return token

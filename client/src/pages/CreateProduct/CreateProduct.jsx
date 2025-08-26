@@ -78,7 +78,7 @@ const CreateProduct = () => {
                 });
                 setImageFile(null);
                 setPreviewUrl('');
-                navigate("/");
+                navigate("/products");
             } else {
                 setMessage({ type: "error", text: data.message || "Failed to create product" });
             }

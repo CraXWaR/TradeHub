@@ -7,6 +7,7 @@ import CreateProduct from './pages/CreateProduct/CreateProduct'
 import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import Products from './pages/Products/Products'
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <main className="flex-1">
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/users" element={<UsersList />} />
                         <Route path="/create" element={
@@ -32,3 +34,4 @@ function App() {
 }
 
 export default App
+
