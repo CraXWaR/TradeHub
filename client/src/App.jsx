@@ -8,6 +8,7 @@ import Register from './pages/Register/Register'
 import Login from './pages/Login/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import Products from './pages/Products/Products'
+import ProductDetail from './pages/ProductDetail/ProductDetail'
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                             </ProtectedRoute>
                         } />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/products/:id" element={<ProductDetail />} />
                     </Routes>
                 </main>
             </div>

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import './Products.css';
 
-const SERVER_BASE_URL = 'http://localhost:5000';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -18,7 +18,7 @@ const Products = () => {
       const startTime = Date.now();
   
       try {
-        const res = await fetch(`${SERVER_BASE_URL}/api/products`);
+        const res = await fetch(`${BASE_URL}/api/products`);
         const data = await res.json();
   
         if (!isMounted) return;
@@ -56,7 +56,7 @@ const Products = () => {
     return products.map((p) => {
       const imagePath = p?.image || '';
       const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-      const imageUrl = `${SERVER_BASE_URL}${normalizedPath}`;
+      const imageUrl = `${BASE_URL}/uploads/${normalizedPath}`;
 
       return (
         <div key={p.id || p._id || `${p.title}-${p.price}`} className="product-card bg-white/90 backdrop-blur-sm rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-orange-100 overflow-hidden flex flex-col">
@@ -66,7 +66,7 @@ const Products = () => {
               src={imageUrl}
               alt={p.title || 'Product image'}
               className="w-full h-full object-cover"
-              onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/600x450?text=No+Image'; }}
+              onError={(e) => { e.currentTarget.src = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo-Image-Placeholder.svg&psig=AOvVaw20r1kXugs2wwlDQPo8Vn_V&ust=1756391749238000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNig4KObq48DFQAAAAAdAAAAABAE'; }}
             />
           </div>
           <div className="p-4 flex flex-col gap-2">
@@ -76,7 +76,7 @@ const Products = () => {
               <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-red-500 bg-clip-text text-transparent">
                 ${p.price}
               </span>
-              <button className="button-outline px-4 py-2 text-sm rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors"
+              <Link to={`/products/${p.id}`} className="button-outline px-4 py-2 text-sm rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors"
                 onMouseMove={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
@@ -84,7 +84,7 @@ const Products = () => {
                 }}
               >
                 View
-              </button>
+              </Link>
             </div>
           </div>
         </div>
