@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./ProductDetail.css";
+import { FaTrash } from "react-icons/fa";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const MIN_LOADING_TIME = 1500;
@@ -13,6 +14,26 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        navigate("/");
+      } else {
+        alert(data.message || "Failed to delete product");
+      }
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -88,10 +109,17 @@ const ProductDetail = () => {
       {/* Accent circles for depth */}
       <div className="absolute top-20 left-10 w-40 h-40 bg-orange-200/30 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-10 w-60 h-60 bg-red-200/30 rounded-full blur-3xl"></div>
-  
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="product-detail grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white/80 backdrop-blur-xl border border-orange-100/60 rounded-2xl shadow-xl overflow-hidden animate-fadeIn">
-          
+          {/* Delete Button (floating top-right) */}
+          <button
+            className="absolute top-4 right-4 p-2 rounded-full border border-red-300 text-red-600 hover:bg-red-100 transition-colors"
+            onClick={() => deleteProduct(product.id)}
+          >
+            <FaTrash size={18} />
+          </button>
+
           {/* Product Image */}
           <div className="product-image-container flex items-center justify-center bg-gradient-to-br from-gray-50 to-orange-50 p-6">
             {product.image ? (
@@ -113,7 +141,7 @@ const ProductDetail = () => {
               />
             )}
           </div>
-  
+
           {/* Product Info */}
           <div className="product-info flex flex-col justify-between p-8 lg:p-10">
             <div>
@@ -132,7 +160,7 @@ const ProductDetail = () => {
                 </p>
               </div>
             </div>
-  
+
             {/* Meta + Actions */}
             <div className="mt-10">
               <div className="product-meta flex justify-between items-center text-sm text-gray-500 mb-6">
@@ -145,7 +173,7 @@ const ProductDetail = () => {
                   })}
                 </span>
               </div>
-  
+
               <div className="action-buttons flex flex-wrap gap-4">
                 <button
                   onClick={() => navigate(-1)}

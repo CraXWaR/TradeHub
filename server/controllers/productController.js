@@ -1,4 +1,4 @@
-import { createProduct, getAllProducts, getProductById, getProductsByUserId } from "../services/productService.js";
+import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsByUserId } from "../services/productService.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -77,7 +77,6 @@ export const createNewProduct = async (req, res) => {
     }
 };
 
-
 export const getProduct = async (req, res) => {
     try {
         const { id } = req.params;
@@ -124,6 +123,50 @@ export const getUserProducts = async (req, res) => {
         res.status(500).json({
             success: false,
             message: "Failed to fetch user products",
+            error: error.message
+        });
+    }
+};
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+
+        const product = await getProductById(id);
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+
+        if (product.user_id !== userId) {
+            return res.status(403).json({
+                success: false,
+                message: "You are not authorized to delete this product"
+            });
+        }
+
+        const deleted = await deleteProductById(id);
+
+        if (!deleted) {
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Product deleted successfully"
+        });
+    } catch (error) {
+        console.error("Error deleting product:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to delete product",
             error: error.message
         });
     }

@@ -64,7 +64,6 @@ const Register = () => {
                     password: '',
                     confirmPassword: ''
                 });
-                console.log('Registered user:', data.data);
                 setTimeout(() => {
                     navigate('/login');
                 }, 1000);

@@ -71,3 +71,16 @@ export const getProductsByUserId = async (userId) => {
         throw new Error(`Failed to fetch user products: ${error.message}`);
     }
 };
+
+export const deleteProductById = async (id) => {
+    try {
+        const [result] = await db.query(
+            "DELETE FROM products WHERE id = ?",
+            [id]
+        );
+        return result.affectedRows > 0;
+    } catch (error) {
+        throw new Error(`Failed to delete product: ${error.message}`);
+    }
+};
+    

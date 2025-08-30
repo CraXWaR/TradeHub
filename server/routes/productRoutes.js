@@ -1,5 +1,5 @@
 import express from "express";
-import { getProducts, createNewProduct, getProduct, getUserProducts } from "../controllers/productController.js";
+import { getProducts, createNewProduct, getProduct, getUserProducts, deleteProduct } from "../controllers/productController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/uploadMiddleware.js";
 
@@ -16,5 +16,8 @@ router.get("/user/:userId", getUserProducts);
 
 // GET /api/products/:id - Get a specific product by ID
 router.get("/:id", getProduct);
+
+// DELETE /api/products/:id - Delete a specific product by ID
+router.delete("/:id", authMiddleware, deleteProduct);
 
 export default router;
