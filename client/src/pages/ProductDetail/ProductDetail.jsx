@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./ProductDetail.css";
 import { FaTrash } from "react-icons/fa";
 
+import ConfirmModal from "../../components/ConfirmModal";
+
 const BASE_URL = import.meta.env.VITE_API_URL;
 const MIN_LOADING_TIME = 1500;
 const PLACEHOLDER_IMAGE =
@@ -14,16 +16,19 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const deleteProduct = async (id) => {
     try {
+      setLoading(true);
       const response = await fetch(`${BASE_URL}/api/products/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       const data = await response.json();
       if (data.success) {
         navigate("/");
@@ -32,7 +37,15 @@ const ProductDetail = () => {
       }
     } catch (err) {
       console.error("Error deleting product:", err);
+    } finally {
+      setLoading(false);
+      setShowModal(false);
     }
+  };
+
+  const handleDelete = () => {
+    deleteProduct(product.id);
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -115,10 +128,19 @@ const ProductDetail = () => {
           {/* Delete Button (floating top-right) */}
           <button
             className="absolute top-4 right-4 p-2 rounded-full border border-red-300 text-red-600 hover:bg-red-100 transition-colors"
-            onClick={() => deleteProduct(product.id)}
+            onClick={() => setShowModal(true)}
           >
             <FaTrash size={18} />
           </button>
+
+          <ConfirmModal
+            isOpen={showModal}
+            title="Delete Product"
+            message="Are you sure you want to delete this product? This action cannot be undone!"
+            onConfirm={handleDelete}
+            onCancel={() => setShowModal(false)}
+            loading={loading}
+          />
 
           {/* Product Image */}
           <div className="product-image-container flex items-center justify-center bg-gradient-to-br from-gray-50 to-orange-50 p-6">
