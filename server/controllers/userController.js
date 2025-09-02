@@ -7,7 +7,7 @@ export const getUsers = async (req, res) => {
         const [rows] = await db.query(
             "SELECT id, name, email, created_at FROM users ORDER BY created_at DESC"
         );
-        
+
         res.json({
             success: true,
             count: rows.length,
@@ -44,11 +44,26 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const user = await userService.authenticateUser(req.body.email, req.body.password);
+        const user = await userService.authenticateUser(
+            req.body.email,
+            req.body.password
+        );
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ success: true, data: { ...user, token } });
-    
+        const token = jwt.sign(
+            {id: user.id, role: user.role},
+            process.env.JWT_SECRET,
+            {expiresIn: "1h"}
+        );
+
+        const {password, ...userWithoutPassword} = user;
+
+        res.json({
+            success: true,
+            data: {
+                ...userWithoutPassword,
+                token,
+            },
+        });
     } catch (error) {
         console.error("Error logging in user:", error);
 
@@ -58,3 +73,4 @@ export const login = async (req, res) => {
         });
     }
 };
+

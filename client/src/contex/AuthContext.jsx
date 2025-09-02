@@ -1,53 +1,53 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { jwtDecode } from "jwt-decode";
+import {createContext, useState, useEffect, useContext} from "react";
+import {jwtDecode} from "jwt-decode";
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+export const AuthProvider = ({children}) => {
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
+    const [loading, setLoading] = useState(true); // 👈 add loading state
 
-  useEffect(() => {
-    const checkAuth = () => {
-      const storedUser = localStorage.getItem("user");
-      const storedToken = localStorage.getItem("token");
+    useEffect(() => {
+        const checkAuth = () => {
+            const storedToken = localStorage.getItem("token");
 
-      if (storedUser && storedToken) {
-        try {
-          const decoded = jwtDecode(storedToken);
-          const now = Date.now() / 1000;
+            if (storedToken) {
+                try {
+                    const decoded = jwtDecode(storedToken);
+                    const now = Date.now() / 1000;
 
-          if (decoded.exp && decoded.exp < now) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            setUser(null);
-            setToken(null);
-          } else {
-            setUser(JSON.parse(storedUser));
-            setToken(storedToken);
-          }
-        } catch {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          setUser(null);
-          setToken(null);
-        }
-      } else {
-        setUser(null);
-        setToken(null);
-      }
-    };
+                    if (decoded.exp && decoded.exp < now) {
+                        localStorage.removeItem("token");
+                        setUser(null);
+                        setToken(null);
+                    } else {
+                        setUser({id: decoded.id, role: decoded.role});
+                        setToken(storedToken);
+                    }
+                } catch {
+                    localStorage.removeItem("token");
+                    setUser(null);
+                    setToken(null);
+                }
+            } else {
+                setUser(null);
+                setToken(null);
+            }
 
-    checkAuth();
-    window.addEventListener("storage", checkAuth);
-    return () => window.removeEventListener("storage", checkAuth);
-  }, []);
+            setLoading(false); // 👈 mark as finished
+        };
 
-  return (
-    <AuthContext.Provider value={{ user, token, setUser, setToken }}>
-      {children}
-    </AuthContext.Provider>
-  );
+        checkAuth();
+        window.addEventListener("storage", checkAuth);
+        return () => window.removeEventListener("storage", checkAuth);
+    }, []);
+
+    return (
+        <AuthContext.Provider value={{user, token, setUser, setToken, loading}}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = () => useContext(AuthContext);

@@ -5,7 +5,7 @@ import User from '../models/User.js';
 const SALT_ROUNDS = 10;
 
 class UserService {
-    async createUser({ name, email, password }) {
+    async createUser({ name, email, password, role }) {
         const existingUser = await this.getUserByEmail(email);
         if (existingUser) {
             const err = new Error("User with this email already exists");
@@ -15,11 +15,14 @@ class UserService {
 
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
+        const userRole = role || "user";
+
         const query = `
-      INSERT INTO users (name, email, password, created_at) 
-      VALUES (?, ?, ?, NOW())
-    `;
-        const [result] = await db.execute(query, [name, email, hashedPassword]);
+            INSERT INTO users (name, email, password, role, created_at)
+            VALUES (?, ?, ?, ?, NOW())
+        `;
+
+        const [result] = await db.execute(query, [name, email, hashedPassword, userRole]);
 
         const newUser = await this.getUserById(result.insertId);
 

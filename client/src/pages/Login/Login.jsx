@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import './Login.css';
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {useAuth} from "../../contex/AuthContext.jsx";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -9,8 +10,10 @@ const Login = () => {
     });
 
     const [isLoading, setIsLoading] = useState(false);
-    const [message, setMessage] = useState({ type: '', text: '' });
+    const [message, setMessage] = useState({type: '', text: ''});
     const navigate = useNavigate();
+
+    const {setUser, setToken} = useAuth();
 
     const handleChange = (e) => {
         setFormData({
@@ -22,53 +25,52 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        setMessage({ type: '', text: '' });
-        
+        setMessage({type: "", text: ""});
+
         try {
-            // Ensure minimum loading time of 1500ms
             const startTime = Date.now();
-            
-            const response = await fetch('http://localhost:5000/api/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+
+            const response = await fetch("http://localhost:5000/api/users/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     email: formData.email,
-                    password: formData.password
-                })
+                    password: formData.password,
+                }),
             });
 
             const data = await response.json();
-            
+
             const elapsedTime = Date.now() - startTime;
             const remainingTime = Math.max(0, 1500 - elapsedTime);
-            
             if (remainingTime > 0) {
-                await new Promise(resolve => setTimeout(resolve, remainingTime));
+                await new Promise((resolve) => setTimeout(resolve, remainingTime));
             }
 
             if (data.success) {
-                setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
-                
-                localStorage.setItem("token", data.data.token);
-                localStorage.setItem("user", JSON.stringify(data.data));
+                setMessage({type: "success", text: "Login successful! Redirecting..."});
+
+                const {token, role, name, email} = data.data;
+
+                localStorage.setItem("token", token);
+                localStorage.setItem("user", JSON.stringify({role, name, email}));
+
+                setToken(token);
+                setUser({role, name, email});
 
                 setTimeout(() => {
-                    navigate('/');
+                    navigate("/");
                 }, 1000);
-                
             } else {
-                setMessage({ type: 'error', text: data.message || 'Login failed' });
+                setMessage({type: "error", text: data.message || "Login failed"});
             }
         } catch (error) {
-            setMessage({ type: 'error', text: 'Error connecting to server' });
-            console.error('Error logging in:', error);
+            setMessage({type: "error", text: "Error connecting to server"});
+            console.error("Error logging in:", error);
         } finally {
             setIsLoading(false);
         }
     };
-
     return (
         <div className="login-container">
             <div className="login-card">
@@ -127,14 +129,14 @@ const Login = () => {
 
                     <div className="form-options">
                         <label className="checkbox-wrapper">
-                            <input type="checkbox" className="checkbox" />
+                            <input type="checkbox" className="checkbox"/>
                             <span className="checkbox-label">Remember me</span>
                         </label>
                         <a href="#" className="forgot-link">Forgot password?</a>
                     </div>
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className={`login-button ${isLoading ? 'loading' : ''}`}
                         disabled={isLoading}
                     >
