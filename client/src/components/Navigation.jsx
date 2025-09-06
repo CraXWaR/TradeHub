@@ -44,7 +44,7 @@ const Navigation = () => {
             { path: "/users", label: "Users" },
         ];
         return token
-            ? [...base, { path: "/create", label: "Create Product" }]
+            ? [...base, { path: "/admin/create", label: "Create Product" }]
             : [...base, { path: "/login", label: "Login" }];
     }, [token]);
 

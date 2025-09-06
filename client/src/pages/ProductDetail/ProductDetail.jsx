@@ -177,7 +177,7 @@ const ProductDetail = () => {
                 <h3 className="text-xl font-semibold text-gray-800 border-b-2 border-orange-100 pb-2 mb-4">
                   Description
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 leading-relaxed break-all">
                   {product.description || "No description available."}
                 </p>
               </div>

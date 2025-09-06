@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import './Register.css';
+import '../../components/RegisterForm/RegisterForm.css';
 import {Link, useNavigate} from 'react-router-dom';
 
-const Register = () => {
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+const RegisterPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -35,7 +37,7 @@ const Register = () => {
         try {
             const startTime = Date.now();
             
-            const response = await fetch('http://localhost:5000/api/users/register', {
+            const response = await fetch(`${BASE_URL}/api/users/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -198,4 +200,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default RegisterPage;

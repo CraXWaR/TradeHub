@@ -121,7 +121,7 @@ const Products = () => {
             <div className="empty-icon mb-3">📦</div>
             <h2 className="empty-title text-xl font-semibold text-gray-800 mb-1">No products yet</h2>
             <p className="empty-subtitle text-sm text-gray-600 mb-5">Be the first to list an item in the marketplace.</p>
-            <Link to="/create" className="button-outline empty-action inline-block px-5 py-2 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors">
+            <Link to="/admin/create" className="button-outline empty-action inline-block px-5 py-2 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors">
               Create Product
             </Link>
           </div>
