@@ -4,7 +4,7 @@ import Navigation from './components/Navigation';
 import Home from './components/Home';
 import UsersList from './components/UsersList';
 import CreateProduct from './pages/Admin/CreateProduct/CreateProduct';
-import RegisterPage from './pages/Register/RegisterPage.jsx';
+import RegisterForm from './components/RegisterForm/RegisterForm.jsx';
 import LoginPage from './pages/Login/LoginPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute';
 import Products from './pages/Products/Products';
@@ -13,6 +13,7 @@ import {AuthProvider} from './contex/AuthContext';
 
 import Unauthorized from "./pages/Unauthorized.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import RegisterPage from "./pages/Register/RegisterPage.jsx";
 
 function App() {
     return (
