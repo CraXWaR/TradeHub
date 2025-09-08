@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import UsersList from './components/UsersList';
-import CreateProduct from './pages/Admin/CreateProduct/CreateProduct';
+import CreateProductPage from './pages/Admin/CreateProduct/CreateProductPage.jsx';
 import RegisterForm from './components/RegisterForm/RegisterForm.jsx';
 import LoginPage from './pages/Login/LoginPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -36,7 +36,7 @@ function App() {
                             {/* Admin routes */}
                             <Route path="/admin" element={<ProtectedRoute role="admin" />}>
                                 <Route path="dashboard" element={<AdminDashboard />} />
-                                <Route path="create" element={<CreateProduct />} />
+                                <Route path="create" element={<CreateProductPage />} />
                             </Route>
                         </Routes>
                     </main>
