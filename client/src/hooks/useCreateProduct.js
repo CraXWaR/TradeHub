@@ -2,6 +2,8 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useFormHandler} from "./useFormHandler";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 export const useCreateProduct = () => {
     const [formData, setFormData] = useState({
         title: "", description: "", price: "",
@@ -44,7 +46,7 @@ export const useCreateProduct = () => {
             form.append("price", String(parseFloat(formData.price)));
             if (imageFile) form.append("image", imageFile);
 
-            const response = await withMinDelay(fetch("http://localhost:5000/api/products/create", {
+            const response = await withMinDelay(fetch(`${BASE_URL}/api/products/create`, {
                 method: "POST", headers: {Authorization: `Bearer ${token}`}, body: form,
             }));
 
