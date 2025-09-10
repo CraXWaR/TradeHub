@@ -47,7 +47,9 @@ export const useCreateProduct = () => {
             if (imageFile) form.append("image", imageFile);
 
             const response = await withMinDelay(fetch(`${BASE_URL}/api/products/create`, {
-                method: "POST", headers: {Authorization: `Bearer ${token}`}, body: form,
+                method: "POST",
+                headers: {Authorization: `Bearer ${token}`},
+                body: form,
             }));
 
             const data = await response.json();
@@ -59,7 +61,13 @@ export const useCreateProduct = () => {
                 setPreviewUrl("");
                 navigate("/products");
             } else {
-                setMessage({type: "error", text: data.message || "Failed to create product"});
+                if (data.errors) {
+                    // store array of error messages
+                    const errorList = data.errors.map(err => err.message);
+                    setMessage({type: "error", text: errorList});
+                } else {
+                    setMessage({type: "error", text: data.message || "Failed to create product"});
+                }
             }
         } catch (error) {
             setMessage({type: "error", text: "Error connecting to server"});
@@ -67,6 +75,7 @@ export const useCreateProduct = () => {
         } finally {
             setLoading(false);
         }
+
     };
 
     return {

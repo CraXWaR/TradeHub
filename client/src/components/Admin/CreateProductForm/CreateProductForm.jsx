@@ -4,7 +4,13 @@ const CreateProductForm = ({
                                formData, previewUrl, loading, message, handleChange, handleFileChange, handleSubmit,
                            }) => {
     return (<>
-        {message.text && <div className={`message ${message.type}`}>{message.text}</div>}
+        {message.text && (
+            <div className={`message ${message.type}`}>
+                {Array.isArray(message.text)
+                    ? message.text.map((err, i) => <div key={i}>{err}</div>)
+                    : message.text}
+            </div>
+        )}
 
         <form onSubmit={handleSubmit} className="create-form">
             <div className="form-group">

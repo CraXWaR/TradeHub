@@ -2,6 +2,9 @@ import express from "express";
 import { getProducts, createNewProduct, getProduct, getUserProducts, deleteProduct } from "../controllers/productController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/uploadMiddleware.js";
+import {isAdmin} from "../middleware/isAdminMiddleware.js";
+import {createProductValidation} from "../validators/productValidator.js";
+import {validateRequest} from "../middleware/validateRequest.js";
 
 const router = express.Router();
 
@@ -9,7 +12,7 @@ const router = express.Router();
 router.get("/", getProducts);
 
 // POST /api/products - Create a new product
-router.post("/create", authMiddleware, upload.single("image"), createNewProduct);
+router.post("/create", authMiddleware, isAdmin, upload.single("image"), createProductValidation, validateRequest, createNewProduct);
 
 // GET /api/products/user/:userId - Get all products by a specific user
 router.get("/user/:userId", getUserProducts);

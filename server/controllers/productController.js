@@ -1,4 +1,10 @@
-import { createProduct, deleteProductById, getAllProducts, getProductById, getProductsByUserId } from "../services/productService.js";
+import {
+    createProduct,
+    deleteProductById,
+    getAllProducts,
+    getProductById,
+    getProductsByUserId
+} from "../services/productService.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -24,25 +30,9 @@ export const createNewProduct = async (req, res) => {
         const { title, description, price, image } = req.body;
         const user_id = req.user.id;
 
-        if (!title || !description || !price) {
-            return res.status(400).json({
-                success: false,
-                message: "Missing required fields: title, description, price"
-            });
-        }
-
-
-        const numericPrice = parseFloat(price);
-        if (isNaN(numericPrice) || numericPrice <= 0) {
-            return res.status(400).json({
-                success: false,
-                message: "Price must be a valid number greater than 0"
-            });
-        }
-
         let imageUrl = null;
         if (req.file) {
-            imageUrl = `${req.file.filename}`;
+            imageUrl = req.file.filename;
         } else if (image) {
             imageUrl = image;
         } else {
@@ -56,7 +46,7 @@ export const createNewProduct = async (req, res) => {
             user_id,
             title: title.trim(),
             description: description.trim(),
-            price: numericPrice,
+            price: parseFloat(price),
             image: imageUrl
         };
 
@@ -79,7 +69,7 @@ export const createNewProduct = async (req, res) => {
 
 export const getProduct = async (req, res) => {
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         const product = await getProductById(id);
 
         if (!product) {
@@ -97,7 +87,8 @@ export const getProduct = async (req, res) => {
         console.error("Error fetching product:", error);
 
         if (req.file) {
-            await fs.unlink(req.file.path).catch(() => { });
+            await fs.unlink(req.file.path).catch(() => {
+            });
         }
 
         res.status(500).json({
@@ -110,7 +101,7 @@ export const getProduct = async (req, res) => {
 
 export const getUserProducts = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const {userId} = req.params;
         const products = await getProductsByUserId(userId);
 
         res.json({
@@ -130,7 +121,7 @@ export const getUserProducts = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try {
-        const { id } = req.params;
+        const {id} = req.params;
         const userId = req.user.id;
 
         const product = await getProductById(id);
