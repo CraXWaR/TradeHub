@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { createPortal } from "react-dom";
+import {useState, useEffect, useMemo} from "react";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {createPortal} from "react-dom";
 
 const Navigation = () => {
     const location = useLocation();
@@ -39,16 +39,22 @@ const Navigation = () => {
 
     const navItems = useMemo(() => {
         const base = [
-            { path: "/", label: "Home" },
-            { path: "/products", label: "Products" },
-            { path: "/users", label: "Users" },
+            {path: "/", label: "Home"},
+            {path: "/products", label: "Products"},
         ];
-        return token
-            ? [...base, { path: "/admin/create", label: "Create Product" }]
-            : [...base, { path: "/login", label: "Login" }];
-    }, [token]);
 
-    const NavLinks = ({ onClick, mobile = false }) =>
+        if (token && user) {
+            if (user.role === "admin") {
+                return [...base, {path: "/admin/dashboard", label: "Dashboard"}];
+            }
+
+            return base;
+        }
+
+        return [...base, {path: "/login", label: "Login"}];
+    }, [token, user]);
+
+    const NavLinks = ({onClick, mobile = false}) =>
         navItems.map((item) => (
             <Link
                 key={item.path}
@@ -63,7 +69,7 @@ const Navigation = () => {
             </Link>
         ));
 
-    const UserSection = ({ mobile = false }) =>
+    const UserSection = ({mobile = false}) =>
         token &&
         user && (
             <div
@@ -98,8 +104,8 @@ const Navigation = () => {
                         </Link>
 
                         <div className="hidden lg:flex items-center space-x-2">
-                            <NavLinks />
-                            <UserSection />
+                            <NavLinks/>
+                            <UserSection/>
                         </div>
 
                         <div className="lg:hidden">
@@ -135,8 +141,8 @@ const Navigation = () => {
                         </button>
 
                         <div className="flex flex-col space-y-4">
-                            <NavLinks onClick={() => setIsMobileMenuOpen(false)} mobile />
-                            <UserSection mobile />
+                            <NavLinks onClick={() => setIsMobileMenuOpen(false)} mobile/>
+                            <UserSection mobile/>
                         </div>
                     </div>
                 </>,

@@ -1,0 +1,66 @@
+.admin-dashboard {
+    min-height: 100vh;
+    padding: 2rem;
+    background: var(--warm-cream);
+}
+
+/* Header */
+.admin-dashboard-header {
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.admin-dashboard-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--deep-orange);
+    margin-bottom: 0.5rem;
+}
+
+.admin-dashboard-header p {
+    font-size: 1rem;
+    color: var(--warm-gray);
+}
+
+/* Links Grid */
+.admin-dashboard-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Link Panel */
+.admin-link {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.8rem;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--warm-white), #f9fafb);
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.admin-link .icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+.admin-link h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark-warm);
+    margin-bottom: 0.25rem;
+}
+
+.admin-link p {
+    font-size: 0.95rem;
+    color: var(--warm-gray);
+}

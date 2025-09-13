@@ -1,77 +1,140 @@
 @import "tailwindcss";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color-scheme: light;
-  color: #2d1b1b;
-  background-color: #fefefe;
+    color-scheme: light;
+    color: #2d1b1b;
+    background-color: #fefefe;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-  /* Warm color palette */
-  --warm-white: #fefefe;
-  --warm-cream: #fdf7f0;
-  --light-orange: #ff9a56;
-  --medium-orange: #ff7b25;
-  --deep-orange: #e85d04;
-  --light-red: #ff6b6b;
-  --medium-red: #e63946;
-  --deep-red: #d62828;
-  --warm-gray: #6c5b5b;
-  --dark-warm: #2d1b1b;
+    /* Warm color palette (default theme) */
+    --warm-white: #fefefe;
+    --warm-cream: #fdf7f0;
+    --light-orange: #ff9a56;
+    --medium-orange: #ff7b25;
+    --deep-orange: #e85d04;
+    --light-red: #ff6b6b;
+    --medium-red: #e63946;
+    --deep-red: #d62828;
+    --warm-gray: #6c5b5b;
+    --dark-warm: #2d1b1b;
 }
 
 a {
-  font-weight: 500;
-  text-decoration: inherit;
+    font-weight: 500;
+    text-decoration: inherit;
 }
 
 a:hover {
-  color: var(--deep-orange);
+    color: var(--deep-orange);
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  background: linear-gradient(135deg, var(--warm-white) 0%, var(--warm-cream) 100%);
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background: linear-gradient(
+            135deg,
+            var(--warm-white) 0%,
+            var(--warm-cream) 100%
+    );
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 3.2em;
+    line-height: 1.1;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background: linear-gradient(135deg, var(--medium-orange), var(--deep-orange));
-  color: white;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 8px rgba(232, 93, 4, 0.2);
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background: linear-gradient(
+            135deg,
+            var(--medium-orange),
+            var(--deep-orange)
+    );
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(232, 93, 4, 0.2);
 }
 button:hover {
-  background: linear-gradient(135deg, var(--deep-orange), var(--medium-red));
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
+    background: linear-gradient(
+            135deg,
+            var(--deep-orange),
+            var(--medium-red)
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 93, 4, 0.3);
 }
 button:focus,
 button:focus-visible {
-  outline: 2px solid var(--light-orange);
-  outline-offset: 2px;
+    outline: 2px solid var(--light-orange);
+    outline-offset: 2px;
 }
 
-/* Warm theme is now the default - no need for media query overrides */
+/* === ADMIN THEME (applied only when wrapped in .admin-theme) === */
+.admin-theme {
+    --warm-white: #f8f9fa;
+    --warm-cream: #e9ecef;
+    --light-orange: #74c0fc;
+    --medium-orange: #4dabf7;
+    --deep-orange: #1c7ed6;
+    --light-red: #ff8787;
+    --medium-red: #fa5252;
+    --deep-red: #c92a2a;
+    --warm-gray: #495057;
+    --dark-warm: #212529;
+}
+
+.admin-theme body {
+    background: linear-gradient(
+            135deg,
+            var(--warm-white) 0%,
+            var(--warm-cream) 100%
+    );
+}
+
+.admin-theme h1 {
+    color: var(--deep-orange);
+}
+
+.admin-theme button {
+    background: var(--warm-cream);
+    color: var(--deep-orange);
+    border: 1px solid var(--medium-orange);
+    border-radius: 6px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.admin-theme button:hover {
+    background: var(--medium-orange);
+    color: var(--warm-white);
+    border-color: var(--deep-orange);
+    transform: translateY(-1px) scale(1.02);
+}
+
+.admin-theme button:active {
+    background: var(--light-red);
+    color: var(--warm-white);
+    transform: translateY(0) scale(1);
+}
+
+
