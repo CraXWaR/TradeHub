@@ -1,0 +1,167 @@
+/* === CreateProductForm.module.css === */
+
+/* Form base */
+.createForm {
+    display: grid;
+    gap: 1rem;
+}
+
+/* Two-column row (Price + Image input) */
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Full-width preview row */
+.previewRow {
+    display: grid;
+}
+
+/* Groups */
+.formGroup {
+    display: grid;
+    gap: 0.4rem;
+}
+
+.formLabel {
+    font-weight: 600;
+    color: #2d1b1b;
+    font-size: 0.95rem;
+}
+
+/* Inputs */
+.inputWrapper {
+    position: relative;
+}
+
+.formInput {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.8rem;
+    border: 1.5px solid #e5e7eb; /* neutral */
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #fff;
+    transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+    color: #2d1b1b;
+}
+
+.textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.formInput:focus {
+    border-color: #3399ff;
+    box-shadow: 0 0 0 3px rgba(51, 153, 255, 0.25);
+    outline: none;
+}
+
+.formInput:focus-visible,
+.createButton:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* File input gets tighter left padding so the icon doesn't overlap text */
+.fileInput {
+    padding-left: 2.6rem;
+}
+
+.inputIcon {
+    position: absolute;
+    top: 50%;
+    left: 0.9rem;
+    transform: translateY(-50%);
+    font-size: 1.05rem;
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+/* Image preview */
+.imagePreview {
+    padding: 0.5rem;
+    border: 1px dashed rgba(59, 130, 246, 0.45); /* blue-ish */
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff, #f7fbff);
+}
+
+.imagePreview img {
+    display: block;
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    margin: 10px auto;
+}
+
+/* Button (blue gradient) */
+.createButton {
+    margin-top: 0.25rem;
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #3b82f6);
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.4rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.createButton:hover:not(.loading) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(30, 60, 114, 0.25);
+}
+
+.loading {
+    opacity: 0.85;
+    cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Messages (scoped) */
+.message {
+    padding: 0.85rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+
+.success {
+    background: #eef6ff;
+    border: 1px solid #cfe3ff;
+    color: #1e40af;
+}
+
+.error {
+    background: #fff1f1;
+    border: 1px solid #f4b9b9;
+    color: #d62828;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+    .formRow {
+        grid-template-columns: 1fr; /* stack on mobile */
+    }
+}

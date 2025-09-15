@@ -6,36 +6,46 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
-    const [loading, setLoading] = useState(true); // 👈 add loading state
+    const [loading, setLoading] = useState(true);
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setUser(null);
+        setToken(null);
+    };
 
     useEffect(() => {
         const checkAuth = () => {
             const storedToken = localStorage.getItem("token");
 
-            if (storedToken) {
-                try {
-                    const decoded = jwtDecode(storedToken);
-                    const now = Date.now() / 1000;
+            if (!storedToken) {
+                setUser(null);
+                setToken(null);
+                setLoading(false);
+                return;
+            }
 
-                    if (decoded.exp && decoded.exp < now) {
-                        localStorage.removeItem("token");
-                        setUser(null);
-                        setToken(null);
-                    } else {
-                        setUser({id: decoded.id, role: decoded.role});
-                        setToken(storedToken);
-                    }
-                } catch {
+            try {
+                const decoded = jwtDecode(storedToken);
+                const now = Date.now() / 1000;
+
+                if (decoded?.exp && decoded.exp < now) {
+                    // expired
                     localStorage.removeItem("token");
                     setUser(null);
                     setToken(null);
+                } else {
+                    // put anything you encode into the token here
+                    setUser({id: decoded.id, role: decoded.role, email: decoded.email, name: decoded.name});
+                    setToken(storedToken);
                 }
-            } else {
+            } catch {
+                localStorage.removeItem("token");
                 setUser(null);
                 setToken(null);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false); // 👈 mark as finished
         };
 
         checkAuth();
@@ -43,11 +53,14 @@ export const AuthProvider = ({children}) => {
         return () => window.removeEventListener("storage", checkAuth);
     }, []);
 
-    return (
-        <AuthContext.Provider value={{user, token, setUser, setToken, loading}}>
-            {children}
-        </AuthContext.Provider>
-    );
+    const isAuthenticated = !!token && !!user;
+    const isAdmin = user?.role === "admin";
+
+    return (<AuthContext.Provider
+        value={{user, token, setUser, setToken, loading, logout, isAuthenticated, isAdmin}}
+    >
+        {children}
+    </AuthContext.Provider>);
 };
 
 export const useAuth = () => useContext(AuthContext);

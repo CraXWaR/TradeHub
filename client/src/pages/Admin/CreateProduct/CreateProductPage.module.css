@@ -1,0 +1,60 @@
+.createContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+}
+
+.createCard {
+    width: 100%;
+    max-width: 640px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid #dbeafe;
+    box-shadow: 0 10px 30px rgba(59,130,246,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.createCard:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+.createHeader {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.createIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    display: inline-block;
+}
+
+.createTitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #1e3c72, #2a5298, #3b82f6); /* blue theme */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+}
+
+.createSubtitle {
+    font-size: 0.95rem;
+    color: #666;
+    opacity: 0.9;
+}
+
+/* responsive tweaks */
+@media (max-width: 560px) {
+    .createCard {
+        padding: 1.5rem;
+    }
+
+    .createTitle {
+        font-size: 1.6rem;
+    }
+}

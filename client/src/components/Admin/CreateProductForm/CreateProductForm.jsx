@@ -1,105 +1,137 @@
-import "./CreateProductForm.css";
+import React from "react";
+import styles from "./CreateProductForm.module.css";
 
 const CreateProductForm = ({
-                               formData, previewUrl, loading, message, handleChange, handleFileChange, handleSubmit,
+                               formData,
+                               previewUrl,
+                               loading,
+                               message = {},
+                               handleChange,
+                               handleFileChange,
+                               handleSubmit,
                            }) => {
-    return (<>
-        {message.text && (
-            <div className={`message ${message.type}`}>
-                {Array.isArray(message.text)
-                    ? message.text.map((err, i) => <div key={i}>{err}</div>)
-                    : message.text}
-            </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="create-form">
-            <div className="form-group">
-                <label htmlFor="title" className="form-label">Product Name</label>
-                <div className="input-wrapper">
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        className="form-input"
-                        placeholder="Enter product name"
-                        required
-                    />
-                    <div className="input-icon">🏷️</div>
+    return (
+        <>
+            {message?.text && (
+                <div
+                    className={`${styles.message} ${
+                        message.type ? styles[message.type] : ""
+                    }`}
+                >
+                    {Array.isArray(message.text)
+                        ? message.text.map((err, i) => <div key={i}>{err}</div>)
+                        : message.text}
                 </div>
-            </div>
+            )}
 
-            <div className="form-group">
-                <label htmlFor="description" className="form-label">Description</label>
-                <div className="input-wrapper">
-              <textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  className="form-input textarea"
-                  placeholder="Enter product description"
-                  rows="4"
-                  required
-              />
-                    <div className="input-icon">📝</div>
+            <form onSubmit={handleSubmit} className={styles.createForm}>
+                {/* Title */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="title" className={styles.formLabel}>
+                        Product Name
+                    </label>
+                    <div className={styles.inputWrapper}>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            className={styles.formInput}
+                            placeholder="Enter product name"
+                            required
+                        />
+                        <div className={styles.inputIcon}>🏷️</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="price" className="form-label">Price ($)</label>
-                <div className="input-wrapper">
-                    <input
-                        type="number"
-                        id="price"
-                        name="price"
-                        value={formData.price}
-                        onChange={handleChange}
-                        className="form-input"
-                        placeholder="0.00"
-                        step="0.01"
-                        min="0"
-                        required
-                    />
-                    <div className="input-icon">💵</div>
+                {/* Description */}
+                <div className={styles.formGroup}>
+                    <label htmlFor="description" className={styles.formLabel}>
+                        Description
+                    </label>
+                    <div className={styles.inputWrapper}>
+            <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                className={`${styles.formInput} ${styles.textarea}`}
+                placeholder="Enter product description"
+                rows="4"
+                required
+            />
+                        <div className={styles.inputIcon}>📝</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="image" className="form-label">Product Image</label>
-                <div className="input-wrapper">
-                    <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="form-input"
-                    />
-                    <div className="input-icon">🖼️</div>
+                {/* Row: Price + Image input */}
+                <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="price" className={styles.formLabel}>
+                            Price ($)
+                        </label>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleChange}
+                                className={styles.formInput}
+                                placeholder="0.00"
+                                step="0.01"
+                                min="0"
+                                required
+                            />
+                            <div className={styles.inputIcon}>💵</div>
+                        </div>
+                    </div>
+
+                    <div className={styles.formGroup}>
+                        <label htmlFor="image" className={styles.formLabel}>
+                            Product Image
+                        </label>
+                        <div className={styles.inputWrapper}>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className={`${styles.formInput} ${styles.fileInput}`}
+                            />
+                            <div className={styles.inputIcon}>🖼️</div>
+                        </div>
+                    </div>
                 </div>
-                {previewUrl && (<div className="image-preview" style={{marginTop: "8px"}}>
-                    <img
-                        src={previewUrl}
-                        alt="Preview"
-                        style={{maxWidth: "100%", maxHeight: "200px", borderRadius: "8px"}}
-                    />
-                </div>)}
-            </div>
 
-            <button
-                type="submit"
-                className={`create-button ${loading ? "loading" : ""}`}
-                disabled={loading}
-            >
-                {loading ? (<>
-                    <div className="spinner"></div>
-                    Creating...
-                </>) : ("Create Product")}
-            </button>
-        </form>
-    </>);
+                {/* Row: Image preview (full width) */}
+                {previewUrl && (
+                    <div className={styles.previewRow}>
+                        <div className={styles.imagePreview}>
+                            <img src={previewUrl} alt="Preview" />
+                        </div>
+                    </div>
+                )}
+
+                <button
+                    type="submit"
+                    className={`${styles.createButton} ${loading ? styles.loading : ""}`}
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <>
+                            <div className={styles.spinner} />
+                            Creating...
+                        </>
+                    ) : (
+                        "Create Product"
+                    )}
+                </button>
+            </form>
+        </>
+    );
 };
 
 export default CreateProductForm;
