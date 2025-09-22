@@ -1,4 +1,7 @@
-const ProductMeta = ({createdAt}) => (<div className="flex justify-between items-center text-sm text-gray-500 mb-6">
+import styles from "./ProductMeta.module.css";
+
+const ProductMeta = ({createdAt}) => (
+    <div className={`${styles["product-meta"]} flex justify-between items-center text-sm`}>
     <span>
       Listed on:{" "}
         {new Date(createdAt).toLocaleDateString("en-US", {

@@ -1,8 +1,10 @@
-const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className="product-image-container">
+import styles from "./ProductImage.module.css";
+
+const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className={styles["product-image-container"]}>
         {image ? (<img
                 src={`${baseUrl}/uploads/${image}`}
                 alt={title}
-                className="product-detail-image"
+                className={styles["product-detail-image"]}
                 onError={(e) => {
                     if (e.currentTarget.src !== placeholder) {
                         e.currentTarget.src = placeholder;
@@ -11,7 +13,7 @@ const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className="
             />) : (<img
                 src={placeholder}
                 alt="No Image Available"
-                className="product-detail-image"
+                className={styles["product-detail-image"]}
             />)}
     </div>);
 

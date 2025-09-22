@@ -1,0 +1,76 @@
+/* Page wrapper */
+.product-detail-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fff7f3, #ffe6e1, #fff8f5);
+    position: relative;
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Accent blobs */
+.product-detail-page::before,
+.product-detail-page::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    z-index: 0;
+}
+.product-detail-page::before { top: 8%; left: 10%; width: 250px; height: 250px; background: #facc15; }
+.product-detail-page::after { bottom: 10%; right: 8%; width: 350px; height: 350px; background: #fb7185; }
+
+/* Container card */
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(253, 186, 116, 0.3);
+    border-radius: 20px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    z-index: 1;
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Loading / Error blocks (used by page) */
+.loading-container,
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    text-align: center;
+    padding: 2rem;
+}
+.error-message {
+    color: #dc2626;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    max-width: 500px;
+}
+
+/* Spinner (if you ever use the class-based one) */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+    border: 4px solid rgba(0,0,0,0.1);
+    border-left-color: #f97316;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive that affects the grid/layout */
+@media (max-width: 1024px) {
+    .product-detail { grid-template-columns: 1fr; }
+}
