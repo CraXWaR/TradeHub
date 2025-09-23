@@ -16,6 +16,7 @@ import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminDashboardPage from "./pages/Admin/Dashboard/AdminDashboard.jsx";
 import AdminNavigation from "./components/Navigation/AdminNavigation.jsx";
 import UserNavigation from "./components/Navigation/UserNavigation.jsx";
+import AdminProductsPage from "./pages/Admin/Products/AdminPorductsPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -43,6 +44,7 @@ function AppShell() {
                             <Route path="/admin" element={<AdminLayout/>}>
                                 <Route path="dashboard" element={<AdminDashboardPage/>}/>
                                 <Route path="create" element={<CreateProductPage/>}/>
+                                <Route path="products" element={<AdminProductsPage/>}/>
                                 <Route path="users" element={<UsersList/>}/>
                             </Route>
                         </Route>

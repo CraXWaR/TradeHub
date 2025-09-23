@@ -53,7 +53,7 @@ const AdminLayout = () => {
                 </Link>
 
                 <Link
-                    to="/products"
+                    to="/admin/products"
                     className="flex items-center space-x-2 hover:text-[var(--deep-orange)]">
                     <FaBox/>
                     {!collapsed && <span>View Products</span>}

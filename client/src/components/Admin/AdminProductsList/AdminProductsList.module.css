@@ -1,0 +1,102 @@
+.wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 6px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bg-1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table th {
+    background: var(--warm-cream);
+    color: var(--accent-600);
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+}
+
+.colId { width: 160px; }
+.colProduct { width: auto; }
+.colPrice { width: 140px; }
+.colActions { width: 180px; }
+
+.idCell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}
+
+.productCell {}
+
+.productWrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 260px;
+}
+
+.thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in srgb, var(--primary-400) 50%, transparent);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.noImg {
+    font-size: 0.7rem;
+    color: var(--text-500);
+}
+
+.title {
+    font-weight: 600;
+    color: var(--text-700);
+}
+
+.priceCell {
+    font-variant-numeric: tabular-nums;
+}
+
+.actionsCell button + button {
+    margin-left: 0.5rem;
+}
+
+.loading {
+    color: var(--primary-500);
+    font-weight: 500;
+}
+
+.error {
+    color: crimson;
+    font-weight: 500;
+}
+
+.empty {
+    color: var(--text-500);
+}

@@ -59,7 +59,7 @@ export const useCreateProduct = () => {
                 setFormData({title: "", description: "", price: ""});
                 setImageFile(null);
                 setPreviewUrl("");
-                navigate("/products");
+                navigate("/admin/products");
             } else {
                 if (data.errors) {
                     // store array of error messages
