@@ -3,7 +3,8 @@ import {
     deleteProductById,
     getAllProducts,
     getProductById,
-    getProductsByUserId
+    getProductsByUserId,
+    updateProduct,
 } from "../services/productService.js";
 
 export const getProducts = async (req, res) => {
@@ -27,7 +28,7 @@ export const getProducts = async (req, res) => {
 
 export const createNewProduct = async (req, res) => {
     try {
-        const { title, description, price, image } = req.body;
+        const {title, description, price, image} = req.body;
         const user_id = req.user.id;
 
         let imageUrl = null;
@@ -160,5 +161,26 @@ export const deleteProduct = async (req, res) => {
             message: "Failed to delete product",
             error: error.message
         });
+    }
+};
+
+export const editProduct = async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const productData = {
+            title: req.body.title,
+            description: req.body.description,
+            price: req.body.price !== undefined ? Number(req.body.price) : null,
+        };
+
+        if (req.file) {
+            productData.image = `/uploads/${req.file.filename}`;
+        }
+
+        const updated = await updateProduct(id, productData);
+        res.json({success: true, data: updated});
+    } catch (err) {
+        res.status(500).json({success: false, message: err?.message || 'Error updating product'});
     }
 };

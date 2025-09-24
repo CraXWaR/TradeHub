@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const createProductValidation = [
+export const productValidation = [
     body("title")
         .notEmpty().withMessage("Title is required")
         .isLength({ min: 3, max: 100 }).withMessage("Title must be 3–100 characters long"),

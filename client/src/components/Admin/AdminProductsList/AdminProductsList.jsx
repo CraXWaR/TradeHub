@@ -1,5 +1,8 @@
-import { useEffect, useState, useMemo } from 'react';
+import {useEffect, useState, useMemo} from 'react';
 import styles from './AdminProductsList.module.css';
+import Modal from '../Modal/Modal.jsx';
+import CreateProductForm from '../CreateProductForm/CreateProductForm.jsx';
+import {useUpdateProduct} from "../../../hooks/useUpdateProduct.js";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -10,16 +13,39 @@ const formatPrice = (value) => {
 };
 
 const getProductImageUrl = (p) => {
-    const imagePath = p?.image || '';
-    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    return `${BASE_URL}/uploads/${normalizedPath}`;
+    const raw = p?.image || "";
+    if (!raw) return "";
+    if (/^https?:\/\//i.test(raw)) return raw;
+    const base = BASE_URL.replace(/\/+$/, "");
+    const filename = raw.split("/").pop();
+    return `${base}/uploads/${filename}`;
 };
 
-const ProductsList = ({ filters }) => {
+
+const ProductsList = ({filters}) => {
     const [allProducts, setAllProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // ===== Edit product =====
+    const {
+        editOpen, openEdit, closeEdit,
+        editingProduct,
+        formData: editFormData,
+        imageFile: editFile,
+        previewUrl,
+        loading: saving,
+        message,
+        handleChange,
+        handleFileChange,
+        handleSubmit,
+    } = useUpdateProduct({
+        onUpdated: (updated) => {
+            setAllProducts((list) => list.map(p => (p.id === updated.id ? {...p, ...updated} : p)));
+        }
+    });
+
+    // ===== Fetch products =====
     useEffect(() => {
         let isMounted = true;
 
@@ -30,7 +56,7 @@ const ProductsList = ({ filters }) => {
 
             try {
                 const res = await fetch(`${BASE_URL}/api/products`, {
-                    headers: { Accept: 'application/json' },
+                    headers: {Accept: 'application/json'},
                 });
 
                 const ct = res.headers.get('content-type') || '';
@@ -48,9 +74,10 @@ const ProductsList = ({ filters }) => {
 
                 if (data?.success && Array.isArray(data.data)) {
                     setAllProducts(
-                        data.data.map(p => ({
+                        data.data.map((p) => ({
                             id: p.id ?? p._id ?? '',
                             title: p.title ?? p.name ?? '',
+                            description: p.description ?? '',   // <-- add description for edit prefill
                             price: p.price,
                             image: p.image ?? p.thumbnail ?? '',
                             created_at: p.created_at ?? p.createdAt ?? null,
@@ -74,17 +101,21 @@ const ProductsList = ({ filters }) => {
         };
 
         fetchProducts();
-        return () => { isMounted = false; };
+        return () => {
+            isMounted = false;
+        };
     }, [filters]);
 
+    // ===== Filter & sort =====
     const products = useMemo(() => {
         let list = allProducts;
 
         if (filters?.query) {
             const q = filters.query.toLowerCase();
-            list = list.filter(p =>
-                (p.title || '').toLowerCase().includes(q) ||
-                String(p.id || '').toLowerCase().includes(q)
+            list = list.filter(
+                (p) =>
+                    (p.title || '').toLowerCase().includes(q) ||
+                    String(p.id || '').toLowerCase().includes(q)
             );
         }
 
@@ -122,46 +153,63 @@ const ProductsList = ({ filters }) => {
     if (products.length === 0) return <p className={styles.empty}>No products found.</p>;
 
     return (
-        <div className={styles.wrapper}>
-            <table className={styles.table}>
-                <thead>
-                <tr>
-                    <th className={styles.colId}>ID</th>
-                    <th className={styles.colProduct}>Product</th>
-                    <th className={styles.colPrice}>Price</th>
-                    <th className={styles.colActions}>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {products.map((p, idx) => (
-                    <tr key={p.id || idx}>
-                        <td className={styles.idCell} title={String(p.id)}>{p.id}</td>
-                        <td className={styles.productCell}>
-                            <div className={styles.productWrap}>
-                                <div className={styles.thumb}>
-                                    {p.image ? (
-                                        <img
-                                            src={getProductImageUrl(p)}
-                                            alt={p.title || 'product image'}
-                                            loading="lazy"
-                                        />
-                                    ) : (
-                                        <div className={styles.noImg}>IMG</div>
-                                    )}
-                                </div>
-                                <span className={styles.title}>{p.title || 'Untitled'}</span>
-                            </div>
-                        </td>
-                        <td className={styles.priceCell}>{formatPrice(p.price)}</td>
-                        <td className={styles.actionsCell}>
-                            <button onClick={() => console.log('edit', p.id)}>Edit</button>
-                            <button onClick={() => console.log('delete', p.id)}>Delete</button>
-                        </td>
+        <>
+            <div className={styles.wrapper}>
+                <table className={styles.table}>
+                    <thead>
+                    <tr>
+                        <th className={styles.colId}>ID</th>
+                        <th className={styles.colProduct}>Product</th>
+                        <th className={styles.colPrice}>Price</th>
+                        <th className={styles.colActions}>Actions</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    {products.map((p, idx) => (
+                        <tr key={p.id || idx}>
+                            <td className={styles.idCell} title={String(p.id)}>
+                                {p.id}
+                            </td>
+                            <td className={styles.productCell}>
+                                <div className={styles.productWrap}>
+                                    <div className={styles.thumb}>
+                                        {p.image ? (
+                                            <img src={getProductImageUrl(p)} alt={p.title || 'product image'}
+                                                 loading="lazy"/>
+                                        ) : (
+                                            <div className={styles.noImg}>IMG</div>
+                                        )}
+                                    </div>
+                                    <span className={styles.title}>{p.title || 'Untitled'}</span>
+                                </div>
+                            </td>
+                            <td className={styles.priceCell}>{formatPrice(p.price)}</td>
+                            <td className={styles.actionsCell}>
+                                <button onClick={() => openEdit(p)}>Edit</button>
+                                <button onClick={() => console.log('delete', p.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* EDIT MODAL ONLY */}
+            <Modal open={editOpen} onClose={closeEdit} title="Edit product">
+                {editingProduct && (
+                    <CreateProductForm
+                        formData={editFormData}
+                        previewUrl={previewUrl}
+                        loading={saving}
+                        message={message}
+                        handleChange={handleChange}
+                        handleFileChange={handleFileChange}
+                        handleSubmit={handleSubmit}
+                        mode="edit"
+                    />
+                )}
+            </Modal>
+        </>
     );
 };
 

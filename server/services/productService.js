@@ -1,18 +1,20 @@
 import db from "../config/db.js";
+import path from "path";
 
 export const createProduct = async (productData) => {
-    const { user_id, title, description, price, image } = productData;
+    const {user_id, title, description, price, image} = productData;
 
     try {
         const [result] = await db.query(
-            `INSERT INTO products (user_id, title, description, price, image, created_at) 
-         VALUES (?, ?, ?, ?, ?, NOW())`,
+            `INSERT INTO products (user_id, title, description, price, image, created_at)
+             VALUES (?, ?, ?, ?, ?, NOW())`,
             [user_id, title, description, price, image]
         );
 
         const [rows] = await db.query(
-            `SELECT id, user_id, title, description, price, image, created_at 
-         FROM products WHERE id = ?`,
+            `SELECT id, user_id, title, description, price, image, created_at
+             FROM products
+             WHERE id = ?`,
             [result.insertId]
         );
 
@@ -83,4 +85,61 @@ export const deleteProductById = async (id) => {
         throw new Error(`Failed to delete product: ${error.message}`);
     }
 };
-    
+
+export const updateProduct = async (id, productData) => {
+    const {title, description, price, image} = productData;
+
+    try {
+        let query = 'UPDATE products SET title = ?, description = ?, price = ?';
+        const params = [title, description, price];
+
+        if (image) {
+            query += ', image = ?';
+            params.push(image);
+        }
+
+        query += ' WHERE id = ?';
+        params.push(id);
+
+        await db.query(query, params);
+
+        const [rows] = await db.query(
+            `SELECT id, user_id, title, description, price, image, created_at
+             FROM products
+             WHERE id = ?`,
+            [id]
+        );
+
+        if (!rows || rows.length === 0) {
+            throw new Error('Product not found');
+        }
+
+        const product = rows[0];
+        const baseUrlRaw = process.env.BASE_URL || 'http://localhost:5000';
+        const baseUrl = baseUrlRaw.replace(/\/+$/, '');
+
+        let imagePath = product.image || null;
+        if (imagePath) {
+            const nameOnly = path.basename(String(imagePath));
+            if (!String(imagePath).includes('/uploads/')) {
+                imagePath = `/uploads/${nameOnly}`;
+            }
+        }
+
+        return {
+            id: product.id,
+            userId: product.user_id,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            image: imagePath ? `${baseUrl}${imagePath}` : null,
+            createdAt: product.created_at,
+        };
+    } catch (error) {
+        throw {
+            message: 'Failed to update product',
+            code: error.code,
+            detail: error.message,
+        };
+    }
+};

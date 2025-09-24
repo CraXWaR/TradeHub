@@ -2,22 +2,30 @@ import React from "react";
 import styles from "./CreateProductForm.module.css";
 
 const CreateProductForm = ({
-                               formData,
-                               previewUrl,
-                               loading,
+                               formData = {},
+                               previewUrl = "",
+                               loading = false,
                                message = {},
                                handleChange,
                                handleFileChange,
                                handleSubmit,
+                               mode = "create",
                            }) => {
+    const {
+        title = "",
+        description = "",
+        price = "",
+    } = formData || {};
+
+    const buttonText =
+        mode === "edit"
+            ? (loading ? "Saving..." : "Edit Product")
+            : (loading ? "Creating..." : "Create Product");
+
     return (
         <>
             {message?.text && (
-                <div
-                    className={`${styles.message} ${
-                        message.type ? styles[message.type] : ""
-                    }`}
-                >
+                <div className={`${styles.message} ${message.type ? styles[message.type] : ""}`}>
                     {Array.isArray(message.text)
                         ? message.text.map((err, i) => <div key={i}>{err}</div>)
                         : message.text}
@@ -27,15 +35,13 @@ const CreateProductForm = ({
             <form onSubmit={handleSubmit} className={styles.createForm}>
                 {/* Title */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="title" className={styles.formLabel}>
-                        Product Name
-                    </label>
+                    <label htmlFor="title" className={styles.formLabel}>Product Name</label>
                     <div className={styles.inputWrapper}>
                         <input
                             type="text"
                             id="title"
                             name="title"
-                            value={formData.title}
+                            value={title}
                             onChange={handleChange}
                             className={styles.formInput}
                             placeholder="Enter product name"
@@ -47,14 +53,12 @@ const CreateProductForm = ({
 
                 {/* Description */}
                 <div className={styles.formGroup}>
-                    <label htmlFor="description" className={styles.formLabel}>
-                        Description
-                    </label>
+                    <label htmlFor="description" className={styles.formLabel}>Description</label>
                     <div className={styles.inputWrapper}>
             <textarea
                 id="description"
                 name="description"
-                value={formData.description}
+                value={description}
                 onChange={handleChange}
                 className={`${styles.formInput} ${styles.textarea}`}
                 placeholder="Enter product description"
@@ -68,15 +72,13 @@ const CreateProductForm = ({
                 {/* Row: Price + Image input */}
                 <div className={styles.formRow}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="price" className={styles.formLabel}>
-                            Price ($)
-                        </label>
+                        <label htmlFor="price" className={styles.formLabel}>Price ($)</label>
                         <div className={styles.inputWrapper}>
                             <input
                                 type="number"
                                 id="price"
                                 name="price"
-                                value={formData.price}
+                                value={price}
                                 onChange={handleChange}
                                 className={styles.formInput}
                                 placeholder="0.00"
@@ -89,9 +91,7 @@ const CreateProductForm = ({
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="image" className={styles.formLabel}>
-                            Product Image
-                        </label>
+                        <label htmlFor="image" className={styles.formLabel}>Product Image</label>
                         <div className={styles.inputWrapper}>
                             <input
                                 type="file"
@@ -106,11 +106,11 @@ const CreateProductForm = ({
                     </div>
                 </div>
 
-                {/* Row: Image preview (full width) */}
+                {/* Image preview */}
                 {previewUrl && (
                     <div className={styles.previewRow}>
                         <div className={styles.imagePreview}>
-                            <img src={previewUrl} alt="Preview" />
+                            <img src={previewUrl} alt="Preview"/>
                         </div>
                     </div>
                 )}
@@ -122,11 +122,11 @@ const CreateProductForm = ({
                 >
                     {loading ? (
                         <>
-                            <div className={styles.spinner} />
-                            Creating...
+                            <div className={styles.spinner}/>
+                            {mode === "edit" ? "Saving..." : "Creating..."}
                         </>
                     ) : (
-                        "Create Product"
+                        buttonText
                     )}
                 </button>
             </form>

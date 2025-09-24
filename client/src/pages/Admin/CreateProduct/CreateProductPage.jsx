@@ -1,6 +1,6 @@
 import React from "react";
 import CreateProductForm from "../../../components/Admin/CreateProductForm/CreateProductForm.jsx";
-import { useCreateProduct } from "../../../hooks/useCreateProduct.js";
+import {useCreateProduct} from "../../../hooks/useCreateProduct.js";
 import styles from "./CreateProductPage.module.css";
 
 const CreateProductPage = () => {
@@ -33,6 +33,7 @@ const CreateProductPage = () => {
                     handleChange={handleChange}
                     handleFileChange={handleFileChange}
                     handleSubmit={handleSubmit}
+                    mode="create"
                 />
             </div>
         </div>
