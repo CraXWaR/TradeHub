@@ -175,7 +175,7 @@ export const editProduct = async (req, res) => {
         };
 
         if (req.file) {
-            productData.image = `/uploads/${req.file.filename}`;
+            productData.image = `${req.file.filename}`;
         }
 
         const updated = await updateProduct(id, productData);
