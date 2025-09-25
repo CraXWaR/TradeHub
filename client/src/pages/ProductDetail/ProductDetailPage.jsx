@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import styles from "./ProductDetail.module.css";
-import ConfirmModal from "../../components/ConfirmModal";
 import ProductImage from "../../components/ProductDetail/ProductImage.jsx";
 import ProductInfo from "../../components/ProductDetail/ProductInfo.jsx";
 
@@ -16,36 +15,7 @@ const ProductDetailPage = () => {
 
     const [product, setProduct] = useState(null);
     const [pageLoading, setPageLoading] = useState(true);
-    const [deleteLoading, setDeleteLoading] = useState(false);
     const [error, setError] = useState("");
-    const [showModal, setShowModal] = useState(false);
-
-    const deleteProduct = async (id) => {
-        try {
-            setDeleteLoading(true);
-            const response = await fetch(`${BASE_URL}/api/products/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            const data = await response.json();
-            if (data.success) {
-                setTimeout(() => navigate("/products"), 800);
-            } else {
-                alert(data.message || "Failed to delete product");
-                setDeleteLoading(false);
-                setShowModal(false);
-            }
-        } catch (err) {
-            console.error("Error deleting product:", err);
-            setDeleteLoading(false);
-            setShowModal(false);
-        }
-    };
-
-    const handleDelete = () => deleteProduct(product.id);
 
     useEffect(() => {
         let isMounted = true;
@@ -104,15 +74,6 @@ const ProductDetailPage = () => {
 
     return (
         <div className={`${styles["product-detail-page"]} relative min-h-screen`}>
-            <ConfirmModal
-                isOpen={showModal}
-                title="Delete Product"
-                message="Are you sure you want to delete this product? This action cannot be undone!"
-                onConfirm={handleDelete}
-                onCancel={() => setShowModal(false)}
-                loading={deleteLoading}
-            />
-
             <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className={`${styles["product-detail"]} grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fadeIn`}>
                     <ProductImage
@@ -124,7 +85,6 @@ const ProductDetailPage = () => {
                     <ProductInfo
                         product={product}
                         navigate={navigate}
-                        onDelete={() => setShowModal(true)}
                     />
                 </div>
             </div>

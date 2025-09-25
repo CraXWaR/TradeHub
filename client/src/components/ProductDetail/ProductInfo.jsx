@@ -3,15 +3,15 @@ import ProductMeta from "./ProductMeta";
 import ProductActions from "./ProductActions.jsx";
 import styles from "./ProductInfo.module.css";
 
-const ProductInfo = ({product, navigate, onDelete}) => (<div className={styles["product-info"]}>
+const ProductInfo = ({product, navigate}) => (<div className={styles["product-info"]}>
         <div className="flex justify-between items-start mb-4">
             <h1 className={styles["product-title"]}>{product.title}</h1>
-            <button
-                className="p-2 rounded-full border border-red-300 text-red-600 hover:bg-red-100 transition-colors"
-                onClick={onDelete}
-            >
-                <FaTrash size={18}/>
-            </button>
+            {/*<button*/}
+            {/*    className="p-2 rounded-full border border-red-300 text-red-600 hover:bg-red-100 transition-colors"*/}
+            {/*    onClick={onDelete}*/}
+            {/*>*/}
+            {/*    <FaTrash size={18}/>*/}
+            {/*</button>*/}
         </div>
 
         <p className={styles["product-price"]}>
