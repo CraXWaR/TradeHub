@@ -1,50 +1,38 @@
-import db from "../config/db.js";
+import Product from "../models/Product.js";
+import User from "../models/User.js";
 import path from "path";
 
-export const createProduct = async (productData) => {
-    const {user_id, title, description, price, image} = productData;
-
+export const createProduct = async ({ user_id, title, description, price, image }) => {
     try {
-        const [result] = await db.query(
-            `INSERT INTO products (user_id, title, description, price, image, created_at)
-             VALUES (?, ?, ?, ?, ?, NOW())`,
-            [user_id, title, description, price, image]
-        );
+        const product = await Product.create({
+            user_id,
+            title: title?.trim(),
+            description: description?.trim() ?? null,
+            price: Number(price),
+            image: image ?? null,
+        });
 
-        const [rows] = await db.query(
-            `SELECT id, user_id, title, description, price, image, created_at
-             FROM products
-             WHERE id = ?`,
-            [result.insertId]
-        );
+        const created = await Product.findByPk(product.id, {
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
+        });
 
-        const product = rows[0];
-        const baseUrl = process.env.BASE_URL || "http://localhost:5000";
-
-        return {
-            id: product.id,
-            userId: product.user_id,
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            image: product.image ? `${baseUrl}${product.image}` : null,
-            createdAt: product.created_at
-        };
+        return created.get({ plain: true });
     } catch (error) {
         throw {
             message: "Failed to create product",
-            code: error.code,
-            detail: error.message
+            detail: error.message,
         };
     }
 };
 
 export const getAllProducts = async () => {
     try {
-        const [rows] = await db.query(
-            "SELECT id, user_id, title, description, price, image, created_at FROM products ORDER BY created_at DESC"
-        );
-        return rows;
+        const products = await Product.findAll({
+            order: [["created_at", "DESC"]],
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
+        });
+
+        return products.map(p => p.get({ plain: true }));
     } catch (error) {
         throw new Error(`Failed to fetch products: ${error.message}`);
     }
@@ -52,11 +40,11 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (id) => {
     try {
-        const [rows] = await db.query(
-            "SELECT id, user_id, title, description, price, image, created_at FROM products WHERE id = ?",
-            [id]
-        );
-        return rows[0] || null;
+        const product = await Product.findByPk(id, {
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
+        });
+
+        return product ? product.get({ plain: true }) : null;
     } catch (error) {
         throw new Error(`Failed to fetch product: ${error.message}`);
     }
@@ -64,11 +52,13 @@ export const getProductById = async (id) => {
 
 export const getProductsByUserId = async (userId) => {
     try {
-        const [rows] = await db.query(
-            "SELECT id, user_id, title, description, price, image, created_at FROM products WHERE user_id = ? ORDER BY created_at DESC",
-            [userId]
-        );
-        return rows;
+        const products = await Product.findAll({
+            where: { user_id: userId },
+            order: [["created_at", "DESC"]],
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
+        });
+
+        return products.map(p => p.get({ plain: true }));
     } catch (error) {
         throw new Error(`Failed to fetch user products: ${error.message}`);
     }
@@ -76,69 +66,42 @@ export const getProductsByUserId = async (userId) => {
 
 export const deleteProductById = async (id) => {
     try {
-        const [result] = await db.query(
-            "DELETE FROM products WHERE id = ?",
-            [id]
-        );
-        return result.affectedRows > 0;
+        const deletedCount = await Product.destroy({ where: { id } });
+        return deletedCount > 0;
     } catch (error) {
         throw new Error(`Failed to delete product: ${error.message}`);
     }
 };
 
 export const updateProduct = async (id, productData) => {
-    const {title, description, price, image} = productData;
-
     try {
-        let query = 'UPDATE products SET title = ?, description = ?, price = ?';
-        const params = [title, description, price];
+        const patch = {};
+        if (productData.title !== undefined) patch.title = productData.title;
+        if (productData.description !== undefined) patch.description = productData.description;
+        if (productData.price !== undefined) patch.price = Number(productData.price);
+        if (productData.image) patch.image = productData.image;
 
-        if (image) {
-            query += ', image = ?';
-            params.push(image);
+        await Product.update(patch, { where: { id } });
+
+        const updated = await Product.findByPk(id, {
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
+        });
+
+        if (!updated) throw new Error("Product not found");
+
+        const plain = updated.get({ plain: true });
+
+        // normalize image path
+        if (plain.image) {
+            const baseUrl = (process.env.BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
+            const nameOnly = path.basename(String(plain.image));
+            plain.image = `${baseUrl}/uploads/${nameOnly}`;
         }
 
-        query += ' WHERE id = ?';
-        params.push(id);
-
-        await db.query(query, params);
-
-        const [rows] = await db.query(
-            `SELECT id, user_id, title, description, price, image, created_at
-             FROM products
-             WHERE id = ?`,
-            [id]
-        );
-
-        if (!rows || rows.length === 0) {
-            throw new Error('Product not found');
-        }
-
-        const product = rows[0];
-        const baseUrlRaw = process.env.BASE_URL || 'http://localhost:5000';
-        const baseUrl = baseUrlRaw.replace(/\/+$/, '');
-
-        let imagePath = product.image || null;
-        if (imagePath) {
-            const nameOnly = path.basename(String(imagePath));
-            if (!String(imagePath).includes('/uploads/')) {
-                imagePath = `/uploads/${nameOnly}`;
-            }
-        }
-
-        return {
-            id: product.id,
-            userId: product.user_id,
-            title: product.title,
-            description: product.description,
-            price: product.price,
-            image: imagePath ? `${baseUrl}${imagePath}` : null,
-            createdAt: product.created_at,
-        };
+        return plain;
     } catch (error) {
         throw {
-            message: 'Failed to update product',
-            code: error.code,
+            message: "Failed to update product",
             detail: error.message,
         };
     }

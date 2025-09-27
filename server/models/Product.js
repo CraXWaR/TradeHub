@@ -1,11 +1,35 @@
-export default class Product {
-    constructor(id, user_id, title, description, price, image, created_at) {
-        this.id = id;
-        this.user_id = user_id;
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.created_at = created_at;
-    }
-}
+import { DataTypes } from 'sequelize';
+import sequelize from "../config/db.js";
+import User from './User.js';
+
+const Product = sequelize.define('Product', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id',
+        },
+        onDelete: 'CASCADE',
+    },
+    title: { type: DataTypes.STRING, allowNull: false },
+    description: DataTypes.TEXT,
+    price: { type: DataTypes.FLOAT, allowNull: false },
+    image: DataTypes.STRING,
+    isInWishlist: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
+}, {
+    tableName: 'products',
+    underscored: true,
+    timestamps: true,
+});
+
+// relations
+Product.belongsTo(User, { foreignKey: 'user_id' });
+User.hasMany(Product, { foreignKey: 'user_id' });
+
+export default Product;
