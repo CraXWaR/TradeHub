@@ -1,14 +1,9 @@
 import express from "express";
 import {
-    getProducts,
-    createNewProduct,
-    getProduct,
-    getUserProducts,
-    deleteProduct,
-    editProduct
+    getProducts, createNewProduct, getProduct, getUserProducts, deleteProduct, editProduct
 } from "../controllers/productController.js";
-import { authMiddleware } from "../middleware/authMiddleware.js";
-import { upload } from "../middleware/uploadMiddleware.js";
+import {authMiddleware} from "../middleware/authMiddleware.js";
+import {upload} from "../middleware/uploadMiddleware.js";
 import {isAdmin} from "../middleware/isAdminMiddleware.js";
 import {productValidation} from "../validators/productValidator.js";
 import {validateRequest} from "../middleware/validateRequest.js";

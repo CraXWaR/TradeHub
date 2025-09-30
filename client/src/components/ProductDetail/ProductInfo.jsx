@@ -17,7 +17,7 @@ const ProductInfo = ({product, navigate}) => (<div className={styles["product-in
     </div>
 
     <div className="mt-10">
-        <ProductMeta createdAt={product.created_at}/>
+        <ProductMeta createdAt={product.createdAt}/>
         <ProductActions navigate={navigate}/>
     </div>
 </div>);

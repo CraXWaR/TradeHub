@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+import {DataTypes} from 'sequelize';
 import sequelize from "../config/db.js";
 import User from './User.js';
 
@@ -17,11 +17,11 @@ const Product = sequelize.define('Product', {
         },
         onDelete: 'CASCADE',
     },
-    title: { type: DataTypes.STRING, allowNull: false },
+    title: {type: DataTypes.STRING, allowNull: false},
     description: DataTypes.TEXT,
-    price: { type: DataTypes.FLOAT, allowNull: false },
+    price: {type: DataTypes.FLOAT, allowNull: false},
     image: DataTypes.STRING,
-    isInWishlist: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
+    isInWishlist: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false},
 }, {
     tableName: 'products',
     underscored: true,
@@ -29,7 +29,7 @@ const Product = sequelize.define('Product', {
 });
 
 // relations
-Product.belongsTo(User, { foreignKey: 'user_id' });
-User.hasMany(Product, { foreignKey: 'user_id' });
+Product.belongsTo(User, {foreignKey: 'user_id'});
+User.hasMany(Product, {foreignKey: 'user_id'});
 
 export default Product;

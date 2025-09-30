@@ -2,7 +2,7 @@ import Product from "../models/Product.js";
 import User from "../models/User.js";
 import path from "path";
 
-export const createProduct = async ({ user_id, title, description, price, image }) => {
+export const createProduct = async ({user_id, title, description, price, image}) => {
     try {
         const product = await Product.create({
             user_id,
@@ -13,10 +13,10 @@ export const createProduct = async ({ user_id, title, description, price, image 
         });
 
         const created = await Product.findByPk(product.id, {
-            include: { model: User, attributes: ["id", "name", "email", "role"] },
+            include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
-        return created.get({ plain: true });
+        return created.get({plain: true});
     } catch (error) {
         throw {
             message: "Failed to create product",
@@ -29,10 +29,10 @@ export const getAllProducts = async () => {
     try {
         const products = await Product.findAll({
             order: [["created_at", "DESC"]],
-            include: { model: User, attributes: ["id", "name", "email", "role"] },
+            include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
-        return products.map(p => p.get({ plain: true }));
+        return products.map(p => p.get({plain: true}));
     } catch (error) {
         throw new Error(`Failed to fetch products: ${error.message}`);
     }
@@ -41,10 +41,10 @@ export const getAllProducts = async () => {
 export const getProductById = async (id) => {
     try {
         const product = await Product.findByPk(id, {
-            include: { model: User, attributes: ["id", "name", "email", "role"] },
+            include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
-        return product ? product.get({ plain: true }) : null;
+        return product ? product.get({plain: true}) : null;
     } catch (error) {
         throw new Error(`Failed to fetch product: ${error.message}`);
     }
@@ -53,12 +53,12 @@ export const getProductById = async (id) => {
 export const getProductsByUserId = async (userId) => {
     try {
         const products = await Product.findAll({
-            where: { user_id: userId },
+            where: {user_id: userId},
             order: [["created_at", "DESC"]],
-            include: { model: User, attributes: ["id", "name", "email", "role"] },
+            include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
-        return products.map(p => p.get({ plain: true }));
+        return products.map(p => p.get({plain: true}));
     } catch (error) {
         throw new Error(`Failed to fetch user products: ${error.message}`);
     }
@@ -66,7 +66,7 @@ export const getProductsByUserId = async (userId) => {
 
 export const deleteProductById = async (id) => {
     try {
-        const deletedCount = await Product.destroy({ where: { id } });
+        const deletedCount = await Product.destroy({where: {id}});
         return deletedCount > 0;
     } catch (error) {
         throw new Error(`Failed to delete product: ${error.message}`);
@@ -81,15 +81,15 @@ export const updateProduct = async (id, productData) => {
         if (productData.price !== undefined) patch.price = Number(productData.price);
         if (productData.image) patch.image = productData.image;
 
-        await Product.update(patch, { where: { id } });
+        await Product.update(patch, {where: {id}});
 
         const updated = await Product.findByPk(id, {
-            include: { model: User, attributes: ["id", "name", "email", "role"] },
+            include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
         if (!updated) throw new Error("Product not found");
 
-        const plain = updated.get({ plain: true });
+        const plain = updated.get({plain: true});
 
         // normalize image path
         if (plain.image) {
