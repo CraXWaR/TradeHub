@@ -1,5 +1,4 @@
-import Product from "../models/Product.js";
-import User from "../models/User.js";
+import {User, Product} from "../models/index.js";
 import path from "path";
 
 export const createProduct = async ({user_id, title, description, price, image}) => {

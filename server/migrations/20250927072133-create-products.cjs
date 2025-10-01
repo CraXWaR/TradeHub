@@ -30,11 +30,6 @@ module.exports = {
             image: {
                 type: Sequelize.STRING
             },
-            is_in_wishlist: {
-                type: Sequelize.BOOLEAN,
-                defaultValue: false,
-                allowNull: false
-            },
             created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,
