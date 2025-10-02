@@ -9,6 +9,7 @@ import { sequelize, User, Product } from './models/index.js';
 // Routes
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
+import wishListRoutes from './routes/wishlistRoutes.js';
 
 dotenv.config();
 
@@ -26,6 +27,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+
+//User Routes
+app.use('/user/wishlist', wishListRoutes);
 
 // Health check
 app.get('/api/test', (_req, res) => {

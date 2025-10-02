@@ -18,7 +18,7 @@ const ProductInfo = ({product, navigate}) => (<div className={styles["product-in
 
     <div className="mt-10">
         <ProductMeta createdAt={product.createdAt}/>
-        <ProductActions navigate={navigate}/>
+        <ProductActions navigate={navigate} productId={product.id} initialInWishlist={false}/>
     </div>
 </div>);
 
