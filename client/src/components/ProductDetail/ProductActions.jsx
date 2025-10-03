@@ -1,8 +1,10 @@
 import styles from "./ProductActions.module.css";
 import {useAddToWishlist} from "../../hooks/useAddToWishlist.js";
 
-const ActionButtons = ({navigate, productId, initialInWishlist = false}) => {
-    const {inWishlist, loading, message, addToWishlist} = useAddToWishlist(initialInWishlist);
+const ActionButtons = ({navigate, productId}) => {
+    const {
+        inWishlist, loading, initLoading, message, addToWishlist,
+    } = useAddToWishlist(productId);
 
     return (<div className={styles["action-buttons"]}>
             <button
@@ -14,24 +16,25 @@ const ActionButtons = ({navigate, productId, initialInWishlist = false}) => {
 
             <div className="inline-flex flex-col items-start gap-1">
                 <button
-                    onClick={() => addToWishlist(productId)}
-                    disabled={loading || inWishlist}
+                    onClick={addToWishlist}
+                    disabled={initLoading || loading || inWishlist}
                     className={inWishlist ? "px-6 py-3 rounded-lg border border-orange-500 text-white bg-orange-500 transition-colors disabled:opacity-70" : "px-6 py-3 rounded-lg border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors disabled:opacity-70"}
                     aria-pressed={inWishlist}
-                    aria-label={inWishlist ? "Already in wishlist" : "Add to Wishlist"}
+                    aria-busy={initLoading || loading}
                 >
-                    {loading ? "Adding…" : inWishlist ? "In Wishlist ✓" : "Add to Wishlist"}
+                    {initLoading ? "Loading…" : loading ? "Adding…" : inWishlist ? "In Wishlist ✓" : "Add to Wishlist"}
                 </button>
-            </div>
 
-        {message?.text && (Array.isArray(message.text) ? (
-            <ul className={`text-sm ${message.type === "error" ? "text-red-600" : "text-green-600"}`}>
-                {message.text.map((t, i) => <li key={i}>{t}</li>)}
-            </ul>) : (
-            <span className={`text-sm ${message.type === "error" ? "text-red-600" : "text-green-600"}`}>
+                {message?.text && (Array.isArray(message.text) ? (<ul
+                        className={`text-sm ${message.type === "error" ? "text-red-600" : "text-green-600"}`}
+                    >
+                        {message.text.map((t, i) => (<li key={i}>{t}</li>))}
+                    </ul>) : (<span
+                        className={`text-sm ${message.type === "error" ? "text-red-600" : "text-green-600"}`}
+                    >
               {message.text}
             </span>))}
-
+            </div>
         </div>);
 };
 

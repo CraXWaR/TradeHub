@@ -1,29 +1,95 @@
-import {useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useFormHandler} from "./useFormHandler";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const useAddToWishlist = (initialInWishlist = false) => {
-    const [inWishlist, setInWishlist] = useState(!!initialInWishlist);
+function getToken() {
+    let token = localStorage.getItem("token") || "";
+    if (token.startsWith("Bearer ")) token = token.slice(7);
+    return token;
+}
 
+function parseJwt(token) {
+    try {
+        const [, payload] = token.split(".");
+        return JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+    } catch {
+        return null;
+    }
+}
+
+function cacheKey(userId, productId) {
+    return `wl:${userId}:${productId}`;
+}
+
+export const useAddToWishlist = (productId, initialInWishlist = undefined) => {
     const {
-        loading,
-        setLoading,
-        message,
-        setMessage,
-        resetMessage,
-        withMinDelay
+        loading, setLoading, message, setMessage, resetMessage, withMinDelay,
     } = useFormHandler();
 
-    const addToWishlist = async (productId) => {
+    const [inWishlist, setInWishlist] = useState(!!initialInWishlist);
+    const [initLoading, setInitLoading] = useState(initialInWishlist === undefined);
+
+    const token = useMemo(getToken, []); // read once on mount
+    const userId = useMemo(() => {
+        const payload = parseJwt(token);
+        return payload?.id || payload?.sub || null;
+    }, [token]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        if (!productId) {
+            setInitLoading(false);
+            return;
+        }
+
+        if (initialInWishlist !== undefined) {
+            setInitLoading(false);
+        } else {
+            if (userId) {
+                const cached = localStorage.getItem(cacheKey(userId, productId));
+                if (cached === "1") setInWishlist(true);
+            }
+        }
+
+        if (!token || !userId) {
+            setInitLoading(false);
+            return;
+        }
+
+        (async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/user/wishlist?productId=${productId}`, {headers: {Authorization: `Bearer ${token}`}});
+                const data = await res.json().catch(() => ({}));
+
+                if (!cancelled && res.ok && typeof data.inWishlist === "boolean") {
+                    setInWishlist(data.inWishlist);
+
+                    const key = cacheKey(userId, productId);
+                    if (data.inWishlist) {
+                        localStorage.setItem(key, "1");
+                    } else {
+                        localStorage.removeItem(key);
+                    }
+                }
+            } catch (e) {
+                console.error("Wishlist hydrate error:", e);
+            } finally {
+                if (!cancelled) setInitLoading(false);
+            }
+        })();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [productId, userId, token, initialInWishlist]);
+
+    const addToWishlist = async () => {
         if (!productId || loading || inWishlist) return;
 
         setLoading(true);
         resetMessage();
-
-        // get and normalize token
-        let token = localStorage.getItem("token") || "";
-        if (token.startsWith("Bearer ")) token = token.slice(7);
 
         if (!token) {
             setLoading(false);
@@ -32,36 +98,39 @@ export const useAddToWishlist = (initialInWishlist = false) => {
         }
 
         try {
-            const response = await withMinDelay(
-                fetch(`${BASE_URL}/user/wishlist`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({productId}),
-                })
-            );
+            const response = await withMinDelay(fetch(`${BASE_URL}/user/wishlist`, {
+                method: "POST", headers: {
+                    "Content-Type": "application/json", Authorization: `Bearer ${token}`,
+                }, body: JSON.stringify({productId}),
+            }));
 
             const data = await response.json().catch(() => ({}));
 
             if (response.ok) {
                 setInWishlist(true);
+
+                if (userId) localStorage.setItem(cacheKey(userId, productId), "1");
+
                 setMessage({
                     type: "success",
                     text: data?.message || (data?.created ? "Added to wishlist" : "Already in wishlist"),
                 });
             } else {
-                // show 401/403 distinctly (helps debugging)
                 if (response.status === 401) {
-                    setMessage({type: "error", text: "Unauthorized. Please log in again."});
+                    setMessage({
+                        type: "error", text: "Unauthorized. Please log in again.",
+                    });
                 } else if (response.status === 403) {
-                    setMessage({type: "error", text: "Forbidden. Your account is not allowed to do this."});
+                    setMessage({
+                        type: "error", text: "Forbidden. Your account is not allowed to do this.",
+                    });
                 } else if (data?.errors) {
                     const errorList = data.errors.map((e) => e.message);
                     setMessage({type: "error", text: errorList});
                 } else {
-                    setMessage({type: "error", text: data?.message || "Failed to add to wishlist"});
+                    setMessage({
+                        type: "error", text: data?.message || "Failed to add to wishlist",
+                    });
                 }
             }
         } catch (err) {
@@ -72,5 +141,5 @@ export const useAddToWishlist = (initialInWishlist = false) => {
         }
     };
 
-    return {inWishlist, loading, message, addToWishlist};
+    return {inWishlist, loading, initLoading, message, addToWishlist};
 };
