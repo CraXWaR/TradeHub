@@ -11,6 +11,10 @@ import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import wishListRoutes from './routes/wishlistRoutes.js';
 
+//Middlewares
+import {notFound} from "./middleware/notFoundMiddleware.js";
+import {errorHandler} from "./middleware/errorHandlerMiddleware.js";
+
 dotenv.config();
 
 const app = express();
@@ -30,6 +34,9 @@ app.use('/api/products', productRoutes);
 
 //User Routes
 app.use('/user/wishlist', wishListRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 // Health check
 app.get('/api/test', (_req, res) => {

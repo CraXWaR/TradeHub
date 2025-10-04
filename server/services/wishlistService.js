@@ -1,46 +1,42 @@
 import {WishlistItem, Product} from "../models/index.js";
 
-export const addToWishlist = async ({user_id, product_id}) => {
+export const addToWishlist = async ({ user_id, product_id }) => {
     try {
-        if (!user_id) throw new Error("Unauthorized");
-        if (!product_id || Number.isNaN(Number(product_id))) {
-            throw new Error("productId is required");
-        }
+        if (!user_id) throw { status: 401, message: "Unauthorized" };
 
-        const product = await Product.findByPk(product_id, {attributes: ["id"]});
-        if (!product) {
-            throw {message: "Product not found"};
-        }
+        const id = Number(product_id);
+        if (!id || Number.isNaN(id)) throw { status: 400, message: "Invalid productId" };
+
+        const product = await Product.findByPk(id, { attributes: ["id"] });
+        if (!product) throw { status: 404, message: "Product not found" };
 
         const [item, created] = await WishlistItem.findOrCreate({
-            where: {user_id, product_id}, defaults: {user_id, product_id},
+            where: { user_id, product_id: id },
+            defaults: { user_id, product_id: id },
         });
 
-        return {created, itemId: item.id};
+        return { created, itemId: item.id };
     } catch (error) {
-        if (error?.name === "SequelizeUniqueConstraintError") {
-            return {created: false};
-        }
-        throw {
-            message: "Failed to add to wishlist", detail: error.message || error?.message,
-        };
+        if (error?.name === "SequelizeUniqueConstraintError") return { created: false };
+        if (error?.status) throw error;
+        throw { status: 500, message: "Internal error", detail: error?.message };
     }
 };
 
-export const isInWishlist = async ({user_id, product_id}) => {
+export const isInWishlist = async ({ user_id, product_id }) => {
     try {
-        if (!user_id) throw new Error("Unauthorized");
+        if (!user_id) throw { status: 401, message: "Unauthorized" };
         const id = Number(product_id);
-        if (!id || Number.isNaN(id)) throw new Error("productId is required");
+        if (!id || Number.isNaN(id)) throw { status: 400, message: "Invalid productId" };
 
         const item = await WishlistItem.findOne({
-            where: {user_id, product_id: id}, attributes: ["id"],
+            where: { user_id, product_id: id },
+            attributes: ["id"],
         });
 
         return !!item;
     } catch (error) {
-        throw {
-            message: "Failed to check wishlist status", detail: error.message,
-        };
+        if (error?.status) throw error;
+        throw { status: 500, message: "Internal error", detail: error?.message };
     }
 };

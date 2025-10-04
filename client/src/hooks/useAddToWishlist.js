@@ -30,7 +30,7 @@ export const useAddToWishlist = (productId, initialInWishlist = undefined) => {
     const [inWishlist, setInWishlist] = useState(!!initialInWishlist);
     const [initLoading, setInitLoading] = useState(initialInWishlist === undefined);
 
-    const token = useMemo(getToken, []); // read once on mount
+    const token = useMemo(getToken, []);
     const userId = useMemo(() => {
         const payload = parseJwt(token);
         return payload?.id || payload?.sub || null;
@@ -113,7 +113,7 @@ export const useAddToWishlist = (productId, initialInWishlist = undefined) => {
 
                 setMessage({
                     type: "success",
-                    text: data?.message || (data?.created ? "Added to wishlist" : "Already in wishlist"),
+                    text: data?.message || (data?.created ? "This product has been successfully added to your wishlist! You can view all your saved items anytime from your wishlist page." : "This product is already in your wishlist — you can find it there whenever you’re ready to check it out!"),
                 });
             } else {
                 if (response.status === 401) {
@@ -141,5 +141,5 @@ export const useAddToWishlist = (productId, initialInWishlist = undefined) => {
         }
     };
 
-    return {inWishlist, loading, initLoading, message, addToWishlist};
+    return {inWishlist, loading, initLoading, message, addToWishlist, dismissMessage: resetMessage};
 };
