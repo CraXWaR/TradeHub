@@ -1,13 +1,11 @@
 import styles from "./ProductActions.module.css";
-import {useAddToWishlist} from "../../hooks/useAddToWishlist.js";
 import {Modal} from "../Modal.jsx";
+import {useWishlist} from "../../hooks/useWishlist.js";
 
 const ActionButtons = ({navigate, productId}) => {
     const {
-        inWishlist, loading, initLoading, message, addToWishlist, dismissMessage,
-    } = useAddToWishlist(productId);
-
-    const isBusy = initLoading || loading;
+        inWishlist, initLoading, isBusy, adding, message, removing, dismissMessage, toggleWishlist,
+    } = useWishlist(productId);
 
     return (<div className={styles["action-buttons"]}>
         <button
@@ -19,13 +17,13 @@ const ActionButtons = ({navigate, productId}) => {
 
         <div className="inline-flex flex-col items-start gap-1">
             <button
-                onClick={addToWishlist}
-                disabled={isBusy || inWishlist}
+                onClick={toggleWishlist}
+                disabled={isBusy}
                 className={inWishlist ? "px-6 py-3 rounded-lg border border-orange-500 text-white bg-orange-500 transition-colors disabled:opacity-70" : "px-6 py-3 rounded-lg border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors disabled:opacity-70"}
                 aria-pressed={inWishlist}
                 aria-busy={isBusy}
             >
-                {initLoading ? "Loading…" : loading ? "Adding…" : inWishlist ? "In Wishlist ✓" : "Add to Wishlist"}
+                {initLoading ? "Loading…" : adding ? "Adding…" : removing ? "Removing…" : inWishlist ? "In Wishlist ✓ (Remove)" : "Add to Wishlist"}
             </button>
 
             <Modal

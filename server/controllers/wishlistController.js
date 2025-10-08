@@ -1,12 +1,14 @@
 import {
-    addToWishlist as addToWishlistService, isInWishlist as isInWishlistService,
+    addToWishlist as addToWishlistService,
+    isInWishlist as isInWishlistService,
+    removeFromWishlist as removeFromWishlistService,
 } from "../services/wishlistService.js";
 
 export const addToWishlist = async (req, res, next) => {
     try {
-        if (!req.user) throw { status: 401, message: "Unauthorized" };
+        if (!req.user) throw {status: 401, message: "Unauthorized"};
 
-        const { productId } = req.body;
+        const {productId} = req.body;
         const result = await addToWishlistService({
             user_id: req.user.id,
             product_id: productId,
@@ -27,14 +29,35 @@ export const addToWishlist = async (req, res, next) => {
 
 export const checkWishlistStatus = async (req, res, next) => {
     try {
-        if (!req.user) throw { status: 401, message: "Unauthorized" };
+        if (!req.user) throw {status: 401, message: "Unauthorized"};
 
         const inWishlist = await isInWishlistService({
             user_id: req.user.id,
             product_id: req.query.productId,
         });
 
-        res.status(200).json({ inWishlist });
+        res.status(200).json({inWishlist});
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const removeFromWishlist = async (req, res, next) => {
+    try {
+        if (!req.user) throw {status: 401, message: "Unauthorized"};
+
+        const {productId} = req.query;
+        const result = await removeFromWishlistService({
+            user_id: req.user.id,
+            product_id: productId,
+        });
+
+        return res.status(200).json({
+            removed: result.removed,
+            message: result.removed
+                ? "Removed from your wishlist."
+                : "This product was not in your wishlist.",
+        });
     } catch (err) {
         next(err);
     }
