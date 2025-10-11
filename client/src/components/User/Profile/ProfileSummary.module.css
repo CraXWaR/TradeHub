@@ -1,0 +1,50 @@
+.card { padding: 14px; }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-700);
+}
+
+.role {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fff3e6;
+    color: var(--primary-600);
+    border: 1px solid #ffd6b3;
+    text-transform: capitalize;
+}
+
+.body { margin-top: 6px; }
+
+.rows { display: grid; gap: 10px; }
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-700);
+    font-size: 14px;
+}
+
+.row dt { color: var(--text-500); }
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #ffe8df;
+    color: var(--accent-600);
+    border: 1px solid #ffd0c4;
+    font-size: 12px;
+}

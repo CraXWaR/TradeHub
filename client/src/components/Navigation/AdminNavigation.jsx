@@ -19,17 +19,13 @@ const AdminNavigation = () => {
 
     return (<nav
         className="bg-blue-900 text-white border-b border-blue-700 shadow-md relative z-50"
-        // force all <a> inside this nav to hover with white (overrides global a:hover via CSS var)
-        style={{"--link-hover": "white"}}
-    >
+        style={{"--link-hover": "white"}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
-                {/* Title link: make its own hover a soft blue if you prefer */}
                 <Link
                     to="/admin/dashboard"
                     className="text-xl font-bold text-white transition-colors"
-                    style={{"--link-hover": "var(--primary-400)"}}
-                >
+                    style={{"--link-hover": "var(--primary-400)"}}>
                     ⚙️ Admin Panel
                 </Link>
 
@@ -37,8 +33,7 @@ const AdminNavigation = () => {
                     {navItems.map((item) => (<Link
                         key={item.path}
                         to={item.path}
-                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === item.path ? "bg-blue-700 text-white" : "text-blue-100 hover:bg-blue-800"}`}
-                    >
+                        className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${location.pathname === item.path ? "bg-blue-700 text-white" : "text-blue-100 hover:bg-blue-800"}`}>
                         {item.label}
                     </Link>))}
 
@@ -48,8 +43,7 @@ const AdminNavigation = () => {
                           </span>
                         <button
                             onClick={logout}
-                            className="px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                        >
+                            className="px-3 py-2 rounded-md text-sm font-medium transition-colors">
                             Logout
                         </button>
                     </div>

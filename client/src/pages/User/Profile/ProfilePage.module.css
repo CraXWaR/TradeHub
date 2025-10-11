@@ -1,0 +1,32 @@
+.wrapper {
+    padding: 4px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 20px;
+}
+
+.stack {
+    display: grid;
+    gap: 16px;
+}
+
+.loading,
+.empty {
+    padding: 24px 8px;
+    color: var(--text-500);
+}
+
+/* shared card surface just for profile content areas */
+:global(.profile-card) {
+    background: linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    border: 1px solid #ffe0c2;
+    border-radius: 14px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 18px rgba(255,123,37,.08);
+}
+
+@media (max-width: 960px) {
+    .grid { grid-template-columns: 1fr; }
+}

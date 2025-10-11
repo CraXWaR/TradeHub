@@ -1,5 +1,5 @@
 import "./App.css";
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
 import Home from "./components/Home";
 import UsersList from "./components/UsersList";
@@ -8,6 +8,7 @@ import LoginPage from "./pages/Login/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
 
 import {AuthProvider, useAuth} from "./contex/AuthContext.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
@@ -17,6 +18,11 @@ import AdminDashboardPage from "./pages/Admin/Dashboard/AdminDashboard.jsx";
 import AdminNavigation from "./components/Navigation/AdminNavigation.jsx";
 import UserNavigation from "./components/Navigation/UserNavigation.jsx";
 import AdminProductsPage from "./pages/Admin/Products/AdminPorductsPage.jsx";
+import UserLayout from "./components/User/UserLayout.jsx";
+import UserOverviewPage from "./pages/User/Profile/OverviewPage.jsx";
+import UserOrdersPage from "./pages/User/Profile/OrdersPage.jsx";
+import UserWishlistPage from "./pages/User/Profile/WishlistPage.jsx";
+import UserSettingsPage from "./pages/User/Profile/SettingsPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -28,16 +34,27 @@ function AppShell() {
             {isAdmin ? <AdminNavigation/> : <UserNavigation/>}
 
             <main className="flex-1">
-                {/* remove the inner admin-theme wrapper */}
                 <div>
                     <Routes>
-                        {/* Public/User routes */}
+                        {/* Public routes */}
                         <Route path="/" element={<Home/>}/>
                         <Route path="/products" element={<Products/>}/>
                         <Route path="/products/:id" element={<ProductDetail/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route path="/unauthorized" element={<Unauthorized/>}/>
+
+                        {/* User routes */}
+                        <Route element={<ProtectedRoute role="user" />}>
+                            <Route path="/user" element={<UserLayout />}>
+                                <Route index element={<Navigate to="overview" replace />} />
+                                <Route path="overview" element={<UserOverviewPage />} />
+                                <Route path="profile" element={<ProfilePage />} />
+                                <Route path="orders" element={<UserOrdersPage />} />
+                                <Route path="wishlist" element={<UserWishlistPage />} />
+                                <Route path="settings" element={<UserSettingsPage />} />
+                            </Route>
+                        </Route>
 
                         {/* Admin routes (protected) */}
                         <Route element={<ProtectedRoute role="admin"/>}>
