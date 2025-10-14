@@ -62,3 +62,30 @@ export const removeFromWishlist = async ({user_id, product_id}) => {
         throw {status: 500, message: "Internal error", detail: error?.message};
     }
 };
+
+export const getWishlistItems = async ({ user_id }) => {
+    try {
+        if (!user_id) throw { status: 401, message: "Unauthorized" };
+
+        const wishlistItems = await WishlistItem.findAll({
+            where: { user_id },
+            include: [
+                {
+                    model: Product,
+                    attributes: ["id", "title", "price", "image"],
+                },
+            ],
+            attributes: ["id", "createdAt"],
+            order: [["createdAt", "DESC"]],
+        });
+
+        return wishlistItems.map(item => ({
+            id: item.id,
+            addedAt: item.created_at,
+            product: item.Product,
+        }));
+    } catch (error) {
+        if (error?.status) throw error;
+        throw { status: 500, message: "Internal error", detail: error?.message };
+    }
+};

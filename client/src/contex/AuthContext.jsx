@@ -46,7 +46,6 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-
     const login = (jwt) => {
         applyToken(jwt);
     };
@@ -79,10 +78,10 @@ export const AuthProvider = ({children}) => {
             value={{
                 user,
                 token,
-                setUser,   // still available if you need it
-                setToken,  // still available if you need it
+                setUser,
+                setToken,
                 loading,
-                login,     // <-- use this after successful auth
+                login,
                 logout,
                 isAuthenticated,
                 isAdmin,

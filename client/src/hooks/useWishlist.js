@@ -62,7 +62,7 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
 
         (async () => {
             try {
-                const res = await fetch(`${BASE_URL}/user/wishlist?productId=${productId}`, {headers: {Authorization: `Bearer ${token}`}});
+                const res = await fetch(`${BASE_URL}/user/wishlist/status?productId=${productId}`, {headers: {Authorization: `Bearer ${token}`}});
                 const data = await res.json().catch(() => ({}));
 
                 if (!cancelled && res.ok && typeof data.inWishlist === "boolean") {

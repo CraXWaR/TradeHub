@@ -2,6 +2,7 @@ import {
     addToWishlist as addToWishlistService,
     isInWishlist as isInWishlistService,
     removeFromWishlist as removeFromWishlistService,
+    getWishlistItems as getWishlistItemsService,
 } from "../services/wishlistService.js";
 
 export const addToWishlist = async (req, res, next) => {
@@ -58,6 +59,18 @@ export const removeFromWishlist = async (req, res, next) => {
                 ? "Removed from your wishlist."
                 : "This product was not in your wishlist.",
         });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getWishlistItems = async (req, res, next) => {
+    try {
+        if (!req.user) throw {status: 401, message: "Unauthorized"};
+
+        const items = await getWishlistItemsService({user_id: req.user.id});
+
+        return res.status(200).json({items});
     } catch (err) {
         next(err);
     }

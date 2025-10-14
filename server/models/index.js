@@ -16,4 +16,6 @@ Product.belongsToMany(User, {
     through: WishlistItem, foreignKey: 'product_id', otherKey: 'user_id', as: 'wishlistedBy',
 });
 
+WishlistItem.belongsTo(Product, { foreignKey: 'product_id' });
+
 export {sequelize, User, Product, WishlistItem};
