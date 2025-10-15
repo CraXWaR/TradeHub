@@ -33,7 +33,7 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
     const token = useMemo(getToken, []);
     const userId = useMemo(() => {
         const payload = parseJwt(token);
-        return payload?.id || payload?.sub || null;
+        return payload?.id || payload?.sub || null;а
     }, [token]);
 
     const isBusy = action !== "idle" || loading;

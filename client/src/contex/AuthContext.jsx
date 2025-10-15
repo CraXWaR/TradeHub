@@ -36,6 +36,8 @@ export const AuthProvider = ({children}) => {
                 role: decoded.role,
                 email: decoded.email,
                 name: decoded.name,
+                created_at: decoded.created_at,
+                updated_at: decoded.updated_at,
             });
             setToken(storedToken);
             localStorage.setItem("token", storedToken);
@@ -57,12 +59,10 @@ export const AuthProvider = ({children}) => {
     };
 
     useEffect(() => {
-        // initial load
         const existing = localStorage.getItem("token");
         applyToken(existing);
         setLoading(false);
 
-        // keep in sync across OTHER tabs/windows
         const onStorage = (e) => {
             if (e.key === "token") applyToken(e.newValue);
         };
@@ -74,19 +74,17 @@ export const AuthProvider = ({children}) => {
     const isAdmin = user?.role === "admin";
 
     return (
-        <AuthContext.Provider
-            value={{
-                user,
-                token,
-                setUser,
-                setToken,
-                loading,
-                login,
-                logout,
-                isAuthenticated,
-                isAdmin,
-            }}
-        >
+        <AuthContext.Provider value={{
+            user,
+            token,
+            setUser,
+            setToken,
+            loading,
+            login,
+            logout,
+            isAuthenticated,
+            isAdmin,
+        }}>
             {children}
         </AuthContext.Provider>
     );

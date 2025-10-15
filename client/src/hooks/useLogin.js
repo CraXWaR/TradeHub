@@ -33,13 +33,13 @@ export const useLogin = () => {
             if (data.success) {
                 setMessage({type: "success", text: "Login successful! Redirecting..."});
 
-                const {token, role, name, email} = data.data;
+                const {token, role, name, email, created_at, updated_at} = data.data;
 
                 localStorage.setItem("token", token);
-                localStorage.setItem("user", JSON.stringify({role, name, email}));
+                localStorage.setItem("user", JSON.stringify({role, name, email, created_at, updated_at}));
 
                 setToken(token);
-                setUser({role, name, email});
+                setUser({role, name, email, created_at, updated_at});
 
                 setTimeout(() => navigate("/"), 1000);
             } else {

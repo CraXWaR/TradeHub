@@ -40,16 +40,15 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const user = await userService.authenticateUser(
-            req.body.email,
-            req.body.password
-        );
+        const user = await userService.authenticateUser(req.body.email, req.body.password);
 
         const payload = {
             id: user.id,
             role: user.role,
             email: user.email,
             name: user.name,
+            created_at: user.createdAt,
+            updated_at: user.updatedAt,
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
@@ -61,6 +60,8 @@ export const login = async (req, res) => {
                 role: user.role,
                 email: user.email,
                 name: user.name,
+                created_at: user.createdAt,
+                updated_at: user.updatedAt,
                 token,
             },
         });

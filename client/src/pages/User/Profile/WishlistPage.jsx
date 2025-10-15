@@ -1,64 +1,21 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../../../components/ProductCard/ProductCard.jsx";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
 
 const UserWishlistPage = () => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const { items: products, loading, error } = useGetWishlistItems();
 
-    const token = localStorage.getItem("token") || "";
-
-    useEffect(() => {
-        let isMounted = true;
-
-        const fetchWishlist = async () => {
-            setLoading(true);
-            setError("");
-
-            try {
-                const res = await fetch(`${BASE_URL}/user/wishlist`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                const data = await res.json();
-
-                if (!isMounted) return;
-
-                if (res.ok && Array.isArray(data.items)) {
-                    const list = data.items.map((i) => i.product).filter(Boolean);
-                    setProducts(list);
-                } else {
-                    setError(data?.message || "Failed to load wishlist");
-                }
-            } catch (err) {
-                if (isMounted) {
-                    console.error("Fetch wishlist error:", err);
-                    setError("Error connecting to server");
-                }
-            } finally {
-                if (isMounted) setLoading(false);
-            }
-        };
-
-        fetchWishlist();
-        return () => {
-            isMounted = false;
-        };
-    }, [token]);
-
-    const productCards = useMemo(() => {
-        return products.map((p) => (
-            <ProductCard key={p.id || `${p.title}-${p.price}`} product={p} />
-        ));
-    }, [products]);
-
+    const productCards = useMemo(
+        () =>
+            products.map((p) => (
+                <ProductCard
+                    key={p.id || `${p.title}-${p.price}`}
+                    product={p}
+                />
+            )),
+        [products]
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100 text-gray-800">

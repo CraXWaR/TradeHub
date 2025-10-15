@@ -4,11 +4,21 @@ const ProfileSummary = ({user}) => {
     const name = user?.name || "User";
     const email = user?.email || "—";
     const role = user?.role || "user";
+
     const joined = user?.created_at
-        ? new Date(user.created_at).toLocaleDateString()
+        ? new Date(user.created_at).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+        })
         : "—";
+
     const updated = user?.updated_at
-        ? new Date(user.updated_at).toLocaleDateString()
+        ? new Date(user.updated_at).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+        })
         : "—";
 
     return (
