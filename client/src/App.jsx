@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 import Home from "./components/Home";
 import UsersList from "./components/UsersList";
 import CreateProductPage from "./pages/Admin/CreateProduct/CreateProductPage.jsx";
-import LoginPage from "./pages/Login/LoginPage.jsx";
+import LoginPage from "./pages/Auth/Login/LoginPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
@@ -12,7 +12,7 @@ import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
 
 import {AuthProvider, useAuth} from "./contex/AuthContext.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
-import RegisterPage from "./pages/Register/RegisterPage.jsx";
+import RegisterPage from "./pages/Auth/Register/RegisterPage.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import AdminDashboardPage from "./pages/Admin/Dashboard/AdminDashboard.jsx";
 import AdminNavigation from "./components/Navigation/AdminNavigation.jsx";

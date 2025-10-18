@@ -8,7 +8,7 @@ import styles from "./ProfilePage.module.css";
 
 const ProfilePage = () => {
     const {user, loading} = useAuth();
-    console.log(user);
+
     if (loading) return <div className={styles.loading}>Loading profile…</div>;
     if (!user) return <div className={styles.empty}>No user data available.</div>;
 

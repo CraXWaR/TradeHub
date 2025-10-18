@@ -1,0 +1,255 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Two-column grid for register password fields */
+.passwordGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* ---------- Fields ---------- */
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formLabel {
+    font-weight: 600;
+    color: #2d1b1b;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.formInput {
+    width: 100%;
+    padding: 1rem 1.25rem 1rem 3rem;
+    border: 2px solid rgba(255, 154, 86, 0.2);
+    border-radius: 16px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    outline: none;
+    color: #2d1b1b;
+}
+
+.formInput:focus {
+    border-color: #ff7b25;
+    box-shadow: 0 0 0 4px rgba(255, 123, 37, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.formInput::placeholder {
+    color: #a0a0a0;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 1rem;
+    font-size: 1.1rem;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ---------- Options ---------- */
+.formOptions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.checkboxWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #ff7b25;
+}
+
+.checkboxLabel {
+    font-size: 0.9rem;
+    color: #6c5b5b;
+}
+
+/* ---------- Links ---------- */
+.forgotLink {
+    color: #ff7b25;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.forgotLink:hover {
+    color: #e85d04;
+}
+
+.linkLogin,
+.linkRegister {
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.linkLogin {
+    color: #ff7b25;
+}
+
+.linkLogin:hover {
+    color: #e85d04;
+}
+
+.linkRegister {
+    color: #ff7b25;
+}
+
+.linkRegister:hover {
+    color: #e85d04;
+}
+
+/* ---------- Buttons ---------- */
+.loginButton,
+.registerButton {
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.loginButton {
+    background: linear-gradient(135deg, #ff7b25, #e85d04, #e63946);
+    box-shadow: 0 10px 25px rgba(232, 93, 4, 0.15);
+}
+
+.registerButton {
+    background: linear-gradient(135deg, #ff7b25, #e85d04, #e63946);
+    box-shadow: 0 10px 25px rgba(232, 93, 4, 0.15);
+}
+
+.loginButton:hover:not(.loading),
+.registerButton:hover:not(.loading) {
+    transform: translateY(-2px);
+}
+
+.loginButton:active,
+.registerButton:active {
+    transform: translateY(0);
+}
+
+.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* ---------- Spinner ---------- */
+.spinner {
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- Messages ---------- */
+.message {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.success {
+    background: linear-gradient(
+            135deg,
+            rgba(255, 154, 86, 0.1),
+            rgba(255, 123, 37, 0.1)
+    );
+    border: 2px solid rgba(255, 154, 86, 0.3);
+    color: #e85d04;
+}
+
+.error {
+    background: linear-gradient(
+            135deg,
+            rgba(230, 57, 70, 0.1),
+            rgba(214, 40, 40, 0.1)
+    );
+    border: 2px solid rgba(230, 57, 70, 0.3);
+    color: #d62828;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 154, 86, 0.2);
+}
+
+.footer p {
+    color: #6c5b5b;
+    font-size: 0.9rem;
+}
+
+/* ---------- Accessibility ---------- */
+.formInput:focus-visible,
+.loginButton:focus-visible,
+.registerButton:focus-visible,
+.checkbox:focus-visible {
+    outline: 2px solid #ff7b25;
+    outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+    .formInput {
+        padding: 0.875rem 1rem 0.875rem 2.75rem;
+    }
+
+    .inputIcon {
+        left: 0.875rem;
+    }
+
+    .passwordGrid {
+        grid-template-columns: 1fr;
+    }
+}
