@@ -73,3 +73,31 @@ export const login = async (req, res) => {
         });
     }
 };
+
+export const getMe = async (req, res) => {
+    try {
+        const user = await userService.getUserById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const { password, ...safeUser } = user;
+        res.json({ success: true, data: safeUser });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch user" });
+    }
+};
+
+export const updateMe = async (req, res) => {
+    try {
+        const updated = await userService.updateUserName(req.user.id, req.body.name);
+        res.json({ success: true, message: "User updated", data: updated });
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(error.statusCode || 500).json({
+            success: false,
+            message: error.message || "Failed to update user",
+        });
+    }
+};

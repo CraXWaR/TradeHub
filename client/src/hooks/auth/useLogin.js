@@ -1,5 +1,5 @@
 import {useAuthForm} from "./useAuthForm";
-import {useAuth} from "../../contex/AuthContext.jsx";
+import {useAuth} from "./useAuth.js";
 
 export const useLogin = () => {
     const {setUser, setToken} = useAuth();

@@ -1,13 +1,56 @@
-//TODO CREATE UPDATE PROFILE FUNCTIONALITY
+import {useState, useTransition} from "react";
 
 import styles from "./ProfileDetails.module.css";
 
-const ProfileDetails = ({user}) => {
-    const onSubmit = (e) => {
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+const ProfileDetails = ({user: initialUser}) => {
+    const [user, setUser] = useState(initialUser);
+    const [status, setStatus] = useState({loading: false, error: "", ok: ""});
+    const [isPending, startTransition] = useTransition();
+
+    const onSubmit = async (e) => {
         e.preventDefault();
-        // Future: call update API with only 'name' for now
-        // const form = new FormData(e.currentTarget);
-        // const payload = { name: form.get("name") };
+        setStatus({loading: true, error: "", ok: ""});
+
+        const form = new FormData(e.currentTarget);
+        const payload = {name: (form.get("name") || "").toString().trim()};
+
+        if (!payload.name) {
+            setStatus({loading: false, error: "Name is required.", ok: ""});
+            return;
+        }
+
+        try {
+            const res = await fetch(`${BASE_URL}/api/users/me`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+                throw new Error(data?.message || "Failed to update profile");
+            }
+
+            startTransition(() => setUser((u) => ({...u, name: payload.name})));
+            setStatus({loading: false, error: "", ok: "Saved!"});
+
+            //TODO IMPLEMENT DYNAMIC USER INFO REFRESH
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } catch (err) {
+            setStatus({
+                loading: false,
+                error: err.message || "Something went wrong",
+                ok: "",
+            });
+        }
     };
 
     return (
@@ -22,6 +65,7 @@ const ProfileDetails = ({user}) => {
                         type="text"
                         defaultValue={user?.name ?? ""}
                         placeholder="Your full name"
+                        disabled={status.loading || isPending}
                     />
                 </label>
 
@@ -32,10 +76,17 @@ const ProfileDetails = ({user}) => {
                 </label>
 
                 <div className={styles.actions}>
-                    <button type="submit" className={styles.primaryBtn}>
-                        Save changes
+                    <button
+                        type="submit"
+                        className={styles.primaryBtn}
+                        disabled={status.loading || isPending}
+                    >
+                        {status.loading ? "Saving..." : "Save changes"}
                     </button>
                 </div>
+
+                {status.error && <p className={styles.error}>{status.error}</p>}
+                {status.ok && <p className={styles.success}>{status.ok}</p>}
             </form>
         </section>
     );

@@ -57,6 +57,32 @@ class UserService {
         });
         return users.map((u) => u.get({plain: true}));
     }
+
+    async updateUserName(id, name) {
+        if (!name) {
+            const err = new Error("Name is required");
+            err.statusCode = 400;
+            throw err;
+        }
+        if (name.length > 100) {
+            const err = new Error("Name is too long");
+            err.statusCode = 422;
+            throw err;
+        }
+
+        const user = await User.findByPk(id);
+        if (!user) {
+            const err = new Error("User not found");
+            err.statusCode = 404;
+            throw err;
+        }
+
+        user.name = name;
+        await user.save();
+
+        const {password, ...safeUser} = user.get({plain: true});
+        return safeUser;
+    }
 }
 
 export default new UserService();

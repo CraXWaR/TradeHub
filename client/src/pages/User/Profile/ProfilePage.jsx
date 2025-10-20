@@ -1,4 +1,4 @@
-import {useAuth} from "../../../contex/AuthContext.jsx";
+import {useAuth} from "../../../hooks/auth/useAuth.js";
 
 import ProfileSummary from "../../../components/User/Profile/ProfileSummary.jsx";
 import ProfileDetails from "../../../components/User/Profile/ProfileDetails.jsx";

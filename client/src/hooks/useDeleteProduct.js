@@ -25,10 +25,10 @@ export function useDeleteProduct({ onDeleted, delayMs = 2000 } = {}) {
         try {
             const response = await fetch(`${BASE_URL}/api/products/${pendingId}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
             });
             let data = null;
             try {

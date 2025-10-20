@@ -10,7 +10,9 @@ import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
 
-import {AuthProvider, useAuth} from "./contex/AuthContext.jsx";
+import AuthProvider from "./contex/AuthContext.jsx";
+import {useAuth} from "./hooks/auth/useAuth.js";
+
 import Unauthorized from "./pages/Unauthorized.jsx";
 import RegisterPage from "./pages/Auth/Register/RegisterPage.jsx";
 import AdminLayout from "./components/Admin/AdminLayout.jsx";
@@ -45,14 +47,14 @@ function AppShell() {
                         <Route path="/unauthorized" element={<Unauthorized/>}/>
 
                         {/* User routes */}
-                        <Route element={<ProtectedRoute role="user" />}>
-                            <Route path="/user" element={<UserLayout />}>
-                                <Route index element={<Navigate to="overview" replace />} />
-                                <Route path="overview" element={<UserOverviewPage />} />
-                                <Route path="profile" element={<ProfilePage />} />
-                                <Route path="orders" element={<UserOrdersPage />} />
-                                <Route path="wishlist" element={<UserWishlistPage />} />
-                                <Route path="settings" element={<UserSettingsPage />} />
+                        <Route element={<ProtectedRoute role="user"/>}>
+                            <Route path="/user" element={<UserLayout/>}>
+                                <Route index element={<Navigate to="overview" replace/>}/>
+                                <Route path="overview" element={<UserOverviewPage/>}/>
+                                <Route path="profile" element={<ProfilePage/>}/>
+                                <Route path="orders" element={<UserOrdersPage/>}/>
+                                <Route path="wishlist" element={<UserWishlistPage/>}/>
+                                <Route path="settings" element={<UserSettingsPage/>}/>
                             </Route>
                         </Route>
 

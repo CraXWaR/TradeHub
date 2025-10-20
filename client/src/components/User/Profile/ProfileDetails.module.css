@@ -51,3 +51,11 @@ input:focus {
     transform: translateY(-1px);
     box-shadow: 0 6px 12px rgba(232, 93, 4, .22);
 }
+
+.success {
+    color: var(--primary-500);
+}
+
+.error {
+    color: var(--text-500);
+}
