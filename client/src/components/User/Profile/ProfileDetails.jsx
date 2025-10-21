@@ -1,21 +1,25 @@
-import {useState, useTransition} from "react";
+import {useEffect, useState, useTransition} from "react";
 
 import styles from "./ProfileDetails.module.css";
+import useAuth from "../../../hooks/auth/useAuth.js";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const ProfileDetails = ({user: initialUser}) => {
-    const [user, setUser] = useState(initialUser);
+const ProfileDetails = () => {
+    const {user, setUser, refreshUser} = useAuth();
     const [status, setStatus] = useState({loading: false, error: "", ok: ""});
     const [isPending, startTransition] = useTransition();
+
+    const [name, setName] = useState(user?.name ?? "");
+    useEffect(() => {
+        setName(user?.name ?? "");
+    }, [user?.name]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
         setStatus({loading: true, error: "", ok: ""});
 
-        const form = new FormData(e.currentTarget);
-        const payload = {name: (form.get("name") || "").toString().trim()};
-
+        const payload = {name: (name || "").trim()};
         if (!payload.name) {
             setStatus({loading: false, error: "Name is required.", ok: ""});
             return;
@@ -32,22 +36,19 @@ const ProfileDetails = ({user: initialUser}) => {
             });
 
             const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data?.message || "Failed to update profile");
 
-            if (!res.ok) {
-                throw new Error(data?.message || "Failed to update profile");
-            }
+            startTransition(() => {
+                setUser((u) => ({...u, name: payload.name}));
+            });
 
-            startTransition(() => setUser((u) => ({...u, name: payload.name})));
+            await refreshUser();
+
             setStatus({loading: false, error: "", ok: "Saved!"});
-
-            //TODO IMPLEMENT DYNAMIC USER INFO REFRESH
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
         } catch (err) {
             setStatus({
                 loading: false,
-                error: err.message || "Something went wrong",
+                error: err?.message || "Something went wrong",
                 ok: "",
             });
         }
@@ -63,7 +64,8 @@ const ProfileDetails = ({user: initialUser}) => {
                     <input
                         name="name"
                         type="text"
-                        defaultValue={user?.name ?? ""}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         placeholder="Your full name"
                         disabled={status.loading || isPending}
                     />

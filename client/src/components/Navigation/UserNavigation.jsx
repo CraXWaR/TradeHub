@@ -1,5 +1,5 @@
 import {NavLink} from "react-router-dom";
-import {useAuth} from "../../hooks/auth/useAuth.js";
+import useAuth from "../../hooks/auth/useAuth.js";
 
 const UserNavigation = () => {
     const {isAuthenticated, user, logout, loading} = useAuth();

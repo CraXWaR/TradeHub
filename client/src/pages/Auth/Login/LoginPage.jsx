@@ -1,8 +1,9 @@
-import styles from "./LoginPage.module.css";
 import {useLogin} from "../../../hooks/auth/useLogin.js";
 import AuthForm from "../../../components/AuthForm/AuthForm.jsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+
+import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
     const {formData, handleChange, handleSubmit, loading, message} = useLogin();

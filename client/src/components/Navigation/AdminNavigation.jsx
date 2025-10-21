@@ -1,6 +1,6 @@
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {useAuth} from "../../hooks/auth/useAuth.js";
+import useAuth from "../../hooks/auth/useAuth.js";
 
 const AdminNavigation = () => {
     const {isAdmin, user, logout, loading} = useAuth();

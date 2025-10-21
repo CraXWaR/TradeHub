@@ -1,10 +1,10 @@
-import {useAuth} from "../../../hooks/auth/useAuth.js";
 
 import ProfileSummary from "../../../components/User/Profile/ProfileSummary.jsx";
 import ProfileDetails from "../../../components/User/Profile/ProfileDetails.jsx";
 import ProfileSecurity from "../../../components/User/Profile/ProfileSecurity.jsx";
 
 import styles from "./ProfilePage.module.css";
+import useAuth from "../../../hooks/auth/useAuth.js";
 
 const ProfilePage = () => {
     const {user, loading} = useAuth();

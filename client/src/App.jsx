@@ -10,8 +10,7 @@ import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
 
-import AuthProvider from "./contex/AuthContext.jsx";
-import {useAuth} from "./hooks/auth/useAuth.js";
+import AuthProvider from "./contex/AuthProvider.jsx";
 
 import Unauthorized from "./pages/Unauthorized.jsx";
 import RegisterPage from "./pages/Auth/Register/RegisterPage.jsx";
@@ -25,6 +24,7 @@ import UserOverviewPage from "./pages/User/Profile/OverviewPage.jsx";
 import UserOrdersPage from "./pages/User/Profile/OrdersPage.jsx";
 import UserWishlistPage from "./pages/User/Profile/WishlistPage.jsx";
 import UserSettingsPage from "./pages/User/Profile/SettingsPage.jsx";
+import useAuth from "./hooks/auth/useAuth.js";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
