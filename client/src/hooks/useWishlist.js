@@ -23,9 +23,7 @@ function cacheKey(userId, productId) {
 }
 
 export const useWishlist = (productId, initialInWishlist = undefined) => {
-    const {
-        loading, setLoading, message, setMessage, resetMessage, withMinDelay,
-    } = useFormHandler();
+    const {loading, setLoading, message, setMessage, resetMessage, withMinDelay,} = useFormHandler();
 
     const [inWishlist, setInWishlist] = useState(!!initialInWishlist);
     const [action, setAction] = useState(initialInWishlist === undefined ? "init" : "idle");
@@ -33,11 +31,10 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
     const token = useMemo(getToken, []);
     const userId = useMemo(() => {
         const payload = parseJwt(token);
-        return payload?.id || payload?.sub || null;а
+        return payload?.id || payload?.sub || null;
     }, [token]);
 
     const isBusy = action !== "idle" || loading;
-    const initLoading = action === "init";
 
     // ---- Hydrate on mount / productId change ----
     useEffect(() => {
@@ -62,13 +59,17 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
 
         (async () => {
             try {
-                const res = await fetch(`${BASE_URL}/user/wishlist/status?productId=${productId}`, {headers: {Authorization: `Bearer ${token}`}});
+                const res = await fetch(
+                    `${BASE_URL}/user/wishlist/status?productId=${productId}`,
+                    {headers: {Authorization: `Bearer ${token}`}}
+                );
                 const data = await res.json().catch(() => ({}));
 
                 if (!cancelled && res.ok && typeof data.inWishlist === "boolean") {
                     setInWishlist(data.inWishlist);
                     const key = cacheKey(userId, productId);
-                    if (data.inWishlist) localStorage.setItem(key, "1"); else localStorage.removeItem(key);
+                    if (data.inWishlist) localStorage.setItem(key, "1");
+                    else localStorage.removeItem(key);
                 }
             } catch (e) {
                 console.error("Wishlist hydrate error:", e);
@@ -97,9 +98,12 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
 
         try {
             const response = await withMinDelay(fetch(`${BASE_URL}/user/wishlist`, {
-                method: "POST", headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${token}`,
-                }, body: JSON.stringify({productId}),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({productId}),
             }));
 
             const data = await response.json().catch(() => ({}));
@@ -109,18 +113,21 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
                 if (userId) localStorage.setItem(cacheKey(userId, productId), "1");
                 setMessage({
                     type: "success",
-                    text: data?.message || (data?.created ? "This product has been successfully added to your wishlist! You can view all your saved items anytime from your wishlist page." : "This product is already in your wishlist — you can find it there whenever you’re ready to check it out!"),
+                    text:
+                        data?.message ||
+                        (data?.created
+                            ? "This product has been successfully added to your wishlist! You can view all your saved items anytime from your wishlist page."
+                            : "This product is already in your wishlist — you can find it there whenever you’re ready to check it out!"),
                 });
             } else {
-                if (response.status === 401) setMessage({
-                    type: "error",
-                    text: "Unauthorized. Please log in again."
-                }); else if (response.status === 403) setMessage({
-                    type: "error", text: "Forbidden. Your account is not allowed to do this."
-                }); else if (data?.errors) setMessage({
-                    type: "error",
-                    text: data.errors.map(e => e.message)
-                }); else setMessage({type: "error", text: data?.message || "Failed to add to wishlist"});
+                if (response.status === 401)
+                    setMessage({type: "error", text: "Unauthorized. Please log in again."});
+                else if (response.status === 403)
+                    setMessage({type: "error", text: "Forbidden. Your account is not allowed to do this."});
+                else if (data?.errors)
+                    setMessage({type: "error", text: data.errors.map(e => e.message)});
+                else
+                    setMessage({type: "error", text: data?.message || "Failed to add to wishlist"});
             }
         } catch (err) {
             console.error("Add to wishlist error:", err);
@@ -129,9 +136,9 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
             setLoading(false);
             setAction("idle");
         }
-    }, [BASE_URL, productId, token, userId, isBusy, inWishlist, resetMessage, setMessage, setLoading, withMinDelay]);
+    }, [productId, token, userId, isBusy, inWishlist, resetMessage, setMessage, setLoading, withMinDelay]);
 
-    // ---- Remove (pessimistic; flip after success) ----
+    // ---- Remove ----
     const remove = useCallback(async () => {
         if (!productId || isBusy || !inWishlist) return;
 
@@ -145,10 +152,10 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
         setLoading(true);
 
         try {
-            const response = await withMinDelay(fetch(`${BASE_URL}/user/wishlist/remove?productId=${productId}`, {
-                method: "DELETE",
-                headers: {Authorization: `Bearer ${token}`}
-            }));
+            const response = await withMinDelay(fetch(
+                `${BASE_URL}/user/wishlist/remove?productId=${productId}`,
+                {method: "DELETE", headers: {Authorization: `Bearer ${token}`}}
+            ));
             const data = await response.json().catch(() => ({}));
 
             if (response.ok) {
@@ -156,35 +163,29 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
                 if (userId) localStorage.removeItem(cacheKey(userId, productId));
                 setMessage({type: "success", text: data?.message || "Removed from your wishlist."});
             } else {
-                if (response.status === 401) setMessage({
-                    type: "error",
-                    text: "Unauthorized. Please log in again."
-                }); else if (response.status === 403) setMessage({
-                    type: "error", text: "Forbidden. Your account is not allowed to do this."
-                }); else if (data?.errors) setMessage({
-                    type: "error",
-                    text: data.errors.map(e => e.message)
-                }); else setMessage({type: "error", text: data?.message || "Failed to remove from wishlist"});
+                if (response.status === 401)
+                    setMessage({type: "error", text: "Unauthorized. Please log in again."});
+                else if (response.status === 403)
+                    setMessage({type: "error", text: "Forbidden. Your account is not allowed to do this."});
+                else if (data?.errors)
+                    setMessage({type: "error", text: data.errors.map(e => e.message)});
+                else
+                    setMessage({type: "error", text: data?.message || "Failed to remove from wishlist"});
             }
-        } catch (e) {
+        } catch {
             setMessage({type: "error", text: "Error connecting to server"});
         } finally {
             setLoading(false);
             setAction("idle");
         }
-    }, [BASE_URL, productId, token, userId, isBusy, inWishlist, resetMessage, setMessage, setLoading, withMinDelay]);
+    }, [productId, token, userId, isBusy, inWishlist, resetMessage, setMessage, setLoading, withMinDelay]);
 
     const toggle = useCallback(() => (inWishlist ? remove() : add()), [inWishlist, add, remove]);
 
     return {
         inWishlist,
-        initLoading,
         isBusy,
-        adding: action === "adding",
-        removing: action === "removing",
         message,
-        addToWishlist: add,
-        removeFromWishlist: remove,
         toggleWishlist: toggle,
         dismissMessage: resetMessage,
     };
