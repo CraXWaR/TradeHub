@@ -1,9 +1,9 @@
 import styles from "./ProductActions.module.css";
 
-import {useCart} from "../../hooks/useCart.js";
+import {useCartStore} from "../../contex/cart-context.jsx";
 
 const ActionButtons = ({navigate, productId}) => {
-    const { addToCart, isBusy: cartBusy } = useCart()
+    const { addToCart, isBusy: cartBusy } = useCartStore();
 
     return (<div className={styles["action-buttons"]}>
         <button

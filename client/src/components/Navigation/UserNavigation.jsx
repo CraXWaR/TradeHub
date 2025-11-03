@@ -1,8 +1,13 @@
 import {NavLink} from "react-router-dom";
+import {FiShoppingCart} from "react-icons/fi";
+
 import useAuth from "../../hooks/auth/useAuth.js";
+import {useCartStore} from "../../contex/cart-context.jsx";
 
 const UserNavigation = () => {
     const {isAuthenticated, user, logout, loading} = useAuth();
+    const {cartCount} = useCartStore();
+
     if (loading) return null;
 
     const baseItems = [
@@ -43,6 +48,19 @@ const UserNavigation = () => {
                                 {item.label}
                             </NavLink>
                         ))}
+
+                        <NavLink
+                            to="/cart"
+                            className="relative p-2 rounded-full text-gray-700 hover:bg-[var(--nav-hover-bg)] hover:text-[var(--nav-hover-text)] transition-all duration-200"
+                            aria-label="Cart">
+                            <FiShoppingCart className="text-xl"/>
+                            {cartCount > 0 && (
+                                <span
+                                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-1.5">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </NavLink>
 
                         {isAuthenticated && (
                             <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-orange-200">
