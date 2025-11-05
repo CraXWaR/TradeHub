@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
-import { FiShoppingCart, FiTrash2 } from "react-icons/fi";
+import {useMemo, useState} from "react";
+import {FiShoppingCart, FiTrash2} from "react-icons/fi";
 import EmptyCart from "../../components/Cart/EmptyCart.jsx";
 import CartItem from "../../components/Cart/CartItem.jsx";
 import OrderSummary from "../../components/Cart/OrderSummary.jsx";
-
+import style from "./CartPage.module.css";
 
 const INITIAL_ITEMS = [
     {
@@ -39,88 +39,79 @@ export default function CartPage() {
     const [items, setItems] = useState(INITIAL_ITEMS);
 
     const handleQtyChange = (id, qty) => {
-        setItems((prev) =>
-            prev.map((it) => (it.id === id ? { ...it, quantity: qty } : it))
-        );
+        setItems((prev) => prev.map((it) => (it.id === id ? {...it, quantity: qty} : it)));
     };
+    const handleRemove = (id) => setItems((prev) => prev.filter((it) => it.id !== id));
 
-    const handleRemove = (id) => {
-        setItems((prev) => prev.filter((it) => it.id !== id));
-    };
-
-    const { subtotal, shipping, tax, total, itemCount } = useMemo(() => {
+    const {subtotal, shipping, tax, total, itemCount} = useMemo(() => {
         const subtotal = items.reduce((acc, it) => acc + it.price * it.quantity, 0);
-        const shipping = subtotal > 50 || subtotal === 0 ? 0 : 4.99; // simple rule
-        const tax = +(subtotal * 0.1).toFixed(2); // 10% placeholder
+        const shipping = subtotal > 50 || subtotal === 0 ? 0 : 4.99;
+        const tax = +(subtotal * 0.1).toFixed(2);
         const total = +(subtotal + shipping + tax).toFixed(2);
         const itemCount = items.reduce((acc, it) => acc + it.quantity, 0);
-        return {
-            subtotal: +subtotal.toFixed(2),
-            shipping,
-            tax,
-            total,
-            itemCount,
-        };
+        return {subtotal: +subtotal.toFixed(2), shipping, tax, total, itemCount};
     }, [items]);
 
+    const clearAll = () => setItems([]);
+
     return (
-        <main className="mx-auto max-w-6xl px-4 py-8">
-            {/* Page header */}
-            <div className="mb-8 flex items-center gap-3">
-                <FiShoppingCart className="text-2xl text-[var(--primary-600)]" />
-                <h1 className="text-2xl font-semibold text-[var(--text-700)]">
-                    Your Cart
-                </h1>
-                <span className="ml-2 rounded-full bg-[var(--nav-hover-bg)] px-3 py-1 text-sm text-[var(--text-500)]">
+        <main className={style.main}>
+            <div className={style.content}>
+                <header className={style.header} aria-live="polite">
+                    <div className={style.headerLeft}>
+                        <FiShoppingCart className={style.icon} aria-hidden/>
+                        <h1 className={style.title}>Your Cart</h1>
+                    </div>
+                    <span className={style.countBadge}>
           {itemCount} {itemCount === 1 ? "item" : "items"}
         </span>
+                </header>
+
+                {items.length === 0 ? (
+                    <EmptyCart/>
+                ) : (
+                    <div className={style.grid}>
+                        <section className={style.itemsSection} aria-label="Cart items">
+                            {items.map((item) => (
+                                <CartItem
+                                    key={item.id}
+                                    item={item}
+                                    onQtyChange={handleQtyChange}
+                                    onRemove={() => handleRemove(item.id)}
+                                />
+                            ))}
+
+                            <button
+                                type="button"
+                                onClick={clearAll}
+                                className={style.clearBtn}
+                                aria-label="Remove all items from the cart"
+                            >
+                                <FiTrash2 className={style.clearBtnIcon} aria-hidden/>
+                                <span className={style.clearBtnText}>Remove all</span>
+                            </button>
+                        </section>
+
+                        <aside className={style.summaryAside} aria-label="Order summary">
+                            <OrderSummary subtotal={subtotal} shipping={shipping} tax={tax} total={total}/>
+                            <button
+                                className={style.checkoutBtn}
+                                type="button"
+                                disabled={items.length === 0}
+                            >
+                                Checkout
+                            </button>
+                            <p className={style.terms}>
+                                By checking out you agree to our{" "}
+                                <a href="/terms" className={style.link}>
+                                    Terms &amp; Conditions
+                                </a>
+                                .
+                            </p>
+                        </aside>
+                    </div>
+                )}
             </div>
-
-            {items.length === 0 ? (
-                <EmptyCart />
-            ) : (
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
-                    {/* Left: items */}
-                    <section className="space-y-4">
-                        {items.map((item) => (
-                            <CartItem
-                                key={item.id}
-                                item={item}
-                                onQtyChange={handleQtyChange}
-                                onRemove={() => handleRemove(item.id)}
-                            />
-                        ))}
-
-                        {/* Clear all (hardcoded UX helper) */}
-                        <button
-                            onClick={() => setItems([])}
-                            className="group inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm transition-all hover:bg-[var(--nav-hover-bg)]">
-                            <FiTrash2 className="opacity-70 group-hover:opacity-100" />
-                            <span className="text-[var(--text-500)] group-hover:text-[var(--text-700)]">
-                            Remove all
-                          </span>
-                        </button>
-                    </section>
-
-                    {/* Right: summary */}
-                    <aside className="h-max rounded-lg border bg-[var(--bg-1)] p-5">
-                        <OrderSummary
-                            subtotal={subtotal}
-                            shipping={shipping}
-                            tax={tax}
-                            total={total}
-                        />
-
-                        <button className="mt-4 w-full rounded-md bg-[var(--primary-500)] px-4 py-3 font-semibold text-white transition-all hover:bg-[var(--primary-600)]">
-                            Checkout
-                        </button>
-
-                        <p className="mt-3 text-center text-xs text-[var(--text-500)]">
-                            By checking out you agree to our Terms & Conditions.
-                        </p>
-                    </aside>
-                </div>
-            )}
         </main>
     );
 }

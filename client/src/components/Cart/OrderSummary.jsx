@@ -1,51 +1,49 @@
+import style from "./OrderSummary.module.css";
+
 export default function OrderSummary({subtotal, shipping, tax, total}) {
-    return (<div>
-            <h2 className="mb-4 text-lg font-semibold text-[var(--text-700)]">
-                Order Summary
-            </h2>
+    return (
+        <div className={style.card} role="region" aria-labelledby="order-summary-title">
+            <h2 className={style.h2} id="order-summary-title">Order Summary</h2>
 
-            <dl className="space-y-2 text-sm">
-                <div className="flex items-center justify-between">
-                    <dt className="text-[var(--text-500)]">Subtotal</dt>
-                    <dd className="font-medium text-[var(--text-700)]">€{subtotal.toFixed(2)}</dd>
+            <dl className={style.list}>
+                <div className={style.row}>
+                    <dt className={style.muted}>Subtotal</dt>
+                    <dd className={style.value}>€{subtotal.toFixed(2)}</dd>
                 </div>
 
-                <div className="flex items-center justify-between">
-                    <dt className="text-[var(--text-500)]">Shipping</dt>
-                    <dd className="font-medium text-[var(--text-700)]">
-                        {shipping === 0 ? "Free" : `€${shipping.toFixed(2)}`}
-                    </dd>
+                <div className={style.row}>
+                    <dt className={style.muted}>Shipping</dt>
+                    <dd className={style.value}>{shipping === 0 ? "Free" : `€${shipping.toFixed(2)}`}</dd>
                 </div>
 
-                <div className="flex items-center justify-between">
-                    <dt className="text-[var(--text-500)]">Tax (est.)</dt>
-                    <dd className="font-medium text-[var(--text-700)]">€{tax.toFixed(2)}</dd>
+                <div className={style.row}>
+                    <dt className={style.muted}>Tax (est.)</dt>
+                    <dd className={style.value}>€{tax.toFixed(2)}</dd>
                 </div>
 
-                <hr className="my-3 border-dashed"/>
+                <hr className={style.hr}/>
 
-                <div className="flex items-center justify-between text-base">
-                    <dt className="font-semibold text-[var(--text-700)]">Total</dt>
-                    <dd className="font-semibold text-[var(--text-700)]">€{total.toFixed(2)}</dd>
+                <div className={style.rowTotal}>
+                    <dt className={style.totalLabel}>Total</dt>
+                    <dd className={style.totalValue}>€{total.toFixed(2)}</dd>
                 </div>
             </dl>
 
-            {/* Promo (non-functional for now) */}
-            <div className="mt-5">
-                <label className="mb-2 block text-sm text-[var(--text-500)]">
+            <form
+                className={style.promoWrap}
+                onSubmit={(e) => e.preventDefault()}
+                aria-label="Promo code"
+            >
+                <label className={style.label} htmlFor="promo-input">
                     Promo code
                 </label>
-                <div className="flex gap-2">
-                    <input
-                        type="text"
-                        placeholder="SUMMER10"
-                        className="w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--primary-500)]"
-                    />
-                    <button
-                        className="rounded-md border px-4 py-2 text-sm transition-all hover:bg-[var(--nav-hover-bg)]">
+                <div className={style.promoControls}>
+                    <input className={style.input} id="promo-input" type="text" placeholder="SUMMER10"/>
+                    <button className={style.applyBtn} type="submit">
                         Apply
                     </button>
                 </div>
-            </div>
-        </div>);
+            </form>
+        </div>
+    );
 }
