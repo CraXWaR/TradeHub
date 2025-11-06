@@ -1,23 +1,34 @@
 import style from "./OrderSummary.module.css";
 
 export default function OrderSummary({subtotal, shipping, tax, total}) {
-    return (
-        <div className={style.card} role="region" aria-labelledby="order-summary-title">
-            <h2 className={style.h2} id="order-summary-title">Order Summary</h2>
+    const isFreeShipping = shipping === 0;
+
+    return (<section
+            className={style.wrap}
+            role="region"
+            aria-labelledby="order-summary-title">
+
+            <h2 className={style.h2} id="order-summary-title">
+                Order Summary
+            </h2>
 
             <dl className={style.list}>
                 <div className={style.row}>
-                    <dt className={style.muted}>Subtotal</dt>
+                    <dt className={style.label}>Subtotal</dt>
                     <dd className={style.value}>€{subtotal.toFixed(2)}</dd>
                 </div>
 
                 <div className={style.row}>
-                    <dt className={style.muted}>Shipping</dt>
-                    <dd className={style.value}>{shipping === 0 ? "Free" : `€${shipping.toFixed(2)}`}</dd>
+                    <dt className={style.label}>Shipping</dt>
+                    <dd className={style.value}>
+                        {isFreeShipping ? (
+                            <span className={style.badgeFree} aria-label="Free shipping">Free</span>
+                        ) : (<>€{shipping.toFixed(2)}</>)}
+                    </dd>
                 </div>
 
                 <div className={style.row}>
-                    <dt className={style.muted}>Tax (est.)</dt>
+                    <dt className={style.label}>Tax (est.)</dt>
                     <dd className={style.value}>€{tax.toFixed(2)}</dd>
                 </div>
 
@@ -29,21 +40,9 @@ export default function OrderSummary({subtotal, shipping, tax, total}) {
                 </div>
             </dl>
 
-            <form
-                className={style.promoWrap}
-                onSubmit={(e) => e.preventDefault()}
-                aria-label="Promo code"
-            >
-                <label className={style.label} htmlFor="promo-input">
-                    Promo code
-                </label>
-                <div className={style.promoControls}>
-                    <input className={style.input} id="promo-input" type="text" placeholder="SUMMER10"/>
-                    <button className={style.applyBtn} type="submit">
-                        Apply
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
+            <p className={style.hint} aria-live="polite">
+                Prices in EUR. Taxes shown are estimates and will be confirmed at
+                checkout.
+            </p>
+        </section>);
 }

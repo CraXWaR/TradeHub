@@ -1,29 +1,32 @@
-.card {
-    border: 1px solid var(--border);
-    background: var(--card);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: var(--shadow-soft);
+/* Layout */
+.wrap {
+    display: grid;
+    gap: 10px;
 }
 
+/* Title */
 .h2 {
-    font-size: 18px;
+    margin: 0;
+    font-size: 16px;
     color: var(--text-700);
-    margin-bottom: 10px;
+    letter-spacing: 0.2px;
 }
 
+/* List */
 .list {
     margin: 0;
 }
 
-.row, .rowTotal {
+.row,
+.rowTotal {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 6px 0;
 }
 
-.muted {
+/* Labels & Values */
+.label {
     color: var(--text-500);
 }
 
@@ -32,14 +35,28 @@
     font-variant-numeric: tabular-nums;
 }
 
-.hr {
-    border: none;
-    border-top: 1px dashed var(--border);
-    margin: 8px 0;
+/* Free Shipping Badge */
+.badgeFree {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--nav-hover-text);
+    background: var(--nav-hover-bg);
+    border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+/* Divider */
+.hr {
+    border: none;
+    border-top: 1px dashed rgba(0, 0, 0, 0.12);
+    margin: 6px 0;
+}
+
+/* Total */
 .rowTotal {
-    padding-top: 10px;
+    padding-top: 8px;
 }
 
 .totalLabel {
@@ -51,56 +68,13 @@
     font-weight: 800;
     color: var(--text-700);
     font-size: 18px;
+    letter-spacing: 0.2px;
     font-variant-numeric: tabular-nums;
 }
 
-.promoWrap {
-    margin-top: 12px;
-    display: grid;
-    gap: 8px;
-}
-
-.label {
-    font-size: 13px;
+/* Footnote */
+.hint {
+    margin: 0;
+    font-size: 12px;
     color: var(--text-500);
-}
-
-.promoControls {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
-}
-
-.input {
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-    background: #fff;
-    outline: none;
-}
-
-.input:focus-visible {
-    box-shadow: var(--ring);
-}
-
-.applyBtn {
-    border: 1px solid color-mix(in oklab, var(--primary-500), #000 5%);
-    background: linear-gradient(180deg, #fff, #fff8f1);
-    color: var(--primary-600);
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-}
-
-.applyBtn:hover {
-    transform: translateY(-1px);
-    border-color: color-mix(in oklab, var(--primary-600), #000 10%);
-    box-shadow: var(--shadow-soft);
-}
-
-.applyBtn:focus-visible {
-    outline: none;
-    box-shadow: var(--ring);
 }
