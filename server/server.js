@@ -10,6 +10,7 @@ import { sequelize, User, Product } from './models/index.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import wishListRoutes from './routes/wishlistRoutes.js';
+import cartRoutes from "./routes/cartRoutes.js";
 
 //Middlewares
 import {notFound} from "./middleware/notFoundMiddleware.js";
@@ -41,6 +42,9 @@ app.use('/api/products', productRoutes);
 
 //User Routes
 app.use('/user/wishlist', wishListRoutes);
+
+//Cart Routes
+app.use('/api/cart', cartRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
