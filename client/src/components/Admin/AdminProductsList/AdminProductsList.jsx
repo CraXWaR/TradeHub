@@ -33,7 +33,6 @@ const ProductsList = ({ filters }) => {
         editOpen, openEdit, closeEdit,
         editingProduct,
         formData: editFormData,
-        imageFile: editFile,
         previewUrl,
         loading: saving,
         message,
