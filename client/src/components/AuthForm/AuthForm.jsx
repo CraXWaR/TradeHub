@@ -2,34 +2,19 @@ import {Link} from "react-router-dom";
 import styles from "./AuthForm.module.css";
 
 const AuthForm = ({
-                      mode = "login",
-                      formData,
-                      onChange,
-                      onSubmit,
-                      loading,
-                      message,
+                      mode = "login", formData, onChange, onSubmit, loading, message,
                   }) => {
     const isRegister = mode === "register";
 
-    return (
-        <>
-            {message?.text && (
-                <div
-                    className={`${styles.message} ${
-                        message.type === "success"
-                            ? styles.success
-                            : message.type === "error"
-                                ? styles.error
-                                : ""
-                    }`}
+    return (<>
+            {message?.text && (<div
+                    className={`${styles.message} ${message.type === "success" ? styles.success : message.type === "error" ? styles.error : ""}`}
                 >
                     {message.text}
-                </div>
-            )}
+                </div>)}
 
             <form onSubmit={onSubmit} className={styles.form}>
-                {isRegister && (
-                    <div className={styles.formGroup}>
+                {isRegister && (<div className={styles.formGroup}>
                         <label htmlFor="name" className={styles.formLabel}>
                             Name
                         </label>
@@ -46,8 +31,7 @@ const AuthForm = ({
                             />
                             <div className={styles.inputIcon}>👤</div>
                         </div>
-                    </div>
-                )}
+                    </div>)}
 
                 <div className={styles.formGroup}>
                     <label htmlFor="email" className={styles.formLabel}>
@@ -81,17 +65,14 @@ const AuthForm = ({
                                 value={formData.password || ""}
                                 onChange={onChange}
                                 className={styles.formInput}
-                                placeholder={
-                                    isRegister ? "Create password" : "Enter your password"
-                                }
+                                placeholder={isRegister ? "Create password" : "Enter your password"}
                                 required
                             />
                             <div className={styles.inputIcon}>🔒</div>
                         </div>
                     </div>
 
-                    {isRegister && (
-                        <div className={styles.formGroup}>
+                    {isRegister && (<div className={styles.formGroup}>
                             <label htmlFor="confirmPassword" className={styles.formLabel}>
                                 Confirm Password
                             </label>
@@ -108,59 +89,45 @@ const AuthForm = ({
                                 />
                                 <div className={styles.inputIcon}>🔐</div>
                             </div>
-                        </div>
-                    )}
+                        </div>)}
                 </div>
 
-                {!isRegister && (
-                    <div className={styles.formOptions}>
+                {!isRegister && (<div className={styles.formOptions}>
                         <label className={styles.checkboxWrapper}>
                             <input type="checkbox" className={styles.checkbox}/>
                             <span className={styles.checkboxLabel}>Remember me</span>
                         </label>
-                        <a href="#" className={styles.forgotLink}>
+                        <Link to="#" className={styles.forgotLink}>
                             Forgot password?
-                        </a>
-                    </div>
-                )}
+                        </Link>
+                    </div>)}
 
                 <button
                     type="submit"
-                    className={`${isRegister ? styles.registerButton : styles.loginButton} ${
-                        loading ? styles.loading : ""
-                    }`}
+                    className={`${isRegister ? styles.registerButton : styles.loginButton} ${loading ? styles.loading : ""}`}
                     disabled={loading}
                 >
-                    {loading ? (
-                        <>
+                    {loading ? (<>
                             <div className={styles.spinner}></div>
                             {isRegister ? "Creating Account..." : "Signing in..."}
-                        </>
-                    ) : (
-                        isRegister ? "Create Account" : "Sign In"
-                    )}
+                        </>) : (isRegister ? "Create Account" : "Sign In")}
                 </button>
             </form>
 
             <div className={styles.footer}>
-                {isRegister ? (
-                    <p>
+                {isRegister ? (<p>
                         Already have an account?{" "}
                         <Link to="/login" className={styles.linkLogin}>
                             Sign in
                         </Link>
-                    </p>
-                ) : (
-                    <p>
+                    </p>) : (<p>
                         Don&apos;t have an account?{" "}
                         <Link to="/register" className={styles.linkRegister}>
                             Sign up
                         </Link>
-                    </p>
-                )}
+                    </p>)}
             </div>
-        </>
-    );
+        </>);
 };
 
 export default AuthForm;

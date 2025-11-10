@@ -395,12 +395,13 @@
 /* Checkout */
 .checkoutBtn {
     appearance: none;
+    text-align: center;
     width: 100%;
     border: none;
     cursor: pointer;
     padding: 14px 16px;
     border-radius: 12px;
-    background: linear-gradient(180deg, var(--primary-500), var(--primary-600));
+    background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
     color: #fff;
     font-weight: 800;
     letter-spacing: 0.3px;
@@ -411,6 +412,9 @@
 .checkoutBtn:hover {
     transform: translateY(-1px);
     filter: brightness(1.02);
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-600), var(--accent-500));
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-600) 30%, transparent);
 }
 
 .checkoutBtn:active {

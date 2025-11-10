@@ -41,6 +41,7 @@ import UserSettingsPage from "./pages/User/Profile/SettingsPage.jsx";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import CartPage from "./pages/Cart/CartPage.jsx";
+import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -63,6 +64,7 @@ function AppShell() {
                         <Route path="/unauthorized" element={<Unauthorized/>}/>
 
                         <Route path="/cart" element={<CartPage/>}/>
+                        <Route path="/checkout" element={<CheckoutPage/>}/>
 
                         {/* User routes */}
                         <Route element={<ProtectedRoute role="user"/>}>

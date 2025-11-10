@@ -1,12 +1,13 @@
 import {useEffect, useMemo, useState} from "react";
 import {useCartStore} from "../../contex/cart-context.jsx";
+import {Link} from "react-router-dom";
 
 import {FiShoppingCart, FiTrash2, FiLock, FiArrowLeft, FiGift, FiHelpCircle} from "react-icons/fi";
 import EmptyCart from "../../components/Cart/EmptyCart.jsx";
 import CartItem from "../../components/Cart/CartItem.jsx";
 import OrderSummary from "../../components/Cart/OrderSummary.jsx";
 
-import style from "./CartPage.module.css";
+import styles from "./CartPage.module.css";
 
 const INITIAL_ITEMS = [{
     id: "sku-espresso",
@@ -94,10 +95,10 @@ export default function CartPage() {
     };
 
     // remove from UI + from cart storage
-        const handleRemove = (id) => {
-            setItems((prev) => prev.filter((it) => it.id !== id));
-            removeFromCart(id);
-        };
+    const handleRemove = (id) => {
+        setItems((prev) => prev.filter((it) => it.id !== id));
+        removeFromCart(id);
+    };
 
     const {subtotal, shipping, tax, total} = useMemo(() => {
         const s = items.reduce(
@@ -126,29 +127,29 @@ export default function CartPage() {
     const hasItems = items.length > 0;
 
     return (
-        <main className={style.main}>
-            <div className={style.wrap}>
+        <main className={styles.main}>
+            <div className={styles.wrap}>
                 {/* Top utility bar */}
-                <div className={style.topbar}>
-                    <a href="/products" className={style.topLink}>
+                <div className={styles.topbar}>
+                    <Link to="/products" className={styles.topLink}>
                         <FiArrowLeft aria-hidden/> Continue shopping
-                    </a>
+                    </Link>
 
-                    <div className={style.topSupport}>
+                    <div className={styles.topSupport}>
                         <FiHelpCircle aria-hidden/>
-                        <a href="/help" className={style.helpLink}>Need help?</a>
+                        <Link to="/help" className={styles.helpLink}>Need help?</Link>
                     </div>
                 </div>
 
                 {/* Page header */}
-                <header className={style.header} aria-live="polite">
-                    <div className={style.headerLeft}>
-                        <span className={style.cartBadge} aria-hidden>
+                <header className={styles.header} aria-live="polite">
+                    <div className={styles.headerLeft}>
+                        <span className={styles.cartBadge} aria-hidden>
                           <FiShoppingCart/>
                         </span>
-                        <div className={style.headerText}>
-                            <h1 className={style.title}>Your Cart</h1>
-                            <span className={style.sub}>
+                        <div className={styles.headerText}>
+                            <h1 className={styles.title}>Your Cart</h1>
+                            <span className={styles.sub}>
                                 {cartCount} {cartCount === 1 ? "item" : "items"}
                             </span>
                         </div>
@@ -157,7 +158,7 @@ export default function CartPage() {
                     <button
                         type="button"
                         onClick={clearAll}
-                        className={style.clearBtn}
+                        className={styles.clearBtn}
                         aria-label="Remove all items from the cart"
                         disabled={!hasItems}>
                         <FiTrash2 aria-hidden/>
@@ -167,33 +168,32 @@ export default function CartPage() {
 
                 {/* Free shipping banner */}
                 {hasItems && (
-                    <section className={style.promo} aria-live="polite">
-                        <div className={style.promoRow}>
+                    <section className={styles.promo} aria-live="polite">
+                        <div className={styles.promoRow}>
                             {subtotal >= FREE_SHIPPING_THRESHOLD ? (
-                                <span className={style.promoOk}>
+                                <span className={styles.promoOk}>
                                   🎉 Free shipping unlocked
                                 </span>
                             ) : (
-                                <span className={style.promoText}>
+                                <span className={styles.promoText}>
                                   You’re <strong>${remaining}</strong> away from free shipping
                                 </span>
                             )}
-                            <span className={style.progressPill}>
+                            <span className={styles.progressPill}>
                               ${FREE_SHIPPING_THRESHOLD} goal
                             </span>
                         </div>
 
                         <div
-                            className={style.progress}
+                            className={styles.progress}
                             role="progressbar"
                             aria-valuemin={0}
                             aria-valuemax={100}
                             aria-valuenow={progress}
                             aria-label="Free shipping progress">
                             <span
-                                className={style.progressFill}
-                                style={{width: `${progress}%`}}
-                            />
+                                className={styles.progressFill}
+                                style={{width: `${progress}%`}}/>
                         </div>
                     </section>
                 )}
@@ -202,9 +202,9 @@ export default function CartPage() {
                 {!hasItems ? (
                     <EmptyCart/>
                 ) : (
-                    <div className={style.grid}>
+                    <div className={styles.grid}>
                         {/* Items */}
-                        <section className={style.items} aria-label="Cart items">
+                        <section className={styles.items} aria-label="Cart items">
                             {items.map((item) => (
                                 <CartItem
                                     key={item.id}
@@ -216,21 +216,21 @@ export default function CartPage() {
                         </section>
 
                         {/* Summary card */}
-                        <aside className={style.summary} aria-label="Order summary">
-                            <div className={style.card}>
+                        <aside className={styles.summary} aria-label="Order summary">
+                            <div className={styles.card}>
                                 {/* Promo input */}
                                 <form
-                                    className={style.promoForm}
+                                    className={styles.promoForm}
                                     onSubmit={(e) => e.preventDefault()}
                                     aria-label="Apply a promo code">
-                                    <label className={style.promoLabel} htmlFor="promo">
+                                    <label className={styles.promoLabel} htmlFor="promo">
                                         Promo code
                                     </label>
 
-                                    <div className={style.promoField}>
+                                    <div className={styles.promoField}>
                                         <input
                                             id="promo"
-                                            className={style.promoInput}
+                                            className={styles.promoInput}
                                             placeholder="ENTER CODE"
                                             value={promo}
                                             onChange={(e) =>
@@ -242,7 +242,7 @@ export default function CartPage() {
 
                                         <button
                                             type="submit"
-                                            className={style.promoBtn}
+                                            className={styles.promoBtn}
                                             disabled={!promo.trim()}
                                             aria-disabled={!promo.trim()}>
                                             Apply
@@ -251,28 +251,27 @@ export default function CartPage() {
                                 </form>
 
                                 {/* Gift wrap */}
-                                <label className={style.gift} htmlFor="gift-wrap">
+                                <label className={styles.gift} htmlFor="gift-wrap">
                                     <input
                                         id="gift-wrap"
                                         type="checkbox"
-                                        className={style.giftInput}
+                                        className={styles.giftInput}
                                         checked={applyGiftWrap}
                                         onChange={(e) =>
-                                            setApplyGiftWrap(e.target.checked)
-                                        }/>
+                                            setApplyGiftWrap(e.target.checked)}/>
 
-                                    <span className={style.giftBox}>
-                                        <span className={style.giftIcon} aria-hidden>
-                                          <FiGift />
+                                    <span className={styles.giftBox}>
+                                        <span className={styles.giftIcon} aria-hidden>
+                                          <FiGift/>
                                         </span>
 
-                                        <span className={style.giftText}>
+                                        <span className={styles.giftText}>
                                           Add gift wrap{" "}
-                                            <em className={style.giftPrice}>+ $4.00</em>
+                                            <em className={styles.giftPrice}>+ $4.00</em>
                                         </span>
 
-                                        <span className={style.giftSwitch} aria-hidden>
-                                          <span className={style.giftKnob} />
+                                        <span className={styles.giftSwitch} aria-hidden>
+                                          <span className={styles.giftKnob}/>
                                         </span>
                                       </span>
                                 </label>
@@ -281,46 +280,32 @@ export default function CartPage() {
                                     subtotal={subtotal}
                                     shipping={shipping}
                                     tax={tax}
-                                    total={total}
-                                />
+                                    total={total}/>
 
-                                <button
-                                    className={style.checkoutBtn}
-                                    type="button"
-                                    disabled={!hasItems}
-                                >
+                                <Link to='/checkout'
+                                      className={styles.checkoutBtn}
+                                      type="button"
+                                      state={{ subtotal, shipping, tax, total }}
+                                      disabled={!hasItems}>
                                     Checkout
-                                </button>
+                                </Link>
 
-                                <div className={style.secureRow} aria-live="polite">
+                                <div className={styles.secureRow} aria-live="polite">
                                     <FiLock aria-hidden/>
                                     <span>Secure checkout • 256-bit encryption</span>
                                 </div>
 
-                                <p className={style.terms}>
+                                <p className={styles.terms}>
                                     By checking out you agree to our{" "}
-                                    <a href="/terms" className={style.link}>
+                                    <Link to="/TODO" className={styles.link}>
                                         Terms &amp; Conditions.
-                                    </a>
+                                    </Link>
                                 </p>
                             </div>
                         </aside>
                     </div>
                 )}
             </div>
-
-            {/* Mobile sticky bar */}
-            {hasItems && (
-                <div className={style.stickyPay} aria-label="Quick checkout bar">
-                    <div className={style.stickyMeta}>
-                        <span className={style.stickyLabel}>Total</span>
-                        <span className={style.stickyTotal}>${total.toFixed(2)}</span>
-                    </div>
-                    <button className={style.stickyBtn} type="button">
-                        Checkout
-                    </button>
-                </div>
-            )}
         </main>
     );
 }
