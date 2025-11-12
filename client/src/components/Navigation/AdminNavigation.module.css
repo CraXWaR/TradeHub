@@ -1,0 +1,262 @@
+/* Top nav */
+.navRoot {
+    background: color-mix(in srgb, var(--bg-0) 92%, #ffffff);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid color-mix(in srgb, var(--primary-400) 28%, transparent);
+    box-shadow: 0 10px 25px color-mix(in srgb, var(--primary-600) 14%, transparent);
+}
+
+/* Desktop links */
+.desktopLink {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4b5563;
+    transition:
+            background-color 0.18s ease,
+            color 0.18s ease,
+            box-shadow 0.18s ease,
+            transform 0.1s ease;
+}
+
+.desktopLink:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    box-shadow: 0 2px 7px color-mix(in srgb, var(--primary-500) 16%, transparent);
+    transform: translateY(-1px);
+}
+
+.desktopLinkActive {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: #fff;
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--primary-600) 32%, transparent);
+}
+
+/* Mobile hamburger */
+.hamburgerBtn {
+    padding: 0.4rem;
+    border-radius: 999px !important;
+    color: #374151;
+    border: 1px solid transparent;
+    transition:
+            background-color 0.18s ease,
+            color 0.18s ease,
+            border-color 0.18s ease;
+}
+
+.hamburgerBtn:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    border-color: color-mix(in srgb, var(--primary-400) 35%, transparent);
+}
+
+/* === MOBILE OVERLAY + DRAWER === */
+.mobileOverlay {
+    /* fixed / inset / z-index come from JSX wrapper */
+}
+
+/* Backdrop base */
+.mobileOverlayBackdrop {
+    position: absolute;
+    height: 100vh;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+/* Overlay open / close (fade in/out) */
+.mobileOverlayOpen {
+    animation: mobileOverlayFadeIn 0.25s ease-out forwards;
+}
+
+.mobileOverlayClose {
+    animation: mobileOverlayFadeOut 0.25s ease-in forwards;
+}
+
+/* Drawer base */
+.mobileDrawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 280px;
+    max-width: 80%;
+    background: linear-gradient(180deg, var(--bg-0), var(--bg-1));
+    border-left: 1px solid color-mix(in srgb, var(--primary-400) 25%, transparent);
+    box-shadow: -12px 0 28px rgba(0, 0, 0, 0.18);
+    padding: 0.9rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Make sure admin theme still applies its palette */
+:global(.admin-theme) .mobileDrawer {
+    background: linear-gradient(180deg, var(--bg-0), var(--bg-1));
+}
+
+/* Drawer open / close (slide in/out) */
+.mobileDrawerOpen {
+    animation: mobileDrawerSlideIn 0.25s ease-out forwards;
+}
+
+.mobileDrawerClose {
+    animation: mobileDrawerSlideOut 0.25s ease-in forwards;
+}
+
+/* Drawer header */
+.mobileDrawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+}
+
+.mobileDrawerTitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-700);
+}
+
+.mobileDrawerCloseBtn {
+    border: none;
+    background: transparent;
+    padding: 0.35rem;
+    border-radius: 999px;
+    color: var(--text-500);
+    cursor: pointer;
+    transition:
+            background-color 0.2s ease,
+            color 0.2s ease,
+            transform 0.1s ease;
+}
+
+.mobileDrawerCloseBtn:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    transform: translateY(-1px);
+}
+
+/* Drawer links */
+.mobileDrawerLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+}
+
+.mobileLink {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-700);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+            background-color 0.18s ease,
+            color 0.18s ease,
+            border-color 0.18s ease,
+            transform 0.1s ease,
+            box-shadow 0.18s ease;
+}
+
+.mobileLink:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    border-color: color-mix(in srgb, var(--primary-400) 25%, transparent);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--primary-500) 15%, transparent);
+    transform: translateY(-1px);
+}
+
+.mobileLinkActive {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 12px color-mix(in srgb, var(--primary-600) 35%, transparent);
+}
+
+/* Drawer footer */
+.mobileFooter {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--primary-400) 18%, transparent);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.mobileUser {
+    font-size: 0.85rem;
+    color: var(--text-700);
+}
+
+.mobileUserName {
+    display: block;
+    font-weight: 600;
+}
+
+.mobileUserStatus {
+    font-size: 0.78rem;
+    color: var(--text-500);
+}
+
+.mobileLogoutBtn {
+    width: 100%;
+    border-radius: 999px;
+    border: none;
+    padding: 0.55rem 1rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--accent-600) 40%, transparent);
+}
+
+/* Animations */
+@keyframes mobileDrawerSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes mobileDrawerSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes mobileOverlayFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes mobileOverlayFadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

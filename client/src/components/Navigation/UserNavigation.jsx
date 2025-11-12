@@ -98,82 +98,82 @@ const UserNavigation = () => {
 
         {/* Mobile sidebar */}
         {isAnimating && (<div
-                className={`
+            className={`
             fixed inset-0 z-40 lg:hidden
             ${styles.mobileOverlay}
             ${isOpen ? styles.mobileOverlayOpen : styles.mobileOverlayClose}`}>
-                <div
-                    className={styles.mobileOverlayBackdrop}
-                    onClick={closeMenu}
-                />
+            <div
+                className={styles.mobileOverlayBackdrop}
+                onClick={closeMenu}
+            />
 
-                <aside
-                    className={`
+            <aside
+                className={`
                 ${styles.mobileDrawer}
                 ${isOpen ? styles.mobileDrawerOpen : styles.mobileDrawerClose}`}
-                    onAnimationEnd={() => {
-                        if (!isOpen) {
-                            setIsAnimating(false);
-                        }
-                    }}>
-                    <div className={styles.mobileDrawerHeader}>
-                        <span className={styles.mobileDrawerTitle}>Menu</span>
-                        <button
-                            type="button"
-                            onClick={closeMenu}
-                            className={styles.mobileDrawerCloseBtn}
-                            aria-label="Close menu">
-                            <FiX className="text-xl"/>
-                        </button>
-                    </div>
+                onAnimationEnd={() => {
+                    if (!isOpen) {
+                        setIsAnimating(false);
+                    }
+                }}>
+                <div className={styles.mobileDrawerHeader}>
+                    <span className={styles.mobileDrawerTitle}>Menu</span>
+                    <button
+                        type="button"
+                        onClick={closeMenu}
+                        className={styles.mobileDrawerCloseBtn}
+                        aria-label="Close menu">
+                        <FiX className="text-xl"/>
+                    </button>
+                </div>
 
-                    <div className={styles.mobileDrawerLinks}>
-                        {navItems.map((item) => (<NavLink
-                                key={item.path}
-                                to={item.path}
-                                onClick={closeMenu}
-                                className={({isActive}) => `${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ""}`}>
-                                {item.label}
-                            </NavLink>))}
+                <div className={styles.mobileDrawerLinks}>
+                    {navItems.map((item) => (<NavLink
+                        key={item.path}
+                        to={item.path}
+                        onClick={closeMenu}
+                        className={({isActive}) => `${styles.mobileLink} ${isActive ? styles.mobileLinkActive : ""}`}>
+                        {item.label}
+                    </NavLink>))}
 
-                        <NavLink
-                            to="/cart"
-                            onClick={closeMenu}
-                            className={({isActive}) => `${styles.mobileLink} ${styles.mobileLinkCart} ${isActive ? styles.mobileLinkActive : ""}`}>
-                            <span>Cart</span>
-                            <span className={styles.mobileCartRight}>
+                    <NavLink
+                        to="/cart"
+                        onClick={closeMenu}
+                        className={({isActive}) => `${styles.mobileLink} ${styles.mobileLinkCart} ${isActive ? styles.mobileLinkActive : ""}`}>
+                        <span>Cart</span>
+                        <span className={styles.mobileCartRight}>
                         <FiShoppingCart/>
-                                {cartCount > 0 && (<span className={styles.mobileCartBadge}>
+                            {cartCount > 0 && (<span className={styles.mobileCartBadge}>
                                 {cartCount}
                             </span>)}
                     </span>
-                        </NavLink>
-                    </div>
+                    </NavLink>
+                </div>
 
-                    <div className={styles.mobileFooter}>
-                        {isAuthenticated ? (<>
-                                <div className={styles.mobileUser}>
+                <div className={styles.mobileFooter}>
+                    {isAuthenticated ? (<>
+                        <div className={styles.mobileUser}>
                             <span className={styles.mobileUserName}>
                                 {user?.name || user?.email}
                             </span>
-                                    <span className={styles.mobileUserStatus}>
+                            <span className={styles.mobileUserStatus}>
                                 Logged in
                             </span>
-                                </div>
-                                <button
-                                    onClick={() => {
-                                        closeMenu();
-                                        logout();
-                                    }}
-                                    className={styles.mobileLogoutBtn}>
-                                    Logout
-                                </button>
-                            </>) : (<p className={styles.mobileHint}>
-                                Log in to see your profile and order history.
-                            </p>)}
-                    </div>
-                </aside>
-            </div>)}
+                        </div>
+                        <button
+                            onClick={() => {
+                                closeMenu();
+                                logout();
+                            }}
+                            className={styles.mobileLogoutBtn}>
+                            Logout
+                        </button>
+                    </>) : (<p className={styles.mobileHint}>
+                        Log in to see your profile and order history.
+                    </p>)}
+                </div>
+            </aside>
+        </div>)}
     </nav>);
 };
 
