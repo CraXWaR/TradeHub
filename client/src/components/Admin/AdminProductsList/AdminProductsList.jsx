@@ -157,7 +157,7 @@ const ProductsList = ({ filters }) => {
     if (loading) return <p className={styles.loading}>Loading…</p>;
     if (error) return <p className={styles.error}>{error}</p>;
     if (products.length === 0) return <p className={styles.empty}>No products found.</p>;
-
+    console.log(products)
     return (
         <>
             <div className={styles.wrapper}>

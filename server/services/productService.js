@@ -1,7 +1,7 @@
-import {User, Product} from "../models/index.js";
+import {User, Product, ProductVariants} from "../models/index.js";
 import path from "path";
 
-export const createProduct = async ({user_id, title, description, price, image}) => {
+export const createProduct = async ({user_id, title, description, price, image, variants = []}) => {
     try {
         const product = await Product.create({
             user_id,
@@ -11,15 +11,32 @@ export const createProduct = async ({user_id, title, description, price, image})
             image: image ?? null,
         });
 
+        if (Array.isArray(variants) && variants.length > 0) {
+            const variantRows = variants
+                .filter(v => v && v.name)
+                .map(v => ({
+                    product_id: product.id,
+                    name: String(v.name).trim(),
+                    price: v.price !== undefined && v.price !== null && v.price !== "" ? Number(v.price) : null,
+                }));
+
+            if (variantRows.length > 0) {
+                await ProductVariants.bulkCreate(variantRows);
+            }
+        }
+
         const created = await Product.findByPk(product.id, {
-            include: {model: User, attributes: ["id", "name", "email", "role"]},
+            include: [{
+                model: User, attributes: ["id", "name", "email", "role"],
+            }, {
+                model: ProductVariants, as: "variants",
+            },],
         });
 
         return created.get({plain: true});
     } catch (error) {
         throw {
-            message: "Failed to create product",
-            detail: error.message,
+            message: "Failed to create product", detail: error.message,
         };
     }
 };
@@ -27,8 +44,7 @@ export const createProduct = async ({user_id, title, description, price, image})
 export const getAllProducts = async () => {
     try {
         const products = await Product.findAll({
-            order: [["created_at", "DESC"]],
-            include: {model: User, attributes: ["id", "name", "email", "role"]},
+            order: [["created_at", "DESC"]], include: {model: User, attributes: ["id", "name", "email", "role"]},
         });
 
         return products.map(p => p.get({plain: true}));
@@ -100,8 +116,7 @@ export const updateProduct = async (id, productData) => {
         return plain;
     } catch (error) {
         throw {
-            message: "Failed to update product",
-            detail: error.message,
+            message: "Failed to update product", detail: error.message,
         };
     }
 };

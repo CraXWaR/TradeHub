@@ -9,9 +9,13 @@ const CreateProductPage = () => {
         previewUrl,
         loading,
         message,
+        variants,
         handleChange,
         handleFileChange,
         handleSubmit,
+        handleVariantChange,
+        addVariantRow,
+        removeVariantRow,
     } = useCreateProduct();
 
     return (
@@ -33,8 +37,11 @@ const CreateProductPage = () => {
                     handleChange={handleChange}
                     handleFileChange={handleFileChange}
                     handleSubmit={handleSubmit}
-                    mode="create"
-                />
+                    variants={variants}
+                    handleVariantChange={handleVariantChange}
+                    addVariantRow={addVariantRow}
+                    removeVariantRow={removeVariantRow}
+                />;
             </div>
         </div>
     );

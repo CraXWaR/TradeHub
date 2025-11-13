@@ -25,7 +25,7 @@ export const createNewProduct = async (req, res) => {
             });
         }
 
-        const {title, description, price, image} = req.body;
+        const {title, description, price, image, variants} = req.body;
         const user_id = req.user.id;
 
         let imageUrl = null;
@@ -39,8 +39,29 @@ export const createNewProduct = async (req, res) => {
             });
         }
 
+        let normalizedVariants = [];
+
+        if (variants) {
+            if (typeof variants === "string") {
+                try {
+                    normalizedVariants = JSON.parse(variants);
+                } catch (e) {
+                    return res.status(400).json({
+                        success: false, message: "Invalid variants JSON format",
+                    });
+                }
+            } else if (Array.isArray(variants)) {
+                normalizedVariants = variants;
+            }
+        }
+
         const productData = {
-            user_id, title: title?.trim(), description: description?.trim(), price: parseFloat(price), image: imageUrl,
+            user_id,
+            title: title?.trim(),
+            description: description?.trim(),
+            price: parseFloat(price),
+            image: imageUrl,
+            variants: normalizedVariants
         };
 
         const newProduct = await createProduct(productData);

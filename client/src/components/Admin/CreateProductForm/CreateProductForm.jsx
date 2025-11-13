@@ -9,6 +9,11 @@ const CreateProductForm = ({
                                handleChange,
                                handleFileChange,
                                handleSubmit,
+                               // 🔹 New props:
+                               variants = [],
+                               handleVariantChange,
+                               addVariantRow,
+                               removeVariantRow,
                                mode = "create",
                            }) => {
     const {
@@ -55,16 +60,16 @@ const CreateProductForm = ({
                 <div className={styles.formGroup}>
                     <label htmlFor="description" className={styles.formLabel}>Description</label>
                     <div className={styles.inputWrapper}>
-            <textarea
-                id="description"
-                name="description"
-                value={description}
-                onChange={handleChange}
-                className={`${styles.formInput} ${styles.textarea}`}
-                placeholder="Enter product description"
-                rows="4"
-                required
-            />
+                        <textarea
+                            id="description"
+                            name="description"
+                            value={description}
+                            onChange={handleChange}
+                            className={`${styles.formInput} ${styles.textarea}`}
+                            placeholder="Enter product description"
+                            rows="4"
+                            required
+                        />
                         <div className={styles.inputIcon}>📝</div>
                     </div>
                 </div>
@@ -106,11 +111,62 @@ const CreateProductForm = ({
                     </div>
                 </div>
 
+                {/* 🔹 Variants section */}
+                <div className={styles.formGroup}>
+                    <label className={styles.formLabel}>Variants</label>
+                    <div className={styles.variantsContainer}>
+                        {variants?.map((variant, index) => (
+                            <div key={index} className={styles.variantRow}>
+                                <div className={styles.inputWrapper}>
+                                    <input
+                                        type="text"
+                                        placeholder="Variant name (e.g. Red, 500g • Whole Bean)"
+                                        value={variant.name}
+                                        onChange={(e) =>
+                                            handleVariantChange(index, "name", e.target.value)
+                                        }
+                                        className={styles.formInput}
+                                    />
+                                </div>
+                                <div className={styles.inputWrapper}>
+                                    <input
+                                        type="number"
+                                        placeholder="Price (optional)"
+                                        value={variant.price}
+                                        onChange={(e) =>
+                                            handleVariantChange(index, "price", e.target.value)
+                                        }
+                                        className={styles.formInput}
+                                        step="0.01"
+                                        min="0"
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    className={styles.removeVariantButton}
+                                    onClick={() => removeVariantRow(index)}
+                                    disabled={variants.length === 1}
+                                >
+                                    ✖
+                                </button>
+                            </div>
+                        ))}
+
+                        <button
+                            type="button"
+                            className={styles.addVariantButton}
+                            onClick={addVariantRow}
+                        >
+                            ➕ Add Variant
+                        </button>
+                    </div>
+                </div>
+
                 {/* Image preview */}
                 {previewUrl && (
                     <div className={styles.previewRow}>
                         <div className={styles.imagePreview}>
-                            <img src={previewUrl} alt="Preview"/>
+                            <img src={previewUrl} alt="Preview" />
                         </div>
                     </div>
                 )}
@@ -122,7 +178,7 @@ const CreateProductForm = ({
                 >
                     {loading ? (
                         <>
-                            <div className={styles.spinner}/>
+                            <div className={styles.spinner} />
                             {mode === "edit" ? "Saving..." : "Creating..."}
                         </>
                     ) : (
