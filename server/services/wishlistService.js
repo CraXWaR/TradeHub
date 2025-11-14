@@ -72,7 +72,7 @@ export const getWishlistItems = async ({ user_id }) => {
             include: [
                 {
                     model: Product,
-                    attributes: ["id", "title", "price", "image"],
+                    attributes: ["id", "title", "description", "price", "image"],
                 },
             ],
             attributes: ["id", "createdAt"],

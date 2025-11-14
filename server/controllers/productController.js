@@ -160,28 +160,57 @@ export const editProduct = async (req, res) => {
     try {
         if (!req.user || req.user.role !== "admin") {
             return res.status(403).json({
-                success: false, message: "You are not authorized to edit products",
+                success: false,
+                message: "You are not authorized to edit products",
             });
         }
 
-        const {id} = req.params;
+        const { id } = req.params;
 
         const productData = {
-            title: req.body.title,
-            description: req.body.description,
+            title: req.body.title?.trim(),
+            description: req.body.description?.trim(),
             price: req.body.price !== undefined ? Number(req.body.price) : null,
         };
 
         if (req.file) {
-            productData.image = `${req.file.filename}`;
+            productData.image = req.file.filename;
+        }
+
+        if ("variants" in req.body) {
+            let normalizedVariants = [];
+
+            const { variants } = req.body;
+
+            if (variants) {
+                if (typeof variants === "string") {
+                    try {
+                        normalizedVariants = JSON.parse(variants);
+                    } catch (e) {
+                        return res.status(400).json({
+                            success: false,
+                            message: "Invalid variants JSON format",
+                        });
+                    }
+                } else if (Array.isArray(variants)) {
+                    normalizedVariants = variants;
+                }
+            } else {
+                normalizedVariants = [];
+            }
+
+            productData.variants = normalizedVariants;
         }
 
         const updated = await updateProduct(id, productData);
 
-        res.json({success: true, data: updated});
+        res.json({ success: true, data: updated });
     } catch (err) {
+        console.error("Error updating product:", err);
         res.status(500).json({
-            success: false, message: err?.message || "Error updating product",
+            success: false,
+            message: err?.message || "Error updating product",
         });
     }
 };
+

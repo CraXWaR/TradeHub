@@ -81,7 +81,7 @@
 /* Image preview */
 .imagePreview {
     padding: 0.5rem;
-    border: 1px dashed rgba(59, 130, 246, 0.45); /* blue-ish */
+    border: 1px dashed rgba(59, 130, 246, 0.45);
     border-radius: 12px;
     background: linear-gradient(180deg, #fff, #f7fbff);
 }
@@ -93,6 +93,87 @@
     border-radius: 10px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     margin: 10px auto;
+}
+
+/* === Variants === */
+
+.variantsContainer {
+    margin-top: 0.25rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    border: 1px dashed #dbeafe; /* soft blue */
+    background: linear-gradient(180deg, #f9fafb, #eff6ff);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Each variant row */
+.variantRow {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr auto; /* name | price | remove btn */
+    gap: 0.6rem;
+    align-items: center;
+}
+
+/* Remove the big "icon padding" inside variant inputs */
+.variantRow .formInput {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.92rem;
+}
+
+/* Variant buttons */
+.addVariantButton {
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px dashed rgba(37, 99, 235, 0.5);
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.addVariantButton:hover {
+    background: #dbeafe;
+    transform: translateY(-0.5px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.18);
+}
+
+/* Remove button */
+.removeVariantButton {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999px;
+    border: none;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.removeVariantButton:hover:not(:disabled) {
+    background: #fecaca;
+    transform: translateY(-0.5px);
+    box-shadow: 0 4px 10px rgba(248, 113, 113, 0.3);
+}
+
+.removeVariantButton:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background: #f3f4f6;
+    color: #9ca3af;
+    box-shadow: none;
 }
 
 /* Button (blue gradient) */
@@ -162,6 +243,16 @@
 /* Responsive */
 @media (max-width: 560px) {
     .formRow {
-        grid-template-columns: 1fr; /* stack on mobile */
+        grid-template-columns: 1fr;
+    }
+
+    .variantRow {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .removeVariantButton {
+        justify-self: flex-end;
+        margin-top: 0.2rem;
     }
 }

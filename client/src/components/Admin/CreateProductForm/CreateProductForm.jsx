@@ -9,7 +9,6 @@ const CreateProductForm = ({
                                handleChange,
                                handleFileChange,
                                handleSubmit,
-                               // 🔹 New props:
                                variants = [],
                                handleVariantChange,
                                addVariantRow,

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import styles from "./AdminProductsList.module.css";
 import Modal from "../Modal/Modal.jsx";
 import CreateProductForm from "../CreateProductForm/CreateProductForm.jsx";
-import { useUpdateProduct } from "../../../hooks/useUpdateProduct.js";
+import {useUpdateProduct} from "../../../hooks/useUpdateProduct.js";
 import ConfirmModal from "../../ConfirmModal.jsx";
 import {useDeleteProduct} from "../../../hooks/useDeleteProduct.js";
 
@@ -23,7 +23,7 @@ const getProductImageUrl = (p) => {
     return `${base}/uploads/${filename}`;
 };
 
-const ProductsList = ({ filters }) => {
+const ProductsList = ({filters}) => {
     const [allProducts, setAllProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -38,10 +38,14 @@ const ProductsList = ({ filters }) => {
         message,
         handleChange,
         handleFileChange,
+        variants,
+        handleVariantChange,
+        addVariantRow,
+        removeVariantRow,
         handleSubmit,
     } = useUpdateProduct({
         onUpdated: (updated) => {
-            setAllProducts((list) => list.map((p) => (p.id === updated.id ? { ...p, ...updated } : p)));
+            setAllProducts((list) => list.map((p) => (p.id === updated.id ? {...p, ...updated} : p)));
         },
     });
 
@@ -69,7 +73,7 @@ const ProductsList = ({ filters }) => {
             const startTime = Date.now();
 
             try {
-                const res = await fetch(`${BASE_URL}/api/products`, { headers: { Accept: "application/json" } });
+                const res = await fetch(`${BASE_URL}/api/products`, {headers: {Accept: "application/json"}});
 
                 const ct = res.headers.get("content-type") || "";
                 if (!res.ok) {
@@ -91,6 +95,7 @@ const ProductsList = ({ filters }) => {
                             title: p.title ?? p.name ?? "",
                             description: p.description ?? "",
                             price: p.price,
+                            variants: p?.variants ?? [],
                             image: p.image ?? p.thumbnail ?? "",
                             created_at: p.created_at ?? p.createdAt ?? null,
                         }))
@@ -157,7 +162,7 @@ const ProductsList = ({ filters }) => {
     if (loading) return <p className={styles.loading}>Loading…</p>;
     if (error) return <p className={styles.error}>{error}</p>;
     if (products.length === 0) return <p className={styles.empty}>No products found.</p>;
-    console.log(products)
+
     return (
         <>
             <div className={styles.wrapper}>
@@ -178,7 +183,8 @@ const ProductsList = ({ filters }) => {
                                 <div className={styles.productWrap}>
                                     <div className={styles.thumb}>
                                         {p.image ? (
-                                            <img src={getProductImageUrl(p)} alt={p.title || "product image"} loading="lazy" />
+                                            <img src={getProductImageUrl(p)} alt={p.title || "product image"}
+                                                 loading="lazy"/>
                                         ) : (
                                             <div className={styles.noImg}>IMG</div>
                                         )}
@@ -210,6 +216,10 @@ const ProductsList = ({ filters }) => {
                         handleChange={handleChange}
                         handleFileChange={handleFileChange}
                         handleSubmit={handleSubmit}
+                        variants={variants}
+                        handleVariantChange={handleVariantChange}
+                        addVariantRow={addVariantRow}
+                        removeVariantRow={removeVariantRow}
                         mode="edit"
                     />
                 )}
