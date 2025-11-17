@@ -57,7 +57,9 @@ export const getAllProducts = async () => {
 export const getProductById = async (id) => {
     try {
         const product = await Product.findByPk(id, {
-            include: {model: User, attributes: ["id", "name", "email", "role"]},
+            include: [{model: User, attributes: ["id", "name", "email", "role"],}, {
+                model: ProductVariants, as: "variants",
+            },],
         });
 
         return product ? product.get({plain: true}) : null;

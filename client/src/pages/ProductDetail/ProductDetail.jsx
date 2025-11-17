@@ -26,6 +26,7 @@ const ProductDetail = () => {
             try {
                 const response = await fetch(`${BASE_URL}/api/products/${id}`);
                 const data = await response.json();
+                console.log(data)
                 if (!isMounted) return;
                 if (data.success) setProduct(data.data); else setError("Product not found");
             } catch (err) {
