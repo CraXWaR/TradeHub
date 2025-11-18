@@ -1,0 +1,46 @@
+.wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 6px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--bg-1);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table th {
+    background: var(--warm-cream);
+    color: var(--accent-600);
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+}
+
+.colId {
+    width: 160px;
+}
+
+.colProduct {
+    width: auto;
+}
+
+.colPrice {
+    width: 140px;
+}
+
+.colActions {
+    width: 180px;
+}

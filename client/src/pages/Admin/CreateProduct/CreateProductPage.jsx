@@ -40,8 +40,7 @@ const CreateProductPage = () => {
                     variants={variants}
                     handleVariantChange={handleVariantChange}
                     addVariantRow={addVariantRow}
-                    removeVariantRow={removeVariantRow}
-                />;
+                    removeVariantRow={removeVariantRow}/>;
             </div>
         </div>
     );

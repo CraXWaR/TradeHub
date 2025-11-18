@@ -9,29 +9,6 @@ import OrderSummary from "../../components/Cart/OrderSummary.jsx";
 
 import styles from "./CartPage.module.css";
 
-const INITIAL_ITEMS = [{
-    id: "sku-espresso",
-    title: "Espresso Roast Beans",
-    price: 14.99,
-    quantity: 2,
-    image: "https://images.unsplash.com/photo-1503481766315-7a586b20f66b?q=80&w=1200&auto=format&fit=crop",
-    variant: "500g • Whole Bean",
-}, {
-    id: "sku-mug",
-    title: "Stoneware Mug",
-    price: 9.5,
-    quantity: 1,
-    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200&auto=format&fit=crop",
-    variant: "Matte • 350ml",
-}, {
-    id: "sku-filter",
-    title: "Reusable Coffee Filter",
-    price: 12.0,
-    quantity: 1,
-    image: "https://images.unsplash.com/photo-1461988625982-7e46a099bf4a?q=80&w=1200&auto=format&fit=crop",
-    variant: "Stainless Steel • V60",
-},];
-
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const FREE_SHIPPING_THRESHOLD = 50;
@@ -285,7 +262,7 @@ export default function CartPage() {
                                 <Link to='/checkout'
                                       className={styles.checkoutBtn}
                                       type="button"
-                                      state={{ subtotal, shipping, tax, total }}
+                                      state={{subtotal, shipping, tax, total}}
                                       disabled={!hasItems}>
                                     Checkout
                                 </Link>

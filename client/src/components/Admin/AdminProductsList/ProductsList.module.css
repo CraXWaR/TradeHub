@@ -1,0 +1,13 @@
+.loading {
+    color: var(--primary-500);
+    font-weight: 500;
+}
+
+.error {
+    color: crimson;
+    font-weight: 500;
+}
+
+.empty {
+    color: var(--text-500);
+}
