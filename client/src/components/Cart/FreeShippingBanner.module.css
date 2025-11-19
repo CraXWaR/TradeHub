@@ -1,0 +1,50 @@
+.promo {
+    margin-top: 14px;
+    padding: 14px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    box-shadow: 0 2px 18px rgba(0, 0, 0, 0.04);
+}
+
+.promoRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.promoText {
+    font-size: 14px;
+    color: var(--text-500);
+}
+
+.promoOk {
+    font-size: 14px;
+    color: var(--primary-600);
+    font-weight: 700;
+}
+
+.progressPill {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.progress {
+    margin-top: 10px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.progressFill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-500), var(--primary-600));
+    transition: width 0.25s ease;
+}

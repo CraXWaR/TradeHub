@@ -3,8 +3,8 @@ import CreateProductForm from "../CreateProductForm/CreateProductForm.jsx";
 import ConfirmModal from "../../ConfirmModal.jsx";
 
 import {useProducts} from "../../../hooks/admin/useProducts.js";
-import {useUpdateProduct} from "../../../hooks/useUpdateProduct.js";
-import {useDeleteProduct} from "../../../hooks/useDeleteProduct.js";
+import {useUpdateProduct} from "../../../hooks/admin/useUpdateProduct.js";
+import {useDeleteProduct} from "../../../hooks/admin/useDeleteProduct.js";
 
 import ProductsTable from "./ProductsTable.jsx";
 import styles from "./ProductsList.module.css";

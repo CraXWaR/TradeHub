@@ -1,110 +1,43 @@
-import {useEffect, useMemo, useState} from "react";
-import {useCartStore} from "../../contex/cart-context.jsx";
+import {useState} from "react";
 import {Link} from "react-router-dom";
+import {FiShoppingCart, FiTrash2, FiArrowLeft, FiHelpCircle} from "react-icons/fi";
+import {useCartStore} from "../../contex/cart-context.jsx";
 
-import {FiShoppingCart, FiTrash2, FiLock, FiArrowLeft, FiGift, FiHelpCircle} from "react-icons/fi";
 import EmptyCart from "../../components/Cart/EmptyCart.jsx";
 import CartItem from "../../components/Cart/CartItem.jsx";
-import OrderSummary from "../../components/Cart/OrderSummary.jsx";
+import {FreeShippingBanner} from "../../components/Cart/FreeShippingBanner.jsx";
+import {CheckoutCard} from "../../components/Cart/CheckoutCard.jsx";
+
+import {useCartTotals} from "../../hooks/cart/useCartTotals.js";
+import {useCartProducts} from "../../hooks/cart/useCartProducts.js";
 
 import styles from "./CartPage.module.css";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
-
-const FREE_SHIPPING_THRESHOLD = 50;
-const SHIPPING_FEE = 4.99;
-const TAX_RATE = 0.1;
 
 export default function CartPage() {
     const {cartItems, removeFromCart, clearCart, cartCount} = useCartStore();
 
-    const [items, setItems] = useState([]);
     const [promo, setPromo] = useState("");
     const [applyGiftWrap, setApplyGiftWrap] = useState(false);
 
-    useEffect(() => {
-        if (!cartItems || cartItems.length === 0) {
-            setItems([]);
-            return;
-        }
+    const {
+        items, updateQuantity, removeItem, clearItems,
+    } = useCartProducts(cartItems);
 
-        const controller = new AbortController();
-        const idsParam = cartItems.join(",");
+    const {subtotal, shipping, tax, total, freeShippingThreshold} = useCartTotals(items, applyGiftWrap);
 
-        async function loadCartProducts() {
-            try {
-                const res = await fetch(
-                    `${BASE_URL}/api/cart?ids=${idsParam}`,
-                    {
-                        headers: {Accept: "application/json"},
-                        signal: controller.signal,
-                    }
-                );
+    const hasItems = items.length > 0;
 
-                if (!res.ok) {
-                    throw new Error("Failed to load cart products");
-                }
-
-                const data = await res.json();
-
-                setItems(
-                    data.map((p) => ({
-                        ...p,
-                        quantity: p.quantity != null ? p.quantity : 1,
-                    }))
-                );
-            } catch (err) {
-                if (err.name === "AbortError") return;
-                console.error(err);
-                setItems([]);
-            }
-        }
-
-        loadCartProducts();
-
-        return () => controller.abort();
-    }, [cartItems]);
-
-    const handleQtyChange = (id, qty) => {
-        setItems((prev) =>
-            prev.map((it) => (it.id === id ? {...it, quantity: qty} : it))
-        );
-    };
-
-    // remove from UI + from cart storage
     const handleRemove = (id) => {
-        setItems((prev) => prev.filter((it) => it.id !== id));
+        removeItem(id);
         removeFromCart(id);
     };
 
-    const {subtotal, shipping, tax, total} = useMemo(() => {
-        const s = items.reduce(
-            (acc, it) => acc + it.price * (it.quantity || 1),
-            0
-        );
-        const sh = s === 0 || s >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
-        const tx = +(s * TAX_RATE).toFixed(2);
-        const tt = +(s + sh + tx + (applyGiftWrap ? 4 : 0)).toFixed(2);
-
-        return {
-            subtotal: +s.toFixed(2),
-            shipping: sh,
-            tax: tx,
-            total: tt,
-        };
-    }, [items, applyGiftWrap]);
-
     const clearAll = () => {
-        setItems([]);
+        clearItems();
         clearCart();
     };
 
-    const progress = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
-    const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal).toFixed(2);
-    const hasItems = items.length > 0;
-
-    return (
-        <main className={styles.main}>
+    return (<main className={styles.main}>
             <div className={styles.wrap}>
                 {/* Top utility bar */}
                 <div className={styles.topbar}>
@@ -114,7 +47,9 @@ export default function CartPage() {
 
                     <div className={styles.topSupport}>
                         <FiHelpCircle aria-hidden/>
-                        <Link to="/help" className={styles.helpLink}>Need help?</Link>
+                        <Link to="/help" className={styles.helpLink}>
+                            Need help?
+                        </Link>
                     </div>
                 </div>
 
@@ -144,145 +79,37 @@ export default function CartPage() {
                 </header>
 
                 {/* Free shipping banner */}
-                {hasItems && (
-                    <section className={styles.promo} aria-live="polite">
-                        <div className={styles.promoRow}>
-                            {subtotal >= FREE_SHIPPING_THRESHOLD ? (
-                                <span className={styles.promoOk}>
-                                  🎉 Free shipping unlocked
-                                </span>
-                            ) : (
-                                <span className={styles.promoText}>
-                                  You’re <strong>${remaining}</strong> away from free shipping
-                                </span>
-                            )}
-                            <span className={styles.progressPill}>
-                              ${FREE_SHIPPING_THRESHOLD} goal
-                            </span>
-                        </div>
-
-                        <div
-                            className={styles.progress}
-                            role="progressbar"
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                            aria-valuenow={progress}
-                            aria-label="Free shipping progress">
-                            <span
-                                className={styles.progressFill}
-                                style={{width: `${progress}%`}}/>
-                        </div>
-                    </section>
-                )}
+                <FreeShippingBanner
+                    hasItems={hasItems}
+                    subtotal={subtotal}
+                    threshold={freeShippingThreshold}/>
 
                 {/* Grid layout */}
-                {!hasItems ? (
-                    <EmptyCart/>
-                ) : (
-                    <div className={styles.grid}>
+                {!hasItems ? (<EmptyCart/>) : (<div className={styles.grid}>
                         {/* Items */}
                         <section className={styles.items} aria-label="Cart items">
-                            {items.map((item) => (
-                                <CartItem
+                            {items.map((item) => (<CartItem
                                     key={item.id}
                                     item={item}
-                                    onQtyChange={handleQtyChange}
+                                    onQtyChange={(qty) => updateQuantity(item.id, qty)}
                                     onRemove={() => handleRemove(item.id)}
-                                />
-                            ))}
+                                />))}
                         </section>
 
                         {/* Summary card */}
                         <aside className={styles.summary} aria-label="Order summary">
-                            <div className={styles.card}>
-                                {/* Promo input */}
-                                <form
-                                    className={styles.promoForm}
-                                    onSubmit={(e) => e.preventDefault()}
-                                    aria-label="Apply a promo code">
-                                    <label className={styles.promoLabel} htmlFor="promo">
-                                        Promo code
-                                    </label>
-
-                                    <div className={styles.promoField}>
-                                        <input
-                                            id="promo"
-                                            className={styles.promoInput}
-                                            placeholder="ENTER CODE"
-                                            value={promo}
-                                            onChange={(e) =>
-                                                setPromo(e.target.value.toUpperCase())
-                                            }
-                                            inputMode="text"
-                                            autoComplete="off"
-                                            enterKeyHint="done"/>
-
-                                        <button
-                                            type="submit"
-                                            className={styles.promoBtn}
-                                            disabled={!promo.trim()}
-                                            aria-disabled={!promo.trim()}>
-                                            Apply
-                                        </button>
-                                    </div>
-                                </form>
-
-                                {/* Gift wrap */}
-                                <label className={styles.gift} htmlFor="gift-wrap">
-                                    <input
-                                        id="gift-wrap"
-                                        type="checkbox"
-                                        className={styles.giftInput}
-                                        checked={applyGiftWrap}
-                                        onChange={(e) =>
-                                            setApplyGiftWrap(e.target.checked)}/>
-
-                                    <span className={styles.giftBox}>
-                                        <span className={styles.giftIcon} aria-hidden>
-                                          <FiGift/>
-                                        </span>
-
-                                        <span className={styles.giftText}>
-                                          Add gift wrap{" "}
-                                            <em className={styles.giftPrice}>+ $4.00</em>
-                                        </span>
-
-                                        <span className={styles.giftSwitch} aria-hidden>
-                                          <span className={styles.giftKnob}/>
-                                        </span>
-                                      </span>
-                                </label>
-
-                                <OrderSummary
-                                    subtotal={subtotal}
-                                    shipping={shipping}
-                                    tax={tax}
-                                    total={total}/>
-
-                                <Link to='/checkout'
-                                      className={styles.checkoutBtn}
-                                      type="button"
-                                      state={{subtotal, shipping, tax, total}}
-                                      disabled={!hasItems}>
-                                    Checkout
-                                </Link>
-
-                                <div className={styles.secureRow} aria-live="polite">
-                                    <FiLock aria-hidden/>
-                                    <span>Secure checkout • 256-bit encryption</span>
-                                </div>
-
-                                <p className={styles.terms}>
-                                    By checking out you agree to our{" "}
-                                    <Link to="/TODO" className={styles.link}>
-                                        Terms &amp; Conditions.
-                                    </Link>
-                                </p>
-                            </div>
+                            <CheckoutCard
+                                subtotal={subtotal}
+                                shipping={shipping}
+                                tax={tax}
+                                total={total}
+                                hasItems={hasItems}
+                                promo={promo}
+                                setPromo={setPromo}
+                                applyGiftWrap={applyGiftWrap}
+                                setApplyGiftWrap={setApplyGiftWrap}/>
                         </aside>
-                    </div>
-                )}
+                    </div>)}
             </div>
-        </main>
-    );
+    </main>);
 }
