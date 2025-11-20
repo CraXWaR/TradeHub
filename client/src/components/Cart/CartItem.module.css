@@ -69,14 +69,40 @@
     overflow: hidden;
 }
 
+.variants-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+}
+
 .variant {
-    width: fit-content;
-    font-size: 12px;
-    color: var(--nav-hover-text);
-    background: var(--nav-hover-bg);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    padding: 4px 10px;
+    padding: 0.35rem 0.9rem;
     border-radius: 999px;
+    border: 2px solid #f97316;
+    background: #ffffff;
+    color: #f97316;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.18s ease-in-out;
+    width: fit-content;
+}
+
+.variant:hover {
+    background: #f97316;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.variant:active {
+    transform: scale(0.96);
+}
+
+.variant--active {
+    background: #f97316;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px #fed7aa;
 }
 
 /* Quantity + Unit Price */

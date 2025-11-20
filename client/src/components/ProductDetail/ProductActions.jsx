@@ -2,7 +2,7 @@ import styles from "./ProductActions.module.css";
 
 import {useCartStore} from "../../contex/cart-context.jsx";
 
-const ActionButtons = ({navigate, productId}) => {
+const ActionButtons = ({navigate, productId, selectedVariant}) => {
     const { addToCart, isBusy: cartBusy } = useCartStore();
 
     return (<div className={styles["action-buttons"]}>
@@ -13,7 +13,7 @@ const ActionButtons = ({navigate, productId}) => {
         </button>
 
         <button
-            onClick={() => addToCart(productId)}
+            onClick={() => addToCart(productId, selectedVariant)}
             disabled={cartBusy}
             className={styles.cartButton}
             aria-busy={cartBusy}

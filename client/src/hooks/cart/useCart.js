@@ -9,7 +9,18 @@ export function useCart() {
         if (typeof window === "undefined") return [];
         try {
             const raw = localStorage.getItem(STORAGE_CART_KEY);
-            return raw ? JSON.parse(raw) : [];
+            if (!raw) return [];
+
+            const parsed = JSON.parse(raw);
+
+            // backwards-compat:
+            if (Array.isArray(parsed) && parsed.length && typeof parsed[0] === "number") {
+                return parsed.map((id) => ({
+                    productId: id, quantity: 1, variantId: null,
+                }));
+            }
+
+            return parsed;
         } catch {
             return [];
         }
@@ -18,17 +29,37 @@ export function useCart() {
     useEffect(() => {
         try {
             localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(cartItems));
-        } catch { /* empty */
+        } catch {
+            /* ignore */
         }
     }, [cartItems]);
 
-    const addToCart = useCallback(async (productId) => {
+    const addToCart = useCallback(async (productId, variant) => {
         setIsBusy(true);
         try {
-            // placeholder logic to test — wire API in future
-            console.log("Adding product", productId, "to cart...");
+            const variantId = typeof variant === "object" ? variant?.id : variant ?? null;
+
+            console.log("Adding product", productId, "variant", variantId);
+
             await new Promise((r) => setTimeout(r, 800));
-            setCartItems((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
+
+            setCartItems((prev) => {
+                // if same product + variant already exists -> just bump quantity
+                const existingIndex = prev.findIndex((item) => item.productId === productId && item.variantId === variantId);
+
+                if (existingIndex !== -1) {
+                    const copy = [...prev];
+                    copy[existingIndex] = {
+                        ...copy[existingIndex], quantity: copy[existingIndex].quantity + 1,
+                    };
+                    return copy;
+                }
+
+                return [...prev, {
+                    productId, variantId, quantity: 1,
+                },];
+            });
+
             alert(`Product ${productId} added to cart!`);
         } catch (err) {
             console.error(err);
@@ -38,12 +69,32 @@ export function useCart() {
         }
     }, []);
 
-    const removeFromCart = useCallback((productId) => {
-        setCartItems((prev) => prev.filter((id) => id !== productId));
+    // remove product + variant
+    const removeFromCart = useCallback((productId, variantId = null) => {
+        const norm = variantId ?? null;
+        setCartItems((prev) => prev.filter((item) => !(item.productId === productId && (item.variantId ?? null) === norm)));
+    }, []);
+
+    // update quantity for a line
+    const updateItemQuantity = useCallback((productId, variantId, quantity) => {
+        setCartItems((prev) => prev.map((item) => item.productId === productId && item.variantId === variantId ? {
+            ...item, quantity
+        } : item));
+    }, []);
+
+    // update selected variant for a line
+    const updateItemVariant = useCallback((productId, oldVariantId, newVariantId) => {
+        setCartItems((prev) => prev.map((item) => item.productId === productId && item.variantId === oldVariantId ? {
+            ...item, variantId: newVariantId
+        } : item));
     }, []);
 
     const clearCart = useCallback(() => setCartItems([]), []);
 
-    const cartCount = cartItems.length;
-    return {addToCart, removeFromCart, clearCart, isBusy, cartItems, cartCount};
+    // total count = sum of quantities
+    const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity ?? 1), 0);
+
+    return {
+        addToCart, removeFromCart, clearCart, updateItemQuantity, updateItemVariant, isBusy, cartItems, cartCount,
+    };
 }

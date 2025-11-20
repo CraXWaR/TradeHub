@@ -1,18 +1,33 @@
 import {FiTrash2} from "react-icons/fi";
 import style from "./CartItem.module.css";
+import {useState} from "react";
 
 const MIN_QTY = 1;
 const MAX_QTY = 10;
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export default function CartItem({item, onQtyChange, onRemove}) {
-    const {title, price, quantity, image, variant, id} = item;
+export default function CartItem({item, onQtyChange, onRemove, onVariantChange}) {
+    const {title, price, quantity, image, variants, id, selectedVariantId: initialSelected} = item;
+    const [selectedVariantId, setSelectedVariantId] = useState(initialSelected ?? null);
 
     const onSelectChange = (e) => {
         const val = Number(e.target.value);
-        onQtyChange(id, Math.max(MIN_QTY, Math.min(MAX_QTY, val)));
+        const clamped = Math.max(MIN_QTY, Math.min(MAX_QTY, val));
+        onQtyChange(item.id, clamped, selectedVariantId);
     };
+
+    const handleCartVariantClick = (variant) => {
+        const oldVariantId = selectedVariantId;
+        const newVariantId = variant.id;
+
+        setSelectedVariantId(newVariantId);
+
+        if (onVariantChange) {
+            onVariantChange(item.id, oldVariantId, newVariantId);
+        }
+    };
+
 
     return (<article className={style.item} role="listitem">
         {/* Media */}
@@ -23,7 +38,19 @@ export default function CartItem({item, onQtyChange, onRemove}) {
         {/* Content */}
         <div className={style.content}>
             <h3 className={style.title} title={title}>{title}</h3>
-            {variant && <span className={style.variant}>{variant}</span>}
+
+            {variants?.length > 0 && (<div className={style["variants-list"]}>
+                    {variants.map((variant) => (<button
+                            key={variant.id}
+                            type="button"
+                            onClick={() => handleCartVariantClick(variant)}
+                            className={[style.variant, selectedVariantId === variant.id ? style["variant--active"] : "",]
+                                .filter(Boolean)
+                                .join(" ")}
+                        >
+                            {variant.name}
+                        </button>))}
+                </div>)}
 
             <div className={style.bottom}>
                 {/* Quantity dropdown */}

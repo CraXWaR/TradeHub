@@ -84,6 +84,7 @@ const ProductInfo = ({product, navigate}) => {
                 <ProductActions
                     navigate={navigate}
                     productId={product.id}
+                    selectedVariant={selectedVariant}
                     initialInWishlist={false}/>
             </div>
         </div>);

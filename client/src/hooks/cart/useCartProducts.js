@@ -14,7 +14,8 @@ export function useCartProducts(cartItems) {
         }
 
         const controller = new AbortController();
-        const idsParam = cartItems.join(",");
+
+        const idsParam = [...new Set(cartItems.map((item) => item.productId))].join(",");
 
         async function loadCartProducts() {
             try {
@@ -27,11 +28,20 @@ export function useCartProducts(cartItems) {
 
                 if (!res.ok) throw new Error("Failed to load cart products");
 
-                const data = await res.json();
+                const data = await res.json(); // array of products
 
-                setItems(data.map((p) => ({
-                    ...p, quantity: p.quantity != null ? p.quantity : 1,
-                })));
+                const merged = cartItems
+                    .map((cartItem) => {
+                        const product = data.find((p) => p.id === cartItem.productId);
+                        if (!product) return null;
+
+                        return {
+                            ...product, quantity: cartItem.quantity ?? 1, selectedVariantId: cartItem.variantId ?? null,
+                        };
+                    })
+                    .filter(Boolean);
+
+                setItems(merged);
                 setStatus("idle");
             } catch (err) {
                 if (err.name === "AbortError") return;
@@ -47,11 +57,12 @@ export function useCartProducts(cartItems) {
     }, [cartItems]);
 
     const updateQuantity = useCallback((id, qty) => {
-        setItems((prev) => prev.map((it) => (it.id === id ? {...it, quantity: qty} : it)));
+        setItems((prev) => prev.map((it) => it.id === id ? {...it, quantity: qty} : it));
     }, []);
 
-    const removeItem = useCallback((id) => {
-        setItems((prev) => prev.filter((it) => it.id !== id));
+    const removeItem = useCallback((productId, variantId) => {
+        const norm = variantId ?? null;
+        setItems((prev) => prev.filter((it) => !(it.id === productId && (it.selectedVariantId ?? null) === norm)));
     }, []);
 
     const clearItems = useCallback(() => {
