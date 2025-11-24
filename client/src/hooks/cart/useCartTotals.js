@@ -5,9 +5,13 @@ const SHIPPING_FEE = 4.99;
 const TAX_RATE = 0.1;
 
 export function useCartTotals(items, applyGiftWrap) {
-    return useMemo(() => {
-        const subtotalRaw = items.reduce((acc, it) => acc + it.price * (it.quantity || 1), 0);
+    const getItemUnitPrice = (item) => {
+        const selectedVariant = item.variants?.find((variant) => variant.id === item.selectedVariantId);
+        return selectedVariant?.price ?? item.price;
+    };
 
+    return useMemo(() => {
+        const subtotalRaw = items.reduce((subtotal, item) => subtotal + getItemUnitPrice(item) * (item.quantity || 1), 0);
         const shipping = subtotalRaw === 0 || subtotalRaw >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
 
         const tax = +(subtotalRaw * TAX_RATE).toFixed(2);

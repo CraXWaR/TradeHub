@@ -9,7 +9,11 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function CartItem({item, onQtyChange, onRemove, onVariantChange}) {
     const {title, price, quantity, image, variants, id, selectedVariantId: initialSelected} = item;
+
     const [selectedVariantId, setSelectedVariantId] = useState(initialSelected ?? null);
+
+    const selectedVariant = variants?.find((variant) => variant.id === selectedVariantId) ?? null;
+    const effectivePrice = selectedVariant?.price ?? price;
 
     const onSelectChange = (e) => {
         const val = Number(e.target.value);
@@ -28,7 +32,6 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
         }
     };
 
-
     return (<article className={style.item} role="listitem">
         {/* Media */}
         <figure className={style.media}>
@@ -40,17 +43,17 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
             <h3 className={style.title} title={title}>{title}</h3>
 
             {variants?.length > 0 && (<div className={style["variants-list"]}>
-                    {variants.map((variant) => (<button
-                            key={variant.id}
-                            type="button"
-                            onClick={() => handleCartVariantClick(variant)}
-                            className={[style.variant, selectedVariantId === variant.id ? style["variant--active"] : "",]
-                                .filter(Boolean)
-                                .join(" ")}
-                        >
-                            {variant.name}
-                        </button>))}
-                </div>)}
+                {variants.map((variant) => (<button
+                    key={variant.id}
+                    type="button"
+                    onClick={() => handleCartVariantClick(variant)}
+                    className={[style.variant, selectedVariantId === variant.id ? style["variant--active"] : "",]
+                        .filter(Boolean)
+                        .join(" ")}
+                >
+                    {variant.name}
+                </button>))}
+            </div>)}
 
             <div className={style.bottom}>
                 {/* Quantity dropdown */}
@@ -69,7 +72,7 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
                     </select>
                 </div>
 
-                <span className={style.unit}>€{price.toFixed(2)}</span>
+                <span className={style.unit}>€{effectivePrice.toFixed(2)}</span>
             </div>
         </div>
 
@@ -78,8 +81,8 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
             <div className={style.totalCol}>
                 <span className={style.totalLabel}>Total</span>
                 <span className={style.total} aria-label="Item total">
-                        €{(price * quantity).toFixed(2)}
-                    </span>
+                    €{(effectivePrice * quantity).toFixed(2)}
+                </span>
             </div>
 
             <div className={style.actions}>

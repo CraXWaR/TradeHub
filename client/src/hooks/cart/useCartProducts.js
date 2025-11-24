@@ -28,15 +28,19 @@ export function useCartProducts(cartItems) {
 
                 if (!res.ok) throw new Error("Failed to load cart products");
 
-                const data = await res.json(); // array of products
+                const data = await res.json();
 
                 const merged = cartItems
                     .map((cartItem) => {
                         const product = data.find((p) => p.id === cartItem.productId);
                         if (!product) return null;
 
+                        const selectedVariantId = cartItem.variantId ?? null;
+                        const selectedVariant = selectedVariantId != null ? product.variants?.find((v) => v.id === selectedVariantId) : null;
+                        const unitPrice = selectedVariant?.price ?? product.price;
+
                         return {
-                            ...product, quantity: cartItem.quantity ?? 1, selectedVariantId: cartItem.variantId ?? null,
+                            ...product, quantity: cartItem.quantity ?? 1, selectedVariantId, selectedVariant, unitPrice
                         };
                     })
                     .filter(Boolean);
@@ -56,8 +60,13 @@ export function useCartProducts(cartItems) {
         return () => controller.abort();
     }, [cartItems]);
 
-    const updateQuantity = useCallback((id, qty) => {
-        setItems((prev) => prev.map((it) => it.id === id ? {...it, quantity: qty} : it));
+    const updateQuantity = useCallback((productId, variantId, qty) => {
+        const norm = variantId ?? null;
+
+        setItems((prev) => prev.map((it) => it.id === productId && (it.selectedVariantId ?? null) === norm ? {
+            ...it,
+            quantity: qty
+        } : it));
     }, []);
 
     const removeItem = useCallback((productId, variantId) => {

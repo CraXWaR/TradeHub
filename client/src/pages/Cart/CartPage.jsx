@@ -14,7 +14,7 @@ import {useCartProducts} from "../../hooks/cart/useCartProducts.js";
 import styles from "./CartPage.module.css";
 
 export default function CartPage() {
-    const {cartItems, removeFromCart, clearCart, cartCount} = useCartStore();
+    const {cartItems, removeFromCart, clearCart, cartCount, updateItemQuantity, updateItemVariant} = useCartStore();
 
     const [promo, setPromo] = useState("");
     const [applyGiftWrap, setApplyGiftWrap] = useState(false);
@@ -90,8 +90,14 @@ export default function CartPage() {
                     {items.map((item) => (<CartItem
                         key={item.id}
                         item={item}
-                        onQtyChange={(qty) => updateQuantity(item.id, qty)}
+                        onQtyChange={(productId, qty, variantId) => {
+                            updateQuantity(productId, variantId, qty);
+                            updateItemQuantity(productId, variantId, qty);
+                        }}
                         onRemove={() => handleRemove(item.id, item.selectedVariantId ?? null)}
+                        onVariantChange={(productId, oldVariantId, newVariantId) => {
+                            updateItemVariant(productId, oldVariantId, newVariantId);
+                        }}
                     />))}
                 </section>
 
