@@ -12,6 +12,18 @@
     letter-spacing: 0.2px;
 }
 
+/* Ordering items */
+.itemsSection {
+    margin-top: 12px;
+    margin-bottom: 16px;
+}
+
+.itemsList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 /* List */
 .list {
     margin: 0;

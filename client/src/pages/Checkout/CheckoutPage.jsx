@@ -6,13 +6,14 @@ import styles from "./CheckoutPage.module.css";
 
 export default function CheckoutPage() {
     const location = useLocation();
-    const {subtotal, shipping, tax, total} = location.state || {};
+    const {subtotal, shipping, tax, total, items} = location.state || {};
 
     const hasSummaryData =
         typeof subtotal === "number" &&
         typeof shipping === "number" &&
         typeof tax === "number" &&
-        typeof total === "number";
+        typeof total === "number" &&
+        Array.isArray(items);
 
     if (!hasSummaryData) {
         return <Navigate to="/cart" replace/>;
@@ -228,7 +229,8 @@ export default function CheckoutPage() {
                             subtotal={subtotal}
                             shipping={shipping}
                             tax={tax}
-                            total={total}/>
+                            total={total}
+                            items={items}/>
                     </div>
                 </section>
             </main>

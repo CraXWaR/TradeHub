@@ -7,21 +7,26 @@ const MAX_QTY = 10;
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export default function CartItem({item, onQtyChange, onRemove, onVariantChange}) {
-    const {title, price, quantity, image, variants, id, selectedVariantId: initialSelected} = item;
+export default function CartItem({item, onQtyChange, onRemove, onVariantChange, mode = "cart",}) {
+    const {title, price, quantity, image, variants, id, selectedVariantId: initialSelected,} = item;
 
     const [selectedVariantId, setSelectedVariantId] = useState(initialSelected ?? null);
-
     const selectedVariant = variants?.find((variant) => variant.id === selectedVariantId) ?? null;
     const effectivePrice = selectedVariant?.price ?? price;
+
+    const isCheckout = mode === "checkout";
 
     const onSelectChange = (e) => {
         const val = Number(e.target.value);
         const clamped = Math.max(MIN_QTY, Math.min(MAX_QTY, val));
-        onQtyChange(item.id, clamped, selectedVariantId);
+        if (onQtyChange) {
+            onQtyChange(item.id, clamped, selectedVariantId);
+        }
     };
 
     const handleCartVariantClick = (variant) => {
+        if (isCheckout) return;
+
         const oldVariantId = selectedVariantId;
         const newVariantId = variant.id;
 
@@ -35,57 +40,68 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
     return (<article className={style.item} role="listitem">
         {/* Media */}
         <figure className={style.media}>
-            <img className={style.img} alt={title} src={`${BASE_URL}/uploads/${image}`} loading="lazy"/>
+            <img
+                className={style.img}
+                alt={title}
+                src={`${BASE_URL}/uploads/${image}`}
+                loading="lazy"/>
         </figure>
 
         {/* Content */}
         <div className={style.content}>
-            <h3 className={style.title} title={title}>{title}</h3>
+            <h3 className={style.title} title={title}>
+                {title}
+            </h3>
 
-            {variants?.length > 0 && (<div className={style["variants-list"]}>
+            {/* CART: variant buttons / CHECKOUT: static variant text */}
+            {!isCheckout && variants?.length > 0 && (<div className={style["variants-list"]}>
                 {variants.map((variant) => (<button
                     key={variant.id}
                     type="button"
                     onClick={() => handleCartVariantClick(variant)}
                     className={[style.variant, selectedVariantId === variant.id ? style["variant--active"] : "",]
                         .filter(Boolean)
-                        .join(" ")}
-                >
+                        .join(" ")}>
                     {variant.name}
                 </button>))}
             </div>)}
 
+            {isCheckout && selectedVariant && (<p className={style.variantReadOnly}>{selectedVariant.name}</p>)}
+
             <div className={style.bottom}>
-                {/* Quantity dropdown */}
-                <label className={style.qtyLabel} htmlFor={`qty-${id}`}>
-                    Qty
-                </label>
-                <div className={style.qtyWrap}>
-                    <select
-                        id={`qty-${id}`}
-                        className={style.qtySelect}
-                        value={quantity}
-                        onChange={onSelectChange}
-                        aria-label={`Quantity for ${title}`}>
-                        {Array.from({length: MAX_QTY}, (_, i) => i + 1).map((n) => (
-                            <option key={n} value={n}>{n}</option>))}
-                    </select>
-                </div>
+                {/* CART: qty select / CHECKOUT: static qty */}
+                {!isCheckout ? (<>
+                    <label className={style.qtyLabel} htmlFor={`qty-${id}`}>
+                        Qty
+                    </label>
+                    <div className={style.qtyWrap}>
+                        <select
+                            id={`qty-${id}`}
+                            className={style.qtySelect}
+                            value={quantity}
+                            onChange={onSelectChange}
+                            aria-label={`Quantity for ${title}`}>
+                            {Array.from({length: MAX_QTY}, (_, i) => i + 1).map((n) => (<option key={n} value={n}>
+                                {n}
+                            </option>))}
+                        </select>
+                    </div>
+                </>) : (<span className={style.qtyStatic}>Qty {quantity}</span>)}
 
                 <span className={style.unit}>€{effectivePrice.toFixed(2)}</span>
             </div>
         </div>
 
-        {/* Right column: total + bottom-right remove */}
+        {/* Right column: total + remove only in cart */}
         <div className={style.side}>
             <div className={style.totalCol}>
                 <span className={style.totalLabel}>Total</span>
                 <span className={style.total} aria-label="Item total">
-                    €{(effectivePrice * quantity).toFixed(2)}
-                </span>
+                        €{(effectivePrice * quantity).toFixed(2)}
+                    </span>
             </div>
 
-            <div className={style.actions}>
+            {!isCheckout && (<div className={style.actions}>
                 <button
                     type="button"
                     className={style.remove}
@@ -95,7 +111,7 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange})
                     <FiTrash2 aria-hidden/>
                     <span className={style.removeText}>Remove</span>
                 </button>
-            </div>
+            </div>)}
         </div>
     </article>);
 }

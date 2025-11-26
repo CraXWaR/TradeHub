@@ -13,7 +13,8 @@ export function CheckoutCard({
                                  promo,
                                  setPromo,
                                  applyGiftWrap,
-                                 setApplyGiftWrap
+                                 setApplyGiftWrap,
+                                 items
                              }) {
     return (<div className={styles.card}>
         {/* Promo input */}
@@ -79,10 +80,11 @@ export function CheckoutCard({
         <Link
             to="/checkout"
             className={styles.checkoutBtn}
-            state={{subtotal, shipping, tax, total}}
+            state={{subtotal, shipping, tax, total, items}}
             aria-disabled={!hasItems}
             onClick={(e) => {
-                if (!hasItems) e.preventDefault();}}>
+                if (!hasItems) e.preventDefault();
+            }}>
             Checkout
         </Link>
 

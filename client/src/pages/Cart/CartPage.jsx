@@ -112,7 +112,8 @@ export default function CartPage() {
                         promo={promo}
                         setPromo={setPromo}
                         applyGiftWrap={applyGiftWrap}
-                        setApplyGiftWrap={setApplyGiftWrap}/>
+                        setApplyGiftWrap={setApplyGiftWrap}
+                        items={items} />
                 </aside>
             </div>)}
         </div>

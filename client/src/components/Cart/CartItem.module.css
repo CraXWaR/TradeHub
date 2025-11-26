@@ -105,6 +105,18 @@
     box-shadow: 0 0 0 2px #fed7aa;
 }
 
+.variantReadOnly {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--nav-hover-text);
+    background: var(--nav-hover-bg);
+    padding: 4px 10px;
+    border-radius: 999px;
+    width: fit-content;
+    margin-top: 4px;
+    letter-spacing: 0.2px;
+}
+
 /* Quantity + Unit Price */
 .bottom {
     display: flex;
@@ -154,6 +166,18 @@
 
 .qtySelect:hover {
     border-color: rgba(0, 0, 0, 0.16);
+}
+
+.qtyStatic {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-700);
+    background: rgba(0, 0, 0, 0.05);
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .unit {
