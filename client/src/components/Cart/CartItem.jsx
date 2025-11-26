@@ -19,9 +19,12 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
     const onSelectChange = (e) => {
         const val = Number(e.target.value);
         const clamped = Math.max(MIN_QTY, Math.min(MAX_QTY, val));
-        if (onQtyChange) {
-            onQtyChange(item.id, clamped, selectedVariantId);
-        }
+
+        if (!onQtyChange) return;
+
+        const variantKey = variants && variants.length > 0 ? selectedVariantId : undefined;
+
+        onQtyChange(item.id, clamped, variantKey);
     };
 
     const handleCartVariantClick = (variant) => {
