@@ -4,6 +4,7 @@ const STORAGE_CART_KEY = "th_cart_v1";
 
 export function useCart() {
     const [isBusy, setIsBusy] = useState(false);
+    const [message, setMessage] = useState(null);
 
     const [cartItems, setCartItems] = useState(() => {
         if (typeof window === "undefined") return [];
@@ -36,10 +37,9 @@ export function useCart() {
 
     const addToCart = useCallback(async (productId, variant) => {
         setIsBusy(true);
+        setMessage(null);
         try {
             const variantId = typeof variant === "object" ? variant?.id : variant ?? null;
-
-            console.log("Adding product", productId, "variant", variantId);
 
             await new Promise((r) => setTimeout(r, 800));
 
@@ -60,10 +60,10 @@ export function useCart() {
                 },];
             });
 
-            alert(`Product ${productId} added to cart!`);
+            setMessage({type: "success", text: "Product added to your cart! You can review it from the cart page.",});
         } catch (err) {
             console.error(err);
-            alert("Failed to add to cart.");
+            setMessage({type: "error", text: "Failed to add this product to your cart. Please try again.",});
         } finally {
             setIsBusy(false);
         }
@@ -93,8 +93,9 @@ export function useCart() {
 
     // total count = sum of quantities
     const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity ?? 1), 0);
+    const dismissMessage = useCallback(() => setMessage(null), []);
 
     return {
-        addToCart, removeFromCart, clearCart, updateItemQuantity, updateItemVariant, isBusy, cartItems, cartCount,
+        addToCart, removeFromCart, clearCart, updateItemQuantity, updateItemVariant, isBusy, cartItems, cartCount, message, dismissMessage
     };
 }
