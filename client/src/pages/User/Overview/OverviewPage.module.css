@@ -1,0 +1,73 @@
+.page {
+    padding: 4px;
+    color: var(--text-700);
+}
+
+/* Header */
+.header {
+    margin-bottom: 12px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-700);
+}
+
+.subtitle {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--text-500);
+}
+
+/* Grid of cards */
+.grid {
+    margin-top: 12px;
+    display: grid;
+    gap: 12px;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Card */
+.card {
+    border-radius: 14px;
+    border: 1px solid #ffe0c2;
+    background: linear-gradient(180deg, var(--bg-0), #fff9f4);
+    padding: 14px 12px;
+    box-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.04),
+            0 12px 24px rgba(255, 123, 37, 0.1);
+}
+
+.cardTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-700);
+    margin-bottom: 4px;
+}
+
+.cardText {
+    font-size: 13px;
+    color: var(--text-500);
+}
+
+/* Small screens tweaks */
+@media (max-width: 640px) {
+    .card {
+        padding: 12px 10px;
+        border-radius: 12px;
+    }
+
+    .cardTitle {
+        font-size: 13px;
+    }
+
+    .cardText {
+        font-size: 12px;
+    }
+}

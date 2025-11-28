@@ -7,7 +7,7 @@ const ProductCard = ({product}) => {
     const imagePath = product?.image || "";
     const normalizedPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
     const imageUrl = `${BASE_URL}/uploads/${normalizedPath}`;
-
+console.log(product);
     return (
         <div
             key={product.id || `${product.title}-${product.price}`}

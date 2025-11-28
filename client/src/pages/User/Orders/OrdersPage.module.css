@@ -1,0 +1,101 @@
+.page {
+    padding: 4px;
+    color: var(--text-700);
+}
+
+/* Header */
+.header {
+    margin-bottom: 12px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-700);
+}
+
+.subtitle {
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--text-500);
+}
+
+/* Card */
+.card {
+    margin-top: 12px;
+    border-radius: 16px;
+    border: 1px solid #ffe0c2;
+    background: linear-gradient(180deg, var(--bg-0), #fff9f3);
+    padding: 18px 16px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04),
+    0 14px 28px rgba(255, 123, 37, 0.12);
+}
+
+/* Empty state */
+.emptyState {
+    text-align: center;
+    padding: 12px 6px;
+}
+
+.emptyIcon {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.emptyTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-700);
+    margin-bottom: 4px;
+}
+
+.emptyText {
+    font-size: 13px;
+    color: var(--text-500);
+    max-width: 340px;
+    margin: 0 auto 20px;
+}
+
+/* Button */
+.primaryButton {
+    appearance: none;
+    text-align: center;
+    display: block;
+    margin: auto;
+    width: fit-content;
+    border: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 24px rgba(232, 93, 4, 0.2);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.primaryButton:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.02);
+    background: linear-gradient(135deg, var(--primary-600), var(--accent-500));
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-600) 30%, transparent);
+    color: #fff;
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+    .card {
+        padding: 14px 12px;
+        border-radius: 14px;
+    }
+
+    .emptyText {
+        font-size: 12px;
+    }
+
+    .primaryButton {
+        padding: 7px 14px;
+        font-size: 12px;
+    }
+}

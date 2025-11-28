@@ -1,0 +1,93 @@
+.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+}
+
+/* Trigger button */
+.trigger {
+    width: 100%;
+    padding: 10px 14px;
+    padding-right: 40px;
+    border-radius: 14px;
+    border: 1px solid #ffd6b3;
+    background: linear-gradient(180deg, var(--bg-0), #fff8f1);
+    font-size: 14px;
+    color: var(--text-700);
+    text-align: left;
+    cursor: pointer;
+    transition:
+            box-shadow 0.15s ease,
+            border-color 0.15s ease,
+            background 0.15s ease,
+            transform 0.1s ease;
+}
+
+.trigger:hover {
+    background: linear-gradient(180deg, var(--bg-0), #fff3e6);
+    box-shadow: 0 4px 10px rgba(255, 123, 37, 0.15);
+    transform: translateY(-1px);
+}
+
+.triggerOpen {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 4px rgba(255, 154, 86, 0.2);
+}
+
+/* Arrow icon */
+.icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translateY(-50%) rotate(45deg);
+    border-right: 2px solid var(--primary-600);
+    border-bottom: 2px solid var(--primary-600);
+    transition: transform 0.2s ease;
+}
+
+.triggerOpen .icon {
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+/* Dropdown menu */
+.menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background: var(--bg-0);
+    border-radius: 14px;
+    border: 1px solid #ffd6b3;
+    box-shadow: 0 12px 24px rgba(255, 123, 37, 0.18);
+    overflow: hidden;
+    z-index: 50;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.item {
+    width: 100%;
+    padding: 10px 14px;
+    text-align: left;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: var(--text-700);
+    cursor: pointer;
+    transition:
+            background 0.12s ease,
+            padding-left 0.12s ease,
+            color 0.12s ease;
+}
+
+.item:hover {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    padding-left: 18px;
+}

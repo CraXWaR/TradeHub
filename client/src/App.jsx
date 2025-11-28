@@ -32,10 +32,10 @@ import AdminProductsPage from "./pages/Admin/Products/AdminPorductsPage.jsx";
 
 // ─── Pages: User Profile / Account ──────────────────────────────
 import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
-import UserOverviewPage from "./pages/User/Profile/OverviewPage.jsx";
-import UserOrdersPage from "./pages/User/Profile/OrdersPage.jsx";
-import UserWishlistPage from "./pages/User/Profile/WishlistPage.jsx";
-import UserSettingsPage from "./pages/User/Profile/SettingsPage.jsx";
+import OverviewPage from "./pages/User/Overview/OverviewPage.jsx";
+import OrdersPage from "./pages/User/Orders/OrdersPage.jsx";
+import WishlistPage from "./pages/User/Wishlist/WishlistPage.jsx";
+import SettingsPage from "./pages/User/Settings/SettingsPage.jsx";
 
 // ─── Pages: Shop / Public ───────────────────────────────────────
 import Products from "./pages/Products/Products";
@@ -70,11 +70,11 @@ function AppShell() {
                         <Route element={<ProtectedRoute role="user"/>}>
                             <Route path="/user" element={<UserLayout/>}>
                                 <Route index element={<Navigate to="overview" replace/>}/>
-                                <Route path="overview" element={<UserOverviewPage/>}/>
+                                <Route path="overview" element={<OverviewPage/>}/>
                                 <Route path="profile" element={<ProfilePage/>}/>
-                                <Route path="orders" element={<UserOrdersPage/>}/>
-                                <Route path="wishlist" element={<UserWishlistPage/>}/>
-                                <Route path="settings" element={<UserSettingsPage/>}/>
+                                <Route path="orders" element={<OrdersPage/>}/>
+                                <Route path="wishlist" element={<WishlistPage/>}/>
+                                <Route path="settings" element={<SettingsPage/>}/>
                             </Route>
                         </Route>
 
