@@ -4,7 +4,7 @@ export const useRegister = () =>
     useAuthForm({
         initialValues: {name: "", email: "", password: "", confirmPassword: ""},
         endpoint: "/api/users/register",
-        makePayload: ({name, email, password}) => ({name, email, password}),
+        makePayload: ({name, email, password, confirmPassword}) => ({name, email, password, confirmPassword}),
         validate: ({password, confirmPassword}) =>
             password !== confirmPassword ? "Passwords do not match" : null,
         onSuccess: (_data, {setFormData, navigate}) => {

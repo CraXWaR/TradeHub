@@ -4,6 +4,7 @@ import ProductCard from "../../../components/ProductCard/ProductCard.jsx";
 import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
 
 import styles from "./WishlistPage.module.css";
+import Button from "../../../components/User/UI/Button/Button.jsx";
 
 const WishlistPage = () => {
     const {items: products, loading, error} = useGetWishlistItems();
@@ -32,9 +33,9 @@ const WishlistPage = () => {
             <p className={styles.emptyText}>
                 Browse products and save the ones you love!
             </p>
-            <Link to="/products" className={styles.emptyLink}>
-                Browse products
-            </Link>
+            <Button to={'/products'} variant="empty" size={'sm'}>
+                Browse products!
+            </Button>
         </div>)}
 
         {!loading && !error && products.length > 0 && (<div className={styles.grid}>

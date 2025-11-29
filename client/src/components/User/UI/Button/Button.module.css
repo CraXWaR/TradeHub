@@ -1,0 +1,82 @@
+/* base layout for all buttons */
+.base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+/* sizes */
+.lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    border-radius: 16px;
+}
+
+.md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+.sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+}
+
+/* variants */
+.full {
+    color: white;
+    background: linear-gradient(135deg, #ff7b25, #e85d04, #e63946);
+    box-shadow: 0 10px 25px rgba(232, 93, 4, 0.15);
+}
+
+.full:hover:not(.loading) {
+    transform: translateY(-2px);
+}
+
+.empty {
+    background: #fff;
+    border: 1px solid #ffd6b3;
+    color: var(--primary-600);
+}
+
+.empty:hover:not(.loading) {
+    background: var(--nav-hover-bg);
+    color: var(--nav-hover-text);
+    box-shadow: 0 8px 16px rgba(255, 123, 37, 0.18);
+    transform: translateY(-1px);
+}
+
+/* spinner */
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* spinner for empty */
+.empty .spinner {
+    border: 3px solid rgba(255, 123, 37, 0.25);
+    border-top-color: var(--primary-600);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* loading */
+.loading {
+    opacity: 0.8;
+    pointer-events: none;
+    cursor: not-allowed;
+}

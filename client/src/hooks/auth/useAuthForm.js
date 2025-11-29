@@ -1,3 +1,4 @@
+// useAuthForm.js
 import {useState, useRef, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useFormHandler} from "../useFormHandler";
@@ -12,16 +13,30 @@ export function useAuthForm({
                                 onSuccess,
                                 successMessage,
                                 delayMs = 600,
+                                initialMessage,
                             }) {
     const [formData, setFormData] = useState(initialValues);
-    const {loading, setLoading, message, setMessage, resetMessage, withMinDelay} =
-        useFormHandler();
+
+    const {
+        loading, setLoading, message, setMessage, resetMessage, withMinDelay,
+    } = useFormHandler();
 
     const navigate = useNavigate();
     const mounted = useRef(true);
+
     useEffect(() => () => {
         mounted.current = false;
     }, []);
+
+    useEffect(() => {
+        if (initialMessage) {
+            if (typeof initialMessage === "string") {
+                setMessage({type: "success", text: initialMessage});
+            } else {
+                setMessage(initialMessage);
+            }
+        }
+    }, [initialMessage, setMessage]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -34,6 +49,7 @@ export function useAuthForm({
         setLoading(true);
 
         const validationError = validate?.(formData);
+
         if (validationError) {
             setMessage({type: "error", text: validationError});
             setLoading(false);
@@ -41,23 +57,29 @@ export function useAuthForm({
         }
 
         try {
-            const res = await withMinDelay(
-                fetch(`${BASE_URL}${endpoint}`, {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(makePayload(formData)),
-                }),
-                delayMs
-            );
+            const res = await withMinDelay(fetch(`${BASE_URL}${endpoint}`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(makePayload(formData)),
+            }), delayMs);
 
             if (!res.ok) {
                 let errText = "Request failed";
                 try {
                     const err = await res.json();
-                    errText = err.message || errText;
-                } catch { /* empty */
+
+                    if (err.errors && err.errors.length > 0) {
+                        errText = err.errors[0].message;
+                    }
+
+                    if (err.message) {
+                        errText = err.message;
+                    }
+                } catch {
+                    /* ignore */
                 }
                 setMessage({type: "error", text: errText});
+                setLoading(false);
                 return;
             }
 
@@ -67,11 +89,15 @@ export function useAuthForm({
                 setMessage({type: "success", text: successMessage || "Success!"});
                 onSuccess?.(data, {formData, setFormData, navigate, setMessage});
             } else {
-                setMessage({type: "error", text: data?.message || "Operation failed"});
+                setMessage({
+                    type: "error", text: data?.message || "Operation failed",
+                });
+                setLoading(false);
             }
         } catch (err) {
             console.error("Auth error:", err);
             setMessage({type: "error", text: "Error connecting to server"});
+            setLoading(false);
         } finally {
             mounted.current && setLoading(false);
         }

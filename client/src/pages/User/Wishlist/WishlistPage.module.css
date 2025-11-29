@@ -87,31 +87,6 @@
     margin-bottom: 10px;
 }
 
-/* CTA link */
-.emptyLink {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: 1px solid #ffd6b3;
-    background: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--primary-600);
-    text-decoration: none;
-    transition:
-            background 0.15s ease,
-            box-shadow 0.15s ease,
-            transform 0.1s ease,
-            color 0.15s ease;
-}
-
-.emptyLink:hover {
-    background: var(--nav-hover-bg);
-    color: var(--nav-hover-text);
-    box-shadow: 0 8px 16px rgba(255, 123, 37, 0.18);
-    transform: translateY(-1px);
-}
-
 /* Products grid */
 .grid {
     margin-top: 14px;
