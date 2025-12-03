@@ -90,40 +90,6 @@
     color: var(--text-500);
 }
 
-/* Clear Button */
-.clearBtn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    background: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    color: var(--text-500);
-    cursor: pointer;
-    transition:
-            transform 0.12s ease,
-            box-shadow 0.12s ease,
-            border-color 0.12s ease;
-}
-
-.clearBtn:hover {
-    background: var(--nav-hover-bg);
-    color: var(--nav-hover-text);
-    border-color: rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-}
-
-.clearBtn:focus-visible {
-    outline: 2px solid var(--primary-500);
-    outline-offset: 2px;
-}
-
-.clearBtn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
 /* Layout */
 .grid {
     display: grid;
@@ -152,72 +118,4 @@
     top: 80px;
     align-self: start;
     height: fit-content;
-}
-
-/* Mobile Sticky Checkout */
-.stickyPay {
-    position: sticky;
-    bottom: 0;
-    inset-inline: 0;
-    display: grid;
-    grid-template-columns: 1fr 160px;
-    align-items: center;
-    gap: 12px;
-    padding: 12px clamp(12px, 4vw, 24px);
-    background: #fff;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 -8px 16px rgba(0, 0, 0, 0.05);
-}
-
-.stickyMeta {
-    display: grid;
-    gap: 2px;
-}
-
-.stickyLabel {
-    font-size: 12px;
-    color: var(--text-500);
-}
-
-.stickyTotal {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--text-700);
-}
-
-.stickyBtn {
-    appearance: none;
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    background: linear-gradient(180deg, var(--primary-500), var(--primary-600));
-    box-shadow: 0 10px 24px rgba(232, 93, 4, 0.2);
-    transition: transform 0.12s ease, filter 0.12s ease;
-}
-
-.stickyBtn:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.02);
-}
-
-.stickyBtn:active {
-    transform: translateY(0);
-}
-
-@media (min-width: 960px) {
-    .stickyPay {
-        display: none;
-    }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    .clearBtn,
-    .stickyBtn {
-        transition: none;
-    }
 }

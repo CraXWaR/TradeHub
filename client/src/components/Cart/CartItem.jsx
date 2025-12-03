@@ -1,6 +1,8 @@
 import {FiTrash2} from "react-icons/fi";
 import style from "./CartItem.module.css";
 import {useState} from "react";
+import styles from "../ProductDetail/ProductInfo.module.css";
+import Button from "../User/UI/Button/Button.jsx";
 
 const MIN_QTY = 1;
 const MAX_QTY = 10;
@@ -58,15 +60,17 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
 
             {/* CART: variant buttons / CHECKOUT: static variant text */}
             {!isCheckout && variants?.length > 0 && (<div className={style["variants-list"]}>
-                {variants.map((variant) => (<button
+                {variants.map((variant) => (<Button
                     key={variant.id}
                     type="button"
                     onClick={() => handleCartVariantClick(variant)}
-                    className={[style.variant, selectedVariantId === variant.id ? style["variant--active"] : "",]
+                    variant={selectedVariant?.id === variant.id ? "full" : "empty"}
+                    size="sm"
+                    className={[styles["variant-pill"], selectedVariant?.id === variant.id ? styles["variant-pill--active"] : "",]
                         .filter(Boolean)
                         .join(" ")}>
                     {variant.name}
-                </button>))}
+                </Button>))}
             </div>)}
 
             {isCheckout && selectedVariant && (<p className={style.variantReadOnly}>{selectedVariant.name}</p>)}
@@ -105,15 +109,15 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
             </div>
 
             {!isCheckout && (<div className={style.actions}>
-                <button
-                    type="button"
-                    className={style.remove}
+                <Button
+                    variant={"empty"}
+                    size={"sm"}
                     onClick={onRemove}
                     aria-label={`Remove ${title} from cart`}
                     title="Remove">
                     <FiTrash2 aria-hidden/>
                     <span className={style.removeText}>Remove</span>
-                </button>
+                </Button>
             </div>)}
         </div>
     </article>);

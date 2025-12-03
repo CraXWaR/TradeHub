@@ -12,6 +12,7 @@ import {useCartTotals} from "../../hooks/cart/useCartTotals.js";
 import {useCartProducts} from "../../hooks/cart/useCartProducts.js";
 
 import styles from "./CartPage.module.css";
+import Button from "../../components/User/UI/Button/Button.jsx";
 
 export default function CartPage() {
     const {cartItems, removeFromCart, clearCart, cartCount, updateItemQuantity, updateItemVariant} = useCartStore();
@@ -66,15 +67,15 @@ export default function CartPage() {
                     </div>
                 </div>
 
-                <button
-                    type="button"
+                <Button
+                    size={'sm'}
+                    variant={'full'}
                     onClick={clearAll}
-                    className={styles.clearBtn}
                     aria-label="Remove all items from the cart"
                     disabled={!hasItems}>
                     <FiTrash2 aria-hidden/>
                     Remove all
-                </button>
+                </Button>
             </header>
 
             {/* Free shipping banner */}

@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import {createPortal} from "react-dom";
+import Button from "./User/UI/Button/Button.jsx";
 
 export function Modal({open, onClose, title, children}) {
     const panelRef = useRef(null);
@@ -33,27 +34,23 @@ export function Modal({open, onClose, title, children}) {
 
     return createPortal(<div
         className={["fixed inset-0 z-50 flex items-center justify-center", "backdrop-blur-[1px] bg-black/5", "transition-opacity ease-out duration-[800ms]", active ? "opacity-100" : "opacity-0",].join(" ")}
-        onClick={onClose}
-    >
+        onClick={onClose}>
         <div
             ref={panelRef}
             role="dialog"
             aria-modal="true"
             tabIndex={-1}
             onClick={(e) => e.stopPropagation()}
-            className={["w-full max-w-sm rounded-lg bg-white shadow-xl", "px-6 py-5 focus:outline-none", "transform transition-all ease-out duration-[800ms]", active ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",].join(" ")}
-        >
+            className={["w-full max-w-sm rounded-lg bg-white shadow-xl", "px-6 py-5 focus:outline-none", "transform transition-all ease-out duration-[800ms]", active ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",].join(" ")}>
             {title ? <h2>{title}</h2> : null}
 
             <div>{children}</div>
 
             <div className="mt-5 flex justify-end">
-                <button
-                    onClick={onClose}
-                    className="px-4 py-2 rounded-md bg-orange-500 text-white hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                >
+                <Button
+                    onClick={onClose} variant={"full"} size={"md"}>
                     Okay
-                </button>
+                </Button>
             </div>
         </div>
     </div>, document.body);

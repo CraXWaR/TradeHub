@@ -3,6 +3,7 @@ import {FiGift, FiLock} from "react-icons/fi";
 import OrderSummary from "./OrderSummary.jsx";
 
 import styles from "./CheckoutCard.module.css";
+import Button from "../User/UI/Button/Button.jsx";
 
 export function CheckoutCard({
                                  subtotal,
@@ -37,13 +38,14 @@ export function CheckoutCard({
                     autoComplete="off"
                     enterKeyHint="done"/>
 
-                <button
+                <Button
                     type="submit"
-                    className={styles.promoBtn}
+                    variant={"contained"}
+                    size={"sm"}
                     disabled={!promo.trim()}
                     aria-disabled={!promo.trim()}>
                     Apply
-                </button>
+                </Button>
             </div>
         </form>
 
@@ -77,8 +79,10 @@ export function CheckoutCard({
             tax={tax}
             total={total}/>
 
-        <Link
+        <Button
             to="/checkout"
+            variant={"full"}
+            size={"lg"}
             className={styles.checkoutBtn}
             state={{subtotal, shipping, tax, total, items}}
             aria-disabled={!hasItems}
@@ -86,7 +90,7 @@ export function CheckoutCard({
                 if (!hasItems) e.preventDefault();
             }}>
             Checkout
-        </Link>
+        </Button>
 
         <div className={styles.secureRow} aria-live="polite">
             <FiLock aria-hidden/>

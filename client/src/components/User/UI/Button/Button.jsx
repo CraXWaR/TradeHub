@@ -8,12 +8,15 @@ export default function Button({
                                    type = "button",
                                    variant = "full",
                                    size = "lg",
+                                   className = "",
                                    ...props
                                }) {
-    const className = `${styles.base} ${styles[variant]} ${styles[size]} ${loading ? styles.loading : ""} `.trim();
+    const composedClassName = [styles.base, styles[variant], styles[size], loading ? styles.loading : "", className,]
+        .filter(Boolean)
+        .join(" ");
 
     if (to) {
-        return (<Link to={to} className={className} {...props}>
+        return (<Link to={to} className={composedClassName} {...props}>
             {children}
         </Link>);
     }
@@ -21,7 +24,7 @@ export default function Button({
     return (<button
         type={type}
         disabled={loading}
-        className={className}
+        className={composedClassName}
         {...props}>
         {loading && <div className={styles.spinner}></div>}
         {children}

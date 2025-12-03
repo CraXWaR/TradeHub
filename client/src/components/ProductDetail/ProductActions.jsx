@@ -2,24 +2,25 @@ import styles from "./ProductActions.module.css";
 
 import {useCartStore} from "../../contex/cart-context.jsx";
 import {Modal} from "../Modal.jsx";
+import Button from "../User/UI/Button/Button.jsx";
 
 const ActionButtons = ({navigate, productId, selectedVariant}) => {
     const {addToCart, isBusy: cartBusy, message: cartMessage, dismissMessage: dismissCartMessage} = useCartStore();
 
     return (<div className={styles["action-buttons"]}>
-        <button
-            onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+        <Button
+            onClick={() => navigate(-1)} size={'md'}>
             ← Back to Products
-        </button>
+        </Button>
 
-        <button
+        <Button
             onClick={() => addToCart(productId, selectedVariant)}
             disabled={cartBusy}
-            className={styles.cartButton}
-            aria-busy={cartBusy}>
+            aria-busy={cartBusy}
+            size={'md'}
+            variant={'cart'}>
             {cartBusy ? "Adding…" : "Add to Cart"}
-        </button>
+        </Button>
 
         <Modal open={!!cartMessage?.text} onClose={dismissCartMessage}>
             <h2
@@ -31,8 +32,8 @@ const ActionButtons = ({navigate, productId, selectedVariant}) => {
                 <ul className="text-base md:text-lg leading-relaxed text-gray-800 font-medium list-disc pl-6">
                     {cartMessage.text.map((t, i) => (<li key={i}>{t}</li>))}
                 </ul>) : (<p className="text-base md:text-lg leading-relaxed text-gray-800 font-medium">
-                    {cartMessage?.text}
-                </p>)}
+                {cartMessage?.text}
+            </p>)}
         </Modal>
     </div>);
 };

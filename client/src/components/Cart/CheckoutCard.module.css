@@ -43,32 +43,6 @@
     color: color-mix(in oklab, var(--text-500) 70%, transparent);
 }
 
-.promoBtn {
-    height: 44px;
-    padding: 0 16px;
-    border: none;
-    background: linear-gradient(180deg, var(--primary-500), var(--primary-600));
-    color: #fff;
-    font-weight: 800;
-    cursor: pointer;
-    transition: filter 0.12s ease, transform 0.12s ease;
-}
-
-.promoBtn:hover {
-    filter: brightness(1.02);
-    transform: translateY(-1px);
-}
-
-.promoBtn:active {
-    transform: translateY(0);
-}
-
-.promoBtn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    filter: grayscale(0.1);
-}
-
 .promoField:focus-within {
     box-shadow: 0 0 0 2px var(--primary-500);
     border-color: color-mix(in oklab, var(--primary-600), #000 12%);
@@ -179,44 +153,10 @@
 }
 
 /* Checkout Button */
-.checkoutBtn {
-    appearance: none;
-    text-align: center;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    box-shadow: 0 10px 24px rgba(232, 93, 4, 0.2);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-}
-
 .checkoutBtn:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.02);
     background: linear-gradient(135deg, var(--primary-600), var(--accent-500));
     box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-600) 30%, transparent);
     color: #fff;
-}
-
-.checkoutBtn:active {
-    transform: translateY(0);
-}
-
-.checkoutBtn:focus-visible {
-    outline: 2px solid var(--primary-500);
-    outline-offset: 2px;
-}
-
-.checkoutBtn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    box-shadow: none;
-    filter: grayscale(0.2);
 }
 
 /* Footer */

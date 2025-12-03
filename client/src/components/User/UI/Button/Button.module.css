@@ -53,6 +53,26 @@
     transform: translateY(-1px);
 }
 
+.cart {
+    background: linear-gradient(to right, #2ca58d, #1b9aaa);
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cart:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to right, #239b86, #178f9e);
+}
+
+.cart:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: linear-gradient(to right, #2ca58d, #1b9aaa);
+}
+
 /* spinner */
 .spinner {
     width: 16px;
