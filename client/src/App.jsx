@@ -17,7 +17,7 @@ import UserNavigation from "./components/Navigation/UserNavigation.jsx";
 
 // ─── Shared / Utility Components ────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
-import Unauthorized from "./pages/Unauthorized.jsx";
+import Unauthorized from "./pages/Unauthorized/Unauthorized.jsx";
 import Home from "./components/Home";
 import UsersList from "./components/UsersList";
 
@@ -42,6 +42,7 @@ import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import CartPage from "./pages/Cart/CartPage.jsx";
 import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -87,6 +88,9 @@ function AppShell() {
                                 <Route path="users" element={<UsersList/>}/>
                             </Route>
                         </Route>
+
+                        {/*Not Found*/}
+                        <Route path="*" element={<NotFound/>}/>
                     </Routes>
                 </div>
             </main>

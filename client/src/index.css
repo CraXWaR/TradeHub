@@ -26,7 +26,7 @@
     --text-700: #2d1b1b;
     --text-500: #6c5b5b;
 
-    --link-hover: var(--primary-600); /* orange hover */
+    --link-hover: var(--text-700);
     --nav-hover-bg: #fff3e6;
     --nav-hover-text: #e85d04;
 }

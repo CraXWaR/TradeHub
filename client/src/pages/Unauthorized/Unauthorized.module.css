@@ -1,0 +1,144 @@
+.wrapper {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.5rem 1.25rem;
+    box-sizing: border-box;
+
+    background: radial-gradient(circle at top, var(--bg-1), var(--bg-0));
+    overflow: hidden;
+}
+
+/* Card */
+.card {
+    width: min(540px, 100%);
+    padding: 2.1rem 1.9rem;
+    border-radius: 1.4rem;
+    background: #fffdfb;
+    border: 1px solid rgba(255, 155, 86, 0.25);
+    box-shadow:
+            0 18px 36px rgba(0, 0, 0, 0.08),
+            0 0 0 1px rgba(255, 255, 255, 0.8);
+    text-align: left;
+    position: relative;
+}
+
+/* Small lock icon row */
+.iconRow {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.iconCircle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 20%, #fffdf8, var(--primary-500));
+    box-shadow:
+            0 12px 26px rgba(0, 0, 0, 0.18),
+            0 0 0 2px rgba(255, 255, 255, 0.9);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconPulse 3s ease-in-out infinite;
+}
+
+/* lock shackle */
+.lockShackle {
+    position: absolute;
+    top: 13px;
+    width: 22px;
+    height: 16px;
+    border-radius: 999px 999px 6px 6px;
+    border: 2px solid rgba(45, 27, 27, 0.9);
+    border-bottom: none;
+    background: transparent;
+}
+
+/* lock body */
+.lockBody {
+    position: absolute;
+    bottom: 13px;
+    width: 24px;
+    height: 18px;
+    border-radius: 6px;
+    background: var(--text-700);
+}
+
+/* Eyebrow text */
+.eyebrow {
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--primary-500);
+    margin-bottom: 0.9rem;
+}
+
+/* Title + subtitle */
+.title {
+    font-size: 1.6rem;
+    font-weight: 750;
+    color: var(--text-700);
+    margin: 0 0 0.55rem;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-500);
+    margin: 0 0 1.5rem;
+}
+
+/* Buttons */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1.1rem;
+}
+
+/* Hint text */
+.hint {
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(108, 91, 91, 0.9);
+}
+
+/* Icon animation – subtle scale/opacity pulse */
+@keyframes iconPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow:
+                0 12px 26px rgba(0, 0, 0, 0.18),
+                0 0 0 2px rgba(255, 255, 255, 0.9);
+    }
+    50% {
+        transform: scale(1.03);
+        box-shadow:
+                0 14px 30px rgba(0, 0, 0, 0.2),
+                0 0 0 3px rgba(255, 155, 86, 0.6);
+    }
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+    .card {
+        padding: 1.8rem 1.4rem;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
