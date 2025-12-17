@@ -35,6 +35,10 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
         const oldVariantId = selectedVariantId;
         const newVariantId = variant.id;
 
+        if (oldVariantId === newVariantId) {
+            return;
+        }
+
         setSelectedVariantId(newVariantId);
 
         if (onVariantChange) {
@@ -58,7 +62,7 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
                 {title}
             </h3>
 
-            {/* CART: variant buttons / CHECKOUT: static variant text */}
+            {/* Product Variant */}
             {!isCheckout && variants?.length > 0 && (<div className={style["variants-list"]}>
                 {variants.map((variant) => (<Button
                     key={variant.id}

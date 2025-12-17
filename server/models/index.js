@@ -1,8 +1,10 @@
 import sequelize from '../config/db.js';
+
 import User from './User.js';
 import Product from './Product.js';
 import WishlistItem from './WishlistItem.js';
 import ProductVariants from "./ProductVariants.js";
+import CartItem from "./CartItem.js";
 
 // --------------------
 // User → Product
@@ -15,22 +17,14 @@ Product.belongsTo(User, {
 });
 
 // --------------------
-// Wishlist: User ↔ Product (through WishlistItem)
+// Wishlist: User ↔ Product
 // --------------------
 User.belongsToMany(Product, {
-    through: WishlistItem,
-    foreignKey: 'user_id',
-    otherKey: 'product_id',
-    as: 'wishlist',
+    through: WishlistItem, foreignKey: 'user_id', otherKey: 'product_id', as: 'wishlist',
 });
-
 Product.belongsToMany(User, {
-    through: WishlistItem,
-    foreignKey: 'product_id',
-    otherKey: 'user_id',
-    as: 'wishlistedBy',
+    through: WishlistItem, foreignKey: 'product_id', otherKey: 'user_id', as: 'wishlistedBy',
 });
-
 WishlistItem.belongsTo(Product, {
     foreignKey: 'product_id',
 });
@@ -39,13 +33,28 @@ WishlistItem.belongsTo(Product, {
 // Product → ProductVariant
 // --------------------
 Product.hasMany(ProductVariants, {
-    foreignKey: 'product_id',
-    as: 'variants',
+    foreignKey: 'product_id', as: 'variants',
+});
+ProductVariants.belongsTo(Product, {
+    foreignKey: 'product_id', as: 'product',
 });
 
-ProductVariants.belongsTo(Product, {
-    foreignKey: 'product_id',
-    as: 'product',
-});
+// --------------------
+// User → CartItem
+// --------------------
+User.hasMany(CartItem, {foreignKey: 'user_id', as: 'cartItems'});
+CartItem.belongsTo(User, {foreignKey: 'user_id'});
+
+// --------------------
+// Product → CartItem
+// --------------------
+Product.hasMany(CartItem, {foreignKey: 'product_id'});
+CartItem.belongsTo(Product, {foreignKey: 'product_id', as: 'product'});
+
+// --------------------
+// ProductVariant → CartItem
+// --------------------
+ProductVariants.hasMany(CartItem, {foreignKey: 'variant_id'});
+CartItem.belongsTo(ProductVariants, {foreignKey: 'variant_id', as: 'variant'});
 
 export {sequelize, User, Product, WishlistItem, ProductVariants};

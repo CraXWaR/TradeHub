@@ -20,20 +20,17 @@ export default function CartPage() {
     const [promo, setPromo] = useState("");
     const [applyGiftWrap, setApplyGiftWrap] = useState(false);
 
-    const {items, updateQuantity, removeItem, clearItems} = useCartProducts(cartItems);
+    const {items, status} = useCartProducts(cartItems);
 
     const {subtotal, shipping, tax, total, freeShippingThreshold} = useCartTotals(items, applyGiftWrap);
 
     const hasItems = items.length > 0;
 
     const handleRemove = (productId, variantId) => {
-        const norm = variantId ?? null;
-        removeItem(productId, norm);
-        removeFromCart(productId, norm);
+        removeFromCart(productId, variantId ?? null);
     };
 
     const clearAll = () => {
-        clearItems();
         clearCart();
     };
 
@@ -92,7 +89,6 @@ export default function CartPage() {
                         key={item.id}
                         item={item}
                         onQtyChange={(productId, qty, variantId) => {
-                            updateQuantity(productId, variantId, qty);
                             updateItemQuantity(productId, variantId, qty);
                         }}
                         onRemove={() => handleRemove(item.id, item.selectedVariantId ?? null)}
@@ -114,7 +110,7 @@ export default function CartPage() {
                         setPromo={setPromo}
                         applyGiftWrap={applyGiftWrap}
                         setApplyGiftWrap={setApplyGiftWrap}
-                        items={items} />
+                        items={items}/>
                 </aside>
             </div>)}
         </div>
