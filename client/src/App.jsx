@@ -18,7 +18,6 @@ import UserNavigation from "./components/Navigation/UserNavigation.jsx";
 // ─── Shared / Utility Components ────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
 import Unauthorized from "./pages/Unauthorized/Unauthorized.jsx";
-import Home from "./components/Home";
 import UsersList from "./components/UsersList";
 
 // ─── Pages: Authentication ──────────────────────────────────────
@@ -38,6 +37,7 @@ import WishlistPage from "./pages/User/Wishlist/WishlistPage.jsx";
 import SettingsPage from "./pages/User/Settings/SettingsPage.jsx";
 
 // ─── Pages: Shop / Public ───────────────────────────────────────
+import HomePage from "./pages/Home/HomePage.jsx";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import CartPage from "./pages/Cart/CartPage.jsx";
@@ -57,7 +57,7 @@ function AppShell() {
                 <div>
                     <Routes>
                         {/* Public routes */}
-                        <Route path="/" element={<Home/>}/>
+                        <Route path="/" element={<HomePage/>}/>
                         <Route path="/products" element={<Products/>}/>
                         <Route path="/products/:id" element={<ProductDetail/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
