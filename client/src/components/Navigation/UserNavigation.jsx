@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {FiShoppingCart, FiMenu, FiX} from "react-icons/fi";
 
 import useAuth from "../../hooks/auth/useAuth.js";
@@ -38,15 +38,15 @@ const UserNavigation = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
                 {/* Logo */}
-                <NavLink
+                <Link
                     to="/"
                     className="flex items-center space-x-2 group">
                     <span className="text-2xl">🚀</span>
                     <span
                         className="bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 bg-clip-text text-transparent text-xl font-bold group-hover:scale-105 transition-transform duration-200">
-                            TradeHub
-                        </span>
-                </NavLink>
+                        TradeHub
+                    </span>
+                </Link>
 
                 {/* Desktop nav */}
                 <div className="hidden lg:flex items-center space-x-2">
@@ -63,8 +63,8 @@ const UserNavigation = () => {
                         className={({isActive}) => `${styles.cartButton} ${isActive ? styles.cartButtonActive : ""}`}>
                         <FiShoppingCart className="text-xl"/>
                         {cartCount > 0 && (<span className={styles.cartBadge}>
-                                    {cartCount}
-                                </span>)}
+                            {cartCount}
+                        </span>)}
                     </NavLink>
 
                     {isAuthenticated && (

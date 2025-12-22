@@ -14,6 +14,7 @@ import UserLayout from "./components/User/UserLayout.jsx";
 // ─── Navigation Components ──────────────────────────────────────
 import AdminNavigation from "./components/Navigation/AdminNavigation.jsx";
 import UserNavigation from "./components/Navigation/UserNavigation.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 
 // ─── Shared / Utility Components ────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -94,6 +95,8 @@ function AppShell() {
                     </Routes>
                 </div>
             </main>
+
+            <Footer />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import {NavLink, useNavigate} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {FiMenu, FiX} from "react-icons/fi";
 
@@ -43,7 +43,7 @@ const AdminNavigation = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo / title */}
-                    <NavLink
+                    <Link
                         to="/admin/dashboard"
                         className="flex items-center space-x-2 group">
                         <span className="text-2xl">⚙️</span>
@@ -54,7 +54,7 @@ const AdminNavigation = () => {
                                 group-hover:scale-105 transition-transform duration-200">
                             Admin Panel
                         </span>
-                    </NavLink>
+                    </Link>
 
                     {/* Desktop nav */}
                     <div className="hidden lg:flex items-center space-x-2">
