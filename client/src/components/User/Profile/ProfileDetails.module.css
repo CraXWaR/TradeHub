@@ -36,22 +36,6 @@ input:focus {
 
 .actions { display: flex; justify-content: flex-end; }
 
-.primaryBtn {
-    padding: 10px 14px;
-    border-radius: 999px;
-    border: 1px solid #ffcfad;
-    background: linear-gradient(90deg, var(--primary-500), var(--primary-600));
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform .12s ease, box-shadow .12s ease;
-}
-
-.primaryBtn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px rgba(232, 93, 4, .22);
-}
-
 .success {
     color: var(--primary-500);
 }

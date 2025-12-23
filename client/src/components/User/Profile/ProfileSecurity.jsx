@@ -1,4 +1,5 @@
 import styles from "./ProfileSecurity.module.css";
+import Button from "../UI/Button/Button.jsx";
 
 const ProfileSecurity = () => {
     const changePassword = () => {
@@ -13,9 +14,9 @@ const ProfileSecurity = () => {
             </div>
 
             <div className={styles.row}>
-                <button type="button" className={styles.ghostBtn} onClick={changePassword}>
+                <Button type="button" variant={"empty"} size={"md"} onClick={changePassword}>
                     Change password
-                </button>
+                </Button>
             </div>
         </section>
     );

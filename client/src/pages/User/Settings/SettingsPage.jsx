@@ -1,6 +1,7 @@
 import styles from "./SettingsPage.module.css";
 import NiceSelect from "../../../components/User/UI/Select/NiceSelect.jsx";
 import {useState} from "react";
+import Button from "../../../components/User/UI/Button/Button.jsx";
 
 const SettingsPage = () => {
     const [notifications, setNotifications] = useState("enabled");
@@ -24,9 +25,9 @@ const SettingsPage = () => {
             </div>
 
             <div className={styles.actions}>
-                <button type="submit" className={styles.primaryButton}>
+                <Button type="submit" variant={"full"} size={"md"}>
                     Save settings
-                </button>
+                </Button>
             </div>
         </form>
     </section>);

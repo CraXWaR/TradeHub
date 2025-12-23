@@ -59,18 +59,18 @@ export function CheckoutCard({
                 onChange={(e) => setApplyGiftWrap(e.target.checked)}/>
 
             <span className={styles.giftBox}>
-          <span className={styles.giftIcon} aria-hidden>
-            <FiGift/>
-          </span>
+                <span className={styles.giftIcon} aria-hidden>
+                    <FiGift/>
+                </span>
 
-          <span className={styles.giftText}>
-            Add gift wrap <em className={styles.giftPrice}>+ $4.00</em>
-          </span>
+              <span className={styles.giftText}>
+                  Add gift wrap <em className={styles.giftPrice}>+ €4.00</em>
+              </span>
 
-          <span className={styles.giftSwitch} aria-hidden>
-            <span className={styles.giftKnob}/>
-          </span>
-        </span>
+              <span className={styles.giftSwitch} aria-hidden>
+                  <span className={styles.giftKnob}/>
+              </span>
+            </span>
         </label>
 
         <OrderSummary
@@ -84,7 +84,7 @@ export function CheckoutCard({
             variant={"full"}
             size={"lg"}
             className={styles.checkoutBtn}
-            state={{subtotal, shipping, tax, total, items}}
+            state={{subtotal, shipping, tax, total, items, applyGiftWrap}}
             aria-disabled={!hasItems}
             onClick={(e) => {
                 if (!hasItems) e.preventDefault();

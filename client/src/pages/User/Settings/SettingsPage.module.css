@@ -107,39 +107,10 @@
     margin-top: 6px;
 }
 
-/* Button */
-.primaryButton {
-    padding: 10px 16px;
-    border-radius: 999px;
-    border: 1px solid #ffcfad;
-    background: linear-gradient(
-            90deg,
-            var(--primary-500),
-            var(--primary-600)
-    );
-    color: #fff;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    transition:
-            transform 0.12s ease,
-            box-shadow 0.12s ease;
-}
-
-.primaryButton:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 16px rgba(232, 93, 4, 0.3);
-}
-
 /* Mobile */
 @media (max-width: 640px) {
     .card {
         padding: 14px 12px;
         border-radius: 14px;
-    }
-
-    .primaryButton {
-        padding: 8px 14px;
-        font-size: 13px;
     }
 }

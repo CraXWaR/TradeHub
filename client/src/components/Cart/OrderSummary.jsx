@@ -1,7 +1,7 @@
 import style from "./OrderSummary.module.css";
 import CartItem from "./CartItem.jsx";
 
-export default function OrderSummary({subtotal, shipping, tax, total, items = []}) {
+export default function OrderSummary({subtotal, shipping, tax, total, items = [], giftWrap}) {
     const safeSubtotal = Number(subtotal) || 0;
     const safeShipping = Number(shipping) || 0;
     const safeTax = Number(tax) || 0;
@@ -23,10 +23,10 @@ export default function OrderSummary({subtotal, shipping, tax, total, items = []
                 role="list"
                 aria-label="Items in your order">
                 {items.map((item) => (<CartItem
-                        key={item.id}
-                        item={item}
-                        mode="checkout"
-                    />))}
+                    key={item.id}
+                    item={item}
+                    mode="checkout"
+                />))}
             </div>
         </section>)}
 
@@ -42,10 +42,17 @@ export default function OrderSummary({subtotal, shipping, tax, total, items = []
                     {isFreeShipping ? (<span
                         className={style.badgeFree}
                         aria-label="Free shipping">
-                                Free
-                            </span>) : (<>€{safeShipping.toFixed(2)}</>)}
+                        Free
+                    </span>) : (<>€{safeShipping.toFixed(2)}</>)}
                 </dd>
             </div>
+
+            {giftWrap && (<>
+                <div className={style.row}>
+                    <dt className={style.label}>Gift Wrap</dt>
+                    <dd className={style.value}>€4.00</dd>
+                </div>
+            </>)}
 
             <div className={style.row}>
                 <dt className={style.label}>Tax (est.)</dt>

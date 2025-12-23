@@ -254,24 +254,6 @@
     background: #fffaf3;
 }
 
-/* Checkbox */
-.checkboxLabel {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.8rem;
-    color: var(--text-500);
-    margin-top: 0.2rem;
-}
-
-.checkbox {
-    width: 0.95rem;
-    height: 0.95rem;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(108, 91, 91, 0.55);
-    accent-color: var(--primary-500);
-}
-
 /* Actions */
 .actions {
     display: flex;
@@ -279,41 +261,12 @@
     gap: 0.85rem;
 }
 
-.primaryButton {
-    border: none;
-    outline: none;
-    border-radius: 999px;
-    padding: 0.7rem 1.6rem;
-    background: linear-gradient(
-            135deg,
-            var(--primary-400),
-            var(--primary-600)
-    );
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.96rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    cursor: pointer;
-    box-shadow: 0 14px 28px rgba(232, 93, 4, 0.35);
-    transform: translateY(0);
-    transition:
-            box-shadow 0.15s ease,
-            transform 0.15s ease,
-            filter 0.15s ease;
-}
-
-.primaryButton:hover {
-    filter: brightness(1.05);
-    transform: translateY(-1px);
-    box-shadow: 0 18px 35px rgba(232, 93, 4, 0.42);
-}
-
-.primaryButton:active {
-    transform: translateY(0);
-    box-shadow: 0 10px 20px rgba(232, 93, 4, 0.3);
+.formCard button:disabled {
+    background-color: var(--nav-hover-bg);
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 .finePrint {

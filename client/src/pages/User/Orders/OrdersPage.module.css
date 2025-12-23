@@ -56,33 +56,6 @@
     margin: 0 auto 20px;
 }
 
-/* Button */
-.primaryButton {
-    appearance: none;
-    text-align: center;
-    display: block;
-    margin: auto;
-    width: fit-content;
-    border: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    box-shadow: 0 10px 24px rgba(232, 93, 4, 0.2);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-}
-
-.primaryButton:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.02);
-    background: linear-gradient(135deg, var(--primary-600), var(--accent-500));
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-600) 30%, transparent);
-    color: #fff;
-}
-
 /* Small screens */
 @media (max-width: 640px) {
     .card {
@@ -91,11 +64,6 @@
     }
 
     .emptyText {
-        font-size: 12px;
-    }
-
-    .primaryButton {
-        padding: 7px 14px;
         font-size: 12px;
     }
 }

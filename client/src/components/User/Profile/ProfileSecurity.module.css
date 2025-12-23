@@ -5,20 +5,3 @@
 .subtitle { font-size: 13px; color: var(--text-500); margin-top: 2px; }
 
 .row { display: flex; justify-content: flex-end; }
-
-.ghostBtn {
-    padding: 10px 14px;
-    border-radius: 999px;
-    border: 1px solid #ffd0c4;
-    background: #fff7f0;
-    color: var(--accent-600);
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
-}
-
-.ghostBtn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 12px rgba(214, 40, 40, .18);
-    background: #fff2ea;
-}

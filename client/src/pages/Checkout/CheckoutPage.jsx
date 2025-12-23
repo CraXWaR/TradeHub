@@ -1,4 +1,4 @@
-import {FiShoppingCart, FiLock, FiTruck, FiCreditCard} from "react-icons/fi";
+import {FiShoppingCart, FiLock, FiTruck, FiCreditCard, FiUnlock} from "react-icons/fi";
 import OrderSummary from "../../components/Cart/OrderSummary.jsx";
 import {Link, Navigate, useLocation} from "react-router-dom";
 import {useState} from "react";
@@ -9,16 +9,97 @@ import NiceSelect from "../../components/User/UI/Select/NiceSelect.jsx";
 import styles from "./CheckoutPage.module.css";
 
 export default function CheckoutPage() {
-    const [country, setCountry] = useState();
+    const [country, setCountry] = useState("");
+
+    const [shippingData, setShippingData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        address: "",
+        city: "",
+        postalCode: ""
+    });
+
+    const [cardHolderName, setCardHolderName] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [expiry, setExpiry] = useState("");
+    const [cvc, setCvc] = useState("");
 
     const location = useLocation();
-    const {subtotal, shipping, tax, total, items} = location.state || {};
+    const {subtotal, shipping, tax, total, items, applyGiftWrap} = location.state || {};
 
     const hasSummaryData = typeof subtotal === "number" && typeof shipping === "number" && typeof tax === "number" && typeof total === "number" && Array.isArray(items);
 
     if (!hasSummaryData) {
         return <Navigate to="/cart" replace/>;
     }
+
+    const isFormValid = shippingData.firstName.trim() !== "" && shippingData.lastName.trim() !== "" && shippingData.email.includes("@") && shippingData.address.trim() !== "" && shippingData.city.trim() !== "" && shippingData.postalCode.trim() !== "" && cardHolderName.trim() !== "" && cardNumber.length === 19 && expiry.length === 7 && cvc.length >= 3;
+
+    const handleShippingChange = (e) => {
+        const {name, value} = e.target;
+        setShippingData(prev => ({...prev, [name]: value}));
+    };
+    const handleCardHolderNameChange = (e) => {
+        const value = e.target.value.toUpperCase().replace(/[^A-Z\s]/g, "");
+        setCardHolderName(value);
+    }
+    const handleCardNumberChange = (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+        value = value.slice(0, 16);
+        const formattedValue = value.match(/.{1,4}/g)?.join(" ") || "";
+
+        setCardNumber(formattedValue);
+    };
+    const handleExpiryChange = (e) => {
+        let value = e.target.value.replace(/\D/g, "");
+
+        if (value.length > 4) value = value.slice(0, 4);
+
+        if (value.length >= 3) {
+            value = `${value.slice(0, 2)} / ${value.slice(2)}`;
+        }
+
+        setExpiry(value);
+    };
+    const handleCvcChange = (e) => {
+        const value = e.target.value.replace(/\D/g, "").slice(0, 3);
+        setCvc(value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+        const orderData = {
+            shippingDetails: {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                address: formData.get('address'),
+                city: formData.get('city'),
+                postalCode: formData.get('postalCode'),
+                country: country,
+            },
+            paymentDetails: {
+                cardholderName: formData.get('cardholderName'),
+                cardNumber: formData.get('cardNumber'),
+                expiry: formData.get('expiry'),
+                cvc: formData.get('cvc'),
+            },
+            orderItems: items,
+            total: total,
+            giftWrap: applyGiftWrap
+        };
+
+        console.log("Sending order to server:", orderData);
+
+        // fetch request to backend
+        // try {
+        //    const response = await fetch('/api/orders', { ... });
+        //    if (response.ok) navigate('/success');
+        // } catch (err) { ... }
+    };
 
     return (<div className={styles.page}>
         <main className={styles.shell}>
@@ -45,17 +126,18 @@ export default function CheckoutPage() {
             {/* Content */}
             <section className={styles.content}>
                 {/* Left side – shipping + payment */}
-                <div className={styles.formCard}>
+                <form className={styles.formCard} onSubmit={handleSubmit}>
                     {/* Shipping */}
                     <section
                         className={styles.formSection}
                         aria-labelledby="shipping-heading">
+
                         <div className={styles.sectionHeading}>
                             <h2 id="shipping-heading">Shipping details</h2>
                             <span className={styles.sectionTag}>
-                                    <FiTruck/>
-                                    <span>Fast delivery options</span>
-                                </span>
+                                <FiTruck/>
+                                <span>Fast delivery options</span>
+                            </span>
                         </div>
 
                         <div className={styles.grid2}>
@@ -66,7 +148,9 @@ export default function CheckoutPage() {
                                     type="text"
                                     name="firstName"
                                     placeholder="Alex"
-                                    autoComplete="given-name"/>
+                                    autoComplete="given-name"
+                                    value={shippingData.firstName}
+                                    onChange={handleShippingChange}/>
                             </div>
 
                             <div className={styles.field}>
@@ -76,7 +160,9 @@ export default function CheckoutPage() {
                                     type="text"
                                     name="lastName"
                                     placeholder="Johnson"
-                                    autoComplete="family-name"/>
+                                    autoComplete="family-name"
+                                    value={shippingData.lastName}
+                                    onChange={handleShippingChange}/>
                             </div>
                         </div>
 
@@ -87,7 +173,9 @@ export default function CheckoutPage() {
                                 type="email"
                                 name="email"
                                 placeholder="you@example.com"
-                                autoComplete="email"/>
+                                autoComplete="email"
+                                value={shippingData.email}
+                                onChange={handleShippingChange}/>
                         </div>
 
                         <div className={styles.field}>
@@ -97,7 +185,9 @@ export default function CheckoutPage() {
                                 type="text"
                                 name="address"
                                 placeholder="123 Orange Street"
-                                autoComplete="street-address"/>
+                                autoComplete="street-address"
+                                value={shippingData.address}
+                                onChange={handleShippingChange}/>
                         </div>
 
                         <div className={styles.grid3}>
@@ -108,7 +198,9 @@ export default function CheckoutPage() {
                                     type="text"
                                     name="city"
                                     placeholder="Sofia"
-                                    autoComplete="address-level2"/>
+                                    autoComplete="address-level2"
+                                    value={shippingData.city}
+                                    onChange={handleShippingChange}/>
                             </div>
 
                             <div className={styles.field}>
@@ -118,7 +210,9 @@ export default function CheckoutPage() {
                                     type="text"
                                     name="postalCode"
                                     placeholder="1000"
-                                    autoComplete="postal-code"/>
+                                    autoComplete="postal-code"
+                                    value={shippingData.postalCode}
+                                    onChange={handleShippingChange}/>
                             </div>
 
                             <div className={styles.field}>
@@ -137,12 +231,13 @@ export default function CheckoutPage() {
                     <section
                         className={styles.formSection}
                         aria-labelledby="payment-heading">
+
                         <div className={styles.sectionHeading}>
                             <h2 id="payment-heading">Payment</h2>
                             <span className={styles.sectionTag}>
-                                    <FiLock/>
-                                    <span>Secure & encrypted</span>
-                                </span>
+                                <FiLock/>
+                                <span>Secure & encrypted</span>
+                            </span>
                         </div>
 
                         <div className={styles.field}>
@@ -152,7 +247,8 @@ export default function CheckoutPage() {
                                 type="text"
                                 name="cardholderName"
                                 placeholder="Alex Johnson"
-                                autoComplete="cc-name"/>
+                                value={cardHolderName}
+                                onChange={handleCardHolderNameChange}/>
                         </div>
 
                         <div className={styles.field}>
@@ -165,7 +261,9 @@ export default function CheckoutPage() {
                                     name="cardNumber"
                                     inputMode="numeric"
                                     placeholder="4242 4242 4242 4242"
-                                    autoComplete="cc-number"/>
+                                    value={cardNumber}
+                                    onChange={handleCardNumberChange}
+                                    maxLength={19}/>
                             </div>
                         </div>
 
@@ -177,7 +275,9 @@ export default function CheckoutPage() {
                                     type="text"
                                     name="expiry"
                                     placeholder="MM / YY"
-                                    autoComplete="cc-exp"/>
+                                    value={expiry}
+                                    onChange={handleExpiryChange}
+                                    maxLength={7}/>
                             </div>
 
                             <div className={styles.field}>
@@ -187,25 +287,16 @@ export default function CheckoutPage() {
                                     type="password"
                                     name="cvc"
                                     placeholder="•••"
-                                    autoComplete="cc-csc"/>
-                            </div>
-
-                            <div className={styles.field}>
-                                <label className={styles.checkboxLabel}>
-                                    <input
-                                        type="checkbox"
-                                        name="saveCard"
-                                        className={styles.checkbox}/>
-                                    <span>Save card for future orders</span>
-                                </label>
+                                    value={cvc}
+                                    onChange={handleCvcChange}/>
                             </div>
                         </div>
                     </section>
 
                     {/* Actions */}
                     <div className={styles.actions}>
-                        <Button variant={"full"} size={"md"}>
-                            <FiLock/>
+                        <Button variant={"full"} size={"md"} type={"submit"} disabled={!isFormValid}>
+                            {isFormValid ? <FiUnlock /> : <FiLock />}
                             <span>Pay €{total.toFixed(2)}</span>
                         </Button>
                         <p className={styles.finePrint}>
@@ -221,7 +312,7 @@ export default function CheckoutPage() {
                             .
                         </p>
                     </div>
-                </div>
+                </form>
 
                 {/* Right side – OrderSummary */}
                 <div>
@@ -230,7 +321,8 @@ export default function CheckoutPage() {
                         shipping={shipping}
                         tax={tax}
                         total={total}
-                        items={items}/>
+                        items={items}
+                        giftWrap={applyGiftWrap}/>
                 </div>
             </section>
         </main>

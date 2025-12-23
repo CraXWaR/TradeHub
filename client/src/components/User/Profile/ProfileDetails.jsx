@@ -2,6 +2,7 @@ import {useEffect, useState, useTransition} from "react";
 
 import styles from "./ProfileDetails.module.css";
 import useAuth from "../../../hooks/auth/useAuth.js";
+import Button from "../UI/Button/Button.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -72,12 +73,13 @@ const ProfileDetails = () => {
             </label>
 
             <div className={styles.actions}>
-                <button
+                <Button
                     type="submit"
-                    className={styles.primaryBtn}
+                    variant={"full"}
+                    size={"md"}
                     disabled={status.loading || isPending}>
                     {status.loading ? "Saving..." : "Save changes"}
-                </button>
+                </Button>
             </div>
 
             {status.error && <p className={styles.error}>{status.error}</p>}
