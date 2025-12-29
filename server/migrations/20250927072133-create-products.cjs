@@ -11,11 +11,11 @@ module.exports = {
             }, title: {
                 type: Sequelize.STRING, allowNull: false
             }, description: {
-                type: Sequelize.TEXT
+                type: Sequelize.TEXT, allowNull: false
             }, price: {
                 type: Sequelize.FLOAT, allowNull: false
             }, image: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING, allowNull: false
             }, created_at: {
                 allowNull: false, type: Sequelize.DATE, defaultValue: Sequelize.fn('NOW')
             }, updated_at: {

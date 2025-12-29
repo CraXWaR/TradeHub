@@ -7,15 +7,15 @@ import {
     updateQuantity,
     updateVariant
 } from "../controllers/cartController.js";
-import {verifyCartToken} from "../middleware/verifyCartToken.js";
+import {optionalAuth} from "../middleware/optionalAuth.js";
 
 const router = express.Router();
 
-router.get("/", verifyCartToken, getCartItems);
-router.post("/", verifyCartToken, addToCart);
-router.delete("/remove", verifyCartToken, removeFromCart);
-router.delete("/clear", verifyCartToken, clearUserCart);
-router.patch("/update-quantity", verifyCartToken, updateQuantity);
-router.patch("/update-variant", verifyCartToken, updateVariant);
+router.get("/", optionalAuth, getCartItems);
+router.post("/", optionalAuth, addToCart);
+router.delete("/remove", optionalAuth, removeFromCart);
+router.delete("/clear", optionalAuth, clearUserCart);
+router.patch("/update-quantity", optionalAuth, updateQuantity);
+router.patch("/update-variant", optionalAuth, updateVariant);
 
 export default router;

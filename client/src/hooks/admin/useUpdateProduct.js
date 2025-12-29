@@ -117,7 +117,7 @@ export const useUpdateProduct = ({onUpdated} = {}) => {
             if (!res.ok || !data?.success) {
                 if (data?.errors?.length) {
                     setMessage({
-                        type: "error", text: data.errors.map((e) => e.message),
+                        type: "error", text: data.errors,
                     });
                 } else {
                     throw new Error(data?.message || `HTTP ${res.status} ${res.statusText}`);

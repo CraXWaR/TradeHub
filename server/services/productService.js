@@ -6,9 +6,9 @@ export const createProduct = async ({user_id, title, description, price, image, 
         const product = await Product.create({
             user_id,
             title: title?.trim(),
-            description: description?.trim() ?? null,
+            description: description?.trim(),
             price: Number(price),
-            image: image ?? null,
+            image: image,
         });
 
         if (Array.isArray(variants) && variants.length > 0) {

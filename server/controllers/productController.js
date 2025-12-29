@@ -2,57 +2,41 @@ import {
     createProduct, deleteProductById, getAllProducts, getProductById, getProductsByUserId, updateProduct
 } from "../services/productService.js";
 import fs from "fs/promises";
+import {FRIENDLY_MESSAGES} from "../utils/messages.js";
 
-export const getProducts = async (req, res) => {
+export const getProducts = async (req, res, next) => {
     try {
         const products = await getAllProducts();
         res.json({
-            success: true, count: products.length, data: products,
+            success: true, message: FRIENDLY_MESSAGES[200], count: products.length, data: products,
         });
     } catch (error) {
-        console.error("Error fetching products:", error);
-        res.status(500).json({
-            success: false, message: "Failed to fetch products", error: error.message,
-        });
+        next(error);
     }
 };
 
-export const createNewProduct = async (req, res) => {
+export const createNewProduct = async (req, res, next) => {
     try {
         if (!req.user || req.user.role !== "admin") {
-            return res.status(403).json({
-                success: false, message: "You are not authorized to create products",
-            });
+            const error = new Error("Forbidden");
+            error.status = 403;
+            throw error;
         }
 
         const {title, description, price, image, variants} = req.body;
         const user_id = req.user.id;
 
-        let imageUrl = null;
-        if (req.file) {
-            imageUrl = req.file.filename;
-        } else if (image) {
-            imageUrl = image;
-        } else {
-            return res.status(400).json({
-                success: false, message: "Image is required (upload a file)",
-            });
+        let imageUrl = req.file ? req.file.filename : image;
+
+        if (!imageUrl) {
+            const error = new Error("invalid: Image is required");
+            error.status = 400;
+            throw error;
         }
 
         let normalizedVariants = [];
-
         if (variants) {
-            if (typeof variants === "string") {
-                try {
-                    normalizedVariants = JSON.parse(variants);
-                } catch (e) {
-                    return res.status(400).json({
-                        success: false, message: "Invalid variants JSON format",
-                    });
-                }
-            } else if (Array.isArray(variants)) {
-                normalizedVariants = variants;
-            }
+            normalizedVariants = typeof variants === "string" ? JSON.parse(variants) : variants;
         }
 
         const productData = {
@@ -67,150 +51,100 @@ export const createNewProduct = async (req, res) => {
         const newProduct = await createProduct(productData);
 
         res.status(201).json({
-            success: true, message: "Product created successfully", data: newProduct,
+            success: true, message: FRIENDLY_MESSAGES[201], data: newProduct,
         });
     } catch (error) {
-        console.error("Error creating product:", error);
-        res.status(500).json({
-            success: false, message: "Failed to create product", error: error.message,
-        });
+        next(error);
     }
 };
 
-export const getProduct = async (req, res) => {
+export const getProduct = async (req, res, next) => {
     try {
         const {id} = req.params;
         const product = await getProductById(id);
 
         if (!product) {
-            return res.status(404).json({
-                success: false, message: "Product not found",
-            });
+            const error = new Error("Product not found");
+            error.status = 404;
+            throw error;
         }
 
         res.json({
             success: true, data: product,
         });
     } catch (error) {
-        console.error("Error fetching product:", error);
-
-        if (req.file) {
-            await fs.unlink(req.file.path).catch(() => {
-            });
-        }
-
-        res.status(500).json({
-            success: false, message: "Failed to fetch product", error: error.message,
+        if (req.file) await fs.unlink(req.file.path).catch(() => {
         });
+        next(error);
     }
 };
 
-export const getUserProducts = async (req, res) => {
+export const getUserProducts = async (req, res, next) => {
     try {
         const {userId} = req.params;
         const products = await getProductsByUserId(userId);
 
         res.json({
-            success: true, count: products.length, data: products,
+            success: true, message: FRIENDLY_MESSAGES[200], count: products.length, data: products,
         });
     } catch (error) {
-        console.error("Error fetching user products:", error);
-        res.status(500).json({
-            success: false, message: "Failed to fetch user products", error: error.message,
-        });
+        next(error);
     }
 };
 
-export const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res, next) => {
     try {
         if (!req.user || req.user.role !== "admin") {
-            return res.status(403).json({
-                success: false, message: "You are not authorized to delete products",
-            });
+            const error = new Error("Forbidden");
+            error.status = 403;
+            throw error;
         }
 
         const {id} = req.params;
-
-        const product = await getProductById(id);
-        if (!product) {
-            return res.status(404).json({
-                success: false, message: "Product not found",
-            });
-        }
-
         const deleted = await deleteProductById(id);
+
         if (!deleted) {
-            return res.status(404).json({
-                success: false, message: "Product not found",
-            });
+            const error = new Error("Product not found");
+            error.status = 404;
+            throw error;
         }
 
         res.json({
-            success: true, message: "Product deleted successfully",
+            success: true, message: FRIENDLY_MESSAGES[200]
         });
     } catch (error) {
-        console.error("Error deleting product:", error);
-        res.status(500).json({
-            success: false, message: "Failed to delete product", error: error.message,
-        });
+        next(error);
     }
 };
 
-export const editProduct = async (req, res) => {
+export const editProduct = async (req, res, next) => {
     try {
         if (!req.user || req.user.role !== "admin") {
-            return res.status(403).json({
-                success: false,
-                message: "You are not authorized to edit products",
-            });
+            const error = new Error("Forbidden");
+            error.status = 403;
+            throw error;
         }
 
-        const { id } = req.params;
-
+        const {id} = req.params;
         const productData = {
             title: req.body.title?.trim(),
             description: req.body.description?.trim(),
             price: req.body.price !== undefined ? Number(req.body.price) : null,
         };
 
-        if (req.file) {
-            productData.image = req.file.filename;
-        }
+        if (req.file) productData.image = req.file.filename;
 
         if ("variants" in req.body) {
-            let normalizedVariants = [];
-
-            const { variants } = req.body;
-
-            if (variants) {
-                if (typeof variants === "string") {
-                    try {
-                        normalizedVariants = JSON.parse(variants);
-                    } catch (e) {
-                        return res.status(400).json({
-                            success: false,
-                            message: "Invalid variants JSON format",
-                        });
-                    }
-                } else if (Array.isArray(variants)) {
-                    normalizedVariants = variants;
-                }
-            } else {
-                normalizedVariants = [];
-            }
-
-            productData.variants = normalizedVariants;
+            const {variants} = req.body;
+            productData.variants = typeof variants === "string" ? JSON.parse(variants) : (variants || []);
         }
 
         const updated = await updateProduct(id, productData);
 
-        res.json({ success: true, data: updated });
-    } catch (err) {
-        console.error("Error updating product:", err);
-        res.status(500).json({
-            success: false,
-            message: err?.message || "Error updating product",
+        res.json({
+            success: true, message: FRIENDLY_MESSAGES[200], data: updated
         });
+    } catch (error) {
+        next(error);
     }
 };
-

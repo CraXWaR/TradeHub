@@ -15,6 +15,7 @@ import cartRoutes from "./routes/cartRoutes.js";
 //Middlewares
 import {notFound} from "./middleware/notFoundMiddleware.js";
 import {errorHandler} from "./middleware/errorHandlerMiddleware.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -39,12 +40,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
-
-//User Routes
 app.use('/user/wishlist', wishListRoutes);
-
-//Cart Routes
 app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

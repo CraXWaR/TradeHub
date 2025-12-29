@@ -8,6 +8,8 @@ import NiceSelect from "../../components/User/UI/Select/NiceSelect.jsx";
 
 import styles from "./CheckoutPage.module.css";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function CheckoutPage() {
     const [country, setCountry] = useState("");
 
@@ -71,6 +73,8 @@ export default function CheckoutPage() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
+        const token = localStorage.getItem("token");
+
         const orderData = {
             shippingDetails: {
                 firstName: formData.get('firstName'),
@@ -81,24 +85,37 @@ export default function CheckoutPage() {
                 postalCode: formData.get('postalCode'),
                 country: country,
             },
-            paymentDetails: {
-                cardholderName: formData.get('cardholderName'),
-                cardNumber: formData.get('cardNumber'),
-                expiry: formData.get('expiry'),
-                cvc: formData.get('cvc'),
+            items: items,
+            totals: {
+                subtotal: subtotal,
+                shipping: shipping,
+                tax: tax,
+                total: total
             },
-            orderItems: items,
-            total: total,
-            giftWrap: applyGiftWrap
+            applyGiftWrap: applyGiftWrap
         };
 
-        console.log("Sending order to server:", orderData);
+        try {
+            const response = await fetch(`${BASE_URL}/api/orders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token}` })
+                },
+                body: JSON.stringify(orderData)
+            });
 
-        // fetch request to backend
-        // try {
-        //    const response = await fetch('/api/orders', { ... });
-        //    if (response.ok) navigate('/success');
-        // } catch (err) { ... }
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("Order successful:", data);
+                // navigate('/success', { state: { orderId: data.orderId } });
+            } else {
+                console.error("Order failed:", data.message);
+            }
+        } catch (err) {
+            console.error("Network error:", err);
+        }
     };
 
     return (<div className={styles.page}>

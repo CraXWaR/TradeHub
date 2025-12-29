@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const verifyCartToken = (req, res, next) => {
+export const optionalAuth = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

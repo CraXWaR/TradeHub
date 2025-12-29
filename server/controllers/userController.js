@@ -1,103 +1,78 @@
+import {authenticateUser, createUser, getAllUsers, getUserById} from "../services/userService.js";
+import {FRIENDLY_MESSAGES} from "../utils/messages.js";
 import jwt from "jsonwebtoken";
-import userService from "../services/userService.js";
 
-export const getUsers = async (req, res) => {
+export const getUsers = async (req, res, next) => {
     try {
-        const users = await userService.getAllUsers();
+        const users = await getAllUsers();
 
         res.json({
-            success: true,
-            count: users.length,
-            data: users,
+            success: true, message: FRIENDLY_MESSAGES[200], count: users.length, data: users,
         });
     } catch (error) {
-        console.error("Error fetching users:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch users",
-            error: error.message,
-        });
+        next(error);
     }
 };
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
     try {
-        const user = await userService.createUser(req.body);
+        const user = await createUser(req.body);
 
         res.status(201).json({
-            success: true,
-            message: "User registered successfully",
-            data: user,
+            success: true, message: FRIENDLY_MESSAGES[201], data: user,
         });
     } catch (error) {
-        console.error("Error registering user:", error);
-        res.status(error.statusCode || 500).json({
-            success: false,
-            message: error.message || "Failed to register user",
-        });
+        next(error);
     }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     try {
-        const user = await userService.authenticateUser(req.body.email, req.body.password);
+        const {email, password} = req.body;
+        const user = await authenticateUser(email, password);
 
         const payload = {
-            id: user.id,
-            role: user.role,
-            email: user.email,
-            name: user.name,
-            created_at: user.createdAt,
-            updated_at: user.updatedAt,
+            id: user.id, role: user.role, email: user.email, name: user.name,
         };
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
 
         res.json({
-            success: true,
-            data: {
-                id: user.id,
-                role: user.role,
-                email: user.email,
-                name: user.name,
-                created_at: user.createdAt,
-                updated_at: user.updatedAt,
-                token,
+            success: true, message: FRIENDLY_MESSAGES[200], data: {
+                ...user, token,
             },
         });
     } catch (error) {
-        console.error("Error logging in user:", error);
-        res.status(error.statusCode || 500).json({
-            success: false,
-            message: error.message || "Failed to login user",
-        });
+        next(error);
     }
 };
 
-export const getMe = async (req, res) => {
+export const getMe = async (req, res, next) => {
     try {
-        const user = await userService.getUserById(req.user.id);
+        const user = await getUserById(req.user.id);
+
         if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
+            const error = new Error("Product not found");
+            return next(error);
         }
 
-        const { password, ...safeUser } = user;
-        res.json({ success: true, data: safeUser });
+        res.json({
+            success: true, data: user
+        });
     } catch (error) {
-        console.error("Error fetching user:", error);
-        res.status(500).json({ success: false, message: "Failed to fetch user" });
+        next(error);
     }
 };
 
-export const updateMe = async (req, res) => {
+export const updateMe = async (req, res, next) => {
     try {
-        const updated = await userService.updateUserName(req.user.id, req.body.name);
-        res.json({ success: true, message: "User updated", data: updated });
-    } catch (error) {
-        console.error("Error updating user:", error);
-        res.status(error.statusCode || 500).json({
-            success: false,
-            message: error.message || "Failed to update user",
+        const {name} = req.body;
+        const updated = await updateUserName(req.user.id, name);
+
+        res.json({
+            success: true, message: FRIENDLY_MESSAGES[200], data: updated
         });
+    } catch (error) {
+        next(error);
     }
 };

@@ -7,26 +7,6 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 export function useCart() {
     const [isBusy, setIsBusy] = useState(false);
     const [message, setMessage] = useState(null);
-    // const [cartItems, setCartItems] = useState(() => {
-    //     if (typeof window === "undefined") return [];
-    //     try {
-    //         const raw = localStorage.getItem(STORAGE_CART_KEY);
-    //         if (!raw) return [];
-    //
-    //         const parsed = JSON.parse(raw);
-    //
-    //         // backwards-compat:
-    //         if (Array.isArray(parsed) && parsed.length && typeof parsed[0] === "number") {
-    //             return parsed.map((id) => ({
-    //                 productId: id, quantity: 1, variantId: null,
-    //             }));
-    //         }
-    //
-    //         return parsed;
-    //     } catch {
-    //         return [];
-    //     }
-    // });
     const [cartItems, setCartItems] = useState([]);
 
     const {token, isAuthenticated} = useAuth();
@@ -246,7 +226,6 @@ export function useCart() {
         }
     }, [isAuthenticated, token]);
 
-    // total count = sum of quantities
     const cartCount = Array.isArray(cartItems) ? cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0) : 0;
     const dismissMessage = useCallback(() => setMessage(null), []);
 

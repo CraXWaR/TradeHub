@@ -49,7 +49,6 @@ const CreateProductForm = ({
                             onChange={handleChange}
                             className={styles.formInput}
                             placeholder="Enter product name"
-                            required
                         />
                         <div className={styles.inputIcon}>🏷️</div>
                     </div>
@@ -67,7 +66,6 @@ const CreateProductForm = ({
                             className={`${styles.formInput} ${styles.textarea}`}
                             placeholder="Enter product description"
                             rows="4"
-                            required
                         />
                         <div className={styles.inputIcon}>📝</div>
                     </div>
@@ -88,7 +86,6 @@ const CreateProductForm = ({
                                 placeholder="0.00"
                                 step="0.01"
                                 min="0"
-                                required
                             />
                             <div className={styles.inputIcon}>💵</div>
                         </div>
