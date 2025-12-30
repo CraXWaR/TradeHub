@@ -157,11 +157,21 @@ export function useCart() {
             const raw = localStorage.getItem(STORAGE_CART_KEY);
             if (raw) {
                 const localItems = JSON.parse(raw);
-                const updatedLocal = localItems.map(item => item.productId === productId && item.variantId === variantId ? {
-                    ...item,
-                    quantity
-                } : item);
+                const updatedLocal = localItems.map(item => {
+                    const isProdMatch = String(item.productId || item.product_id) === String(productId);
+
+                    const itemVar = item.variantId ?? null;
+                    const targetVar = variantId ?? null;
+                    const isVarMatch = String(itemVar) === String(targetVar);
+
+                    if (isProdMatch && isVarMatch) {
+                        return {...item, quantity: Number(quantity)};
+                    }
+                    return item;
+                });
+
                 localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(updatedLocal));
+                setCartItems(updatedLocal);
             }
         }
     }, [isAuthenticated, token]);
@@ -193,11 +203,13 @@ export function useCart() {
             const raw = localStorage.getItem(STORAGE_CART_KEY);
             if (raw) {
                 const localItems = JSON.parse(raw);
-                const updatedLocal = localItems.map(item => item.productId === productId && item.variantId === oldVariantId ? {
-                    ...item,
-                    variantId: newVariantId
-                } : item);
+                const updatedLocal = localItems.map(item => {
+                    const isMatch = String(item.productId) === String(productId) && String(item.variantId ?? null) === String(oldVariantId ?? null);
+
+                    return isMatch ? {...item, variantId: newVariantId} : item;
+                });
                 localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(updatedLocal));
+                setCartItems(updatedLocal);
             }
         }
     }, [isAuthenticated, token]);

@@ -42,7 +42,7 @@ import HomePage from "./pages/Home/HomePage.jsx";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import CartPage from "./pages/Cart/CartPage.jsx";
-import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
+import {CheckoutPage} from "./pages/Checkout/CheckoutPage.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
 
 function AppShell() {

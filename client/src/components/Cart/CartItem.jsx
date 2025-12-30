@@ -3,6 +3,7 @@ import style from "./CartItem.module.css";
 import {useState} from "react";
 import styles from "../ProductDetail/ProductInfo.module.css";
 import Button from "../User/UI/Button/Button.jsx";
+import NiceSelect from "../User/UI/Select/NiceSelect.jsx";
 
 const MIN_QTY = 1;
 const MAX_QTY = 10;
@@ -18,15 +19,19 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
 
     const isCheckout = mode === "checkout";
 
-    const onSelectChange = (e) => {
-        const val = Number(e.target.value);
-        const clamped = Math.max(MIN_QTY, Math.min(MAX_QTY, val));
+    const qtyOptions = Array.from({length: MAX_QTY}, (_, i) => ({
+        value: i + 1, label: (i + 1).toString()
+    }));
+
+    const onSelectChange = (val) => {
+        const clamped = Math.max(MIN_QTY, Math.min(MAX_QTY, Number(val)));
 
         if (!onQtyChange) return;
 
-        const variantKey = variants && variants.length > 0 ? selectedVariantId : undefined;
+        const productId = item.productId || item.product_id || item.id;
+        const variantId = item.selectedVariantId ?? null;
 
-        onQtyChange(item.id, clamped, variantKey);
+        onQtyChange(productId, variantId, clamped);
     };
 
     const handleCartVariantClick = (variant) => {
@@ -86,16 +91,11 @@ export default function CartItem({item, onQtyChange, onRemove, onVariantChange, 
                         Qty
                     </label>
                     <div className={style.qtyWrap}>
-                        <select
-                            id={`qty-${id}`}
-                            className={style.qtySelect}
+                        <NiceSelect
+                            options={qtyOptions}
                             value={quantity}
                             onChange={onSelectChange}
-                            aria-label={`Quantity for ${title}`}>
-                            {Array.from({length: MAX_QTY}, (_, i) => i + 1).map((n) => (<option key={n} value={n}>
-                                {n}
-                            </option>))}
-                        </select>
+                        />
                     </div>
                 </>) : (<span className={style.qtyStatic}>Qty {quantity}</span>)}
 

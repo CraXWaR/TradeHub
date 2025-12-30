@@ -291,3 +291,27 @@
 .inlineLink:hover {
     color: var(--accent-600);
 }
+
+.errorText {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+
+    background: linear-gradient(
+            135deg,
+            rgba(230, 57, 70, 0.1),
+            rgba(214, 40, 40, 0.1)
+    );
+    border: 2px solid rgba(230, 57, 70, 0.3);
+    color: var(--accent-600, #d62828);
+
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

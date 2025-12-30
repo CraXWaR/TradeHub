@@ -93,40 +93,6 @@
     position: relative;
 }
 
-.qtySelect {
-    height: 40px;
-    min-width: 72px;
-    padding: 0 34px 0 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    color: var(--text-700);
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    appearance: none;
-    background: #fff linear-gradient(180deg, var(--primary-500), var(--primary-600)) no-repeat;
-    background-size: 0 100%;
-}
-
-.qtyWrap::after {
-    content: "▾";
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    translate: 0 -50%;
-    font-size: 14px;
-    color: var(--primary-600);
-    pointer-events: none;
-}
-
-.qtySelect:focus-visible {
-    outline: 2px solid var(--primary-500);
-    outline-offset: 2px;
-}
-
-.qtySelect:hover {
-    border-color: rgba(0, 0, 0, 0.16);
-}
-
 .qtyStatic {
     font-size: 0.95rem;
     font-weight: 700;

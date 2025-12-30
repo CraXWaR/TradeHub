@@ -53,7 +53,7 @@ export function useCartProducts(cartItems) {
                     const product = productsArray.find((p) => p.id === cartItem.productId);
                     if (!product) return null;
 
-                    const selectedVariantId = cartItem.variantId ?? null;
+                    const selectedVariantId = cartItem.variantId ?? cartItem.variant_id ?? null;
                     const selectedVariant = selectedVariantId != null ? product.variants?.find((v) => v.id === selectedVariantId) : null;
                     const unitPrice = selectedVariant?.price ?? product.price;
 

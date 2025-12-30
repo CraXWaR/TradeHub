@@ -88,7 +88,7 @@ export default function CartPage() {
                     {items.map((item) => (<CartItem
                         key={item.id}
                         item={item}
-                        onQtyChange={(productId, qty, variantId) => {
+                        onQtyChange={(productId, variantId, qty) => {
                             updateItemQuantity(productId, variantId, qty);
                         }}
                         onRemove={() => handleRemove(item.id, item.selectedVariantId ?? null)}
