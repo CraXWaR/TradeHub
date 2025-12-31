@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 // ─── Context Providers / Hooks ──────────────────────────────────
 import AuthProvider from "./contex/AuthProvider.jsx";
-import { CartProvider } from "./contex/cart-context.jsx";
+import CartProvider from "./contex/cart-context.jsx";
 import useAuth from "./hooks/auth/useAuth.js";
 
 // ─── Layout Components ──────────────────────────────────────────
@@ -42,8 +42,9 @@ import HomePage from "./pages/Home/HomePage.jsx";
 import Products from "./pages/Products/Products";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import CartPage from "./pages/Cart/CartPage.jsx";
-import {CheckoutPage} from "./pages/Checkout/CheckoutPage.jsx";
+import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import OrderSuccessPage from "./pages/OrderSuccess/OrderSuccessPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -67,6 +68,7 @@ function AppShell() {
 
                         <Route path="/cart" element={<CartPage/>}/>
                         <Route path="/checkout" element={<CheckoutPage/>}/>
+                        <Route path="/order-success/:orderId" element={<OrderSuccessPage/>}/>
 
                         {/* User routes */}
                         <Route element={<ProtectedRoute role="user"/>}>

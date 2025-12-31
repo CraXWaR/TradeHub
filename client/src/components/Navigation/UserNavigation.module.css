@@ -75,6 +75,12 @@
     box-shadow:
             0 0 0 1px rgba(255, 255, 255, 0.5),
             0 4px 10px color-mix(in srgb, var(--accent-500) 45%, transparent);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cartBadge:empty {
+    transform: scale(0);
+    opacity: 0;
 }
 
 /* Mobile top buttons */

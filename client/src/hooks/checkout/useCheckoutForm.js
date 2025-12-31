@@ -1,11 +1,13 @@
 import {useState} from "react";
 import {useFormHandler} from "../useFormHandler.js";
 import {useNavigate} from "react-router-dom";
+import {useCartStore} from "../../contex/cart-context.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export function useCheckoutForm() {
     const {loading, setLoading, message, setMessage, resetMessage, withMinDelay} = useFormHandler();
+    const {clearCart} = useCartStore();
     const navigate = useNavigate();
     const [country, setCountry] = useState("");
     const [shippingData, setShippingData] = useState({
@@ -59,8 +61,8 @@ export function useCheckoutForm() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("Order Successfully Created", {state: {orderId: data.orderId}});
-                // navigate('/success', {state: {orderId: data.orderId}});
+                await clearCart();
+                navigate(`/order-success/${data.orderId}`, {state: {fromCheckout: true}});
             } else {
                 setMessage({type: "error", text: data.message || "Order failed"});
             }

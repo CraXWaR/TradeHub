@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from "react";
+import {useState, useCallback, useEffect, useMemo} from "react";
 import useAuth from "../auth/useAuth.js";
 
 const STORAGE_CART_KEY = "th_cart_v1";
@@ -238,7 +238,10 @@ export function useCart() {
         }
     }, [isAuthenticated, token]);
 
-    const cartCount = Array.isArray(cartItems) ? cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0) : 0;
+    const cartCount = useMemo(() => {
+        return Array.isArray(cartItems) ? cartItems.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0) : 0;
+    }, [cartItems]);
+
     const dismissMessage = useCallback(() => setMessage(null), []);
 
     return {
