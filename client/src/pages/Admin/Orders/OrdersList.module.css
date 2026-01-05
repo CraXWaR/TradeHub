@@ -1,0 +1,292 @@
+/* Layout and main container */
+.container {
+    padding: 2.5rem;
+    background-color: var(--bg-0);
+    min-height: 100vh;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* Order Grid and Card styling */
+.orderGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.orderCard {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid var(--bg-1);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.orderCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary-400);
+}
+
+.orderHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.orderId {
+    font-size: 0.8rem;
+    color: var(--text-500);
+    font-weight: 600;
+}
+
+.price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-600);
+}
+
+.customerInfo h3 {
+    margin: 0.5rem 0;
+    color: var(--text-700);
+    font-size: 1.1rem;
+}
+
+.customerInfo p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-500);
+    margin-top: 0.4rem;
+}
+
+.giftRibbon {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: #f59e0b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.footerActions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bg-1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Modal Panel (Overlay & Content) */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 10000;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.modalOverlay.closing {
+    animation: fadeOut 0.4s ease forwards;
+}
+
+.modalContent {
+    background: var(--bg-0);
+    width: 450px;
+    height: 100%;
+    border-left: 1px solid var(--primary-400);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modalContent.closing {
+    animation: slideOutRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Modal Header styling */
+.modalHeader {
+    padding: 1.5rem 2rem;
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--primary-400);
+    position: relative;
+}
+
+.headerTitleGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.orderBadge {
+    display: inline-block;
+    background: var(--primary-600);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    width: fit-content;
+    margin-bottom: 4px;
+}
+
+.headerTitleGroup h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-700);
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.headerCloseBtn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--text-500) !important;
+    cursor: pointer;
+}
+
+/* Modal Body and Information Sections */
+.modalBody {
+    padding: 2rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-600);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.2rem;
+}
+
+.detailsGrid {
+    display: grid;
+    gap: 1.2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--bg-1);
+    margin-bottom: 2.5rem;
+}
+
+.dataGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.dataLabel {
+    font-size: 0.75rem;
+    color: var(--text-500);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.dataValue {
+    font-size: 0.95rem;
+    color: var(--text-700);
+    font-weight: 600;
+}
+
+/* Financial Summary and Gift UI */
+.billTable {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--bg-1);
+}
+
+.billRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+    color: var(--text-500);
+}
+
+.giftIndicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nav-hover-bg);
+    color: var(--primary-600);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid var(--primary-400);
+    margin-top: 1rem;
+    animation: softPulse 2s infinite;
+}
+
+/* Modal Footer styling */
+.footer {
+    padding: 2rem;
+    background: white;
+    border-top: 1px solid var(--bg-1);
+}
+
+.label {
+    font-size: 0.75rem;
+    color: var(--text-500);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.totalValue {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent-500);
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* Keyframes and Animations */
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+@keyframes slideOutRight {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes softPulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}

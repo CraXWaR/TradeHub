@@ -29,6 +29,7 @@ import RegisterPage from "./pages/Auth/Register/RegisterPage.jsx";
 import AdminDashboardPage from "./pages/Admin/Dashboard/AdminDashboard.jsx";
 import CreateProductPage from "./pages/Admin/CreateProduct/CreateProductPage.jsx";
 import AdminProductsPage from "./pages/Admin/Products/AdminPorductsPage.jsx";
+import OrdersList from "./pages/Admin/Orders/OrdersList.jsx";
 
 // ─── Pages: User Profile / Account ──────────────────────────────
 import ProfilePage from "./pages/User/Profile/ProfilePage.jsx";
@@ -89,6 +90,7 @@ function AppShell() {
                                 <Route path="create" element={<CreateProductPage/>}/>
                                 <Route path="products" element={<AdminProductsPage/>}/>
                                 <Route path="users" element={<UsersList/>}/>
+                                <Route path="orders" element={<OrdersList/>}/>
                             </Route>
                         </Route>
 

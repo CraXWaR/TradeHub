@@ -2,7 +2,7 @@ import {Order, OrderItem, sequelize} from "../models/index.js";
 
 export const createOrder = async (orderData, items) => {
     const transaction = await sequelize.transaction();
-
+    console.log(orderData.phone_number);
     try {
         const order = await Order.create(orderData, {transaction});
 

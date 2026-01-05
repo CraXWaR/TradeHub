@@ -12,6 +12,8 @@ module.exports = {
                 type: Sequelize.STRING, allowNull: false
             }, email: {
                 type: Sequelize.STRING, allowNull: false
+            }, phone_number: {
+                type: Sequelize.STRING, allowNull: false
             }, address: {
                 type: Sequelize.TEXT, allowNull: false
             }, city: {

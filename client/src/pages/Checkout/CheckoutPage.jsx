@@ -98,6 +98,7 @@ export default function CheckoutPage() {
                             </div>
                         </div>
 
+                        <div className={styles.grid2}>
                         <div className={styles.field}>
                             <label htmlFor="email">Email</label>
                             <input
@@ -110,6 +111,18 @@ export default function CheckoutPage() {
                                 onChange={handleShippingChange}/>
                         </div>
 
+                        <div className={styles.field}>
+                            <label htmlFor="phone">Phone</label>
+                            <input
+                                id="phone"
+                                type="phone"
+                                name="phone"
+                                placeholder="0895888888"
+                                autoComplete="phone"
+                                value={shippingData.phone}
+                                onChange={handleShippingChange}/>
+                        </div>
+                        </div>
                         <div className={styles.field}>
                             <label htmlFor="address">Address</label>
                             <input
@@ -180,7 +193,8 @@ export default function CheckoutPage() {
                                 name="cardHolderName"
                                 placeholder="Alex Johnson"
                                 value={paymentData.cardHolderName}
-                                onChange={handlePaymentChange}/>
+                                onChange={handlePaymentChange}
+                                autoComplete="cardholder-name"/>
                         </div>
 
                         <div className={styles.field}>
@@ -195,7 +209,8 @@ export default function CheckoutPage() {
                                     placeholder="4242 4242 4242 4242"
                                     value={paymentData.cardNumber}
                                     onChange={handlePaymentChange}
-                                    maxLength={19}/>
+                                    maxLength={19}
+                                    autoComplete="card-number"/>
                             </div>
                         </div>
 
@@ -209,7 +224,8 @@ export default function CheckoutPage() {
                                     placeholder="MM / YY"
                                     value={paymentData.expiry}
                                     onChange={handlePaymentChange}
-                                    maxLength={7}/>
+                                    maxLength={7}
+                                    autoComplete="expiry"/>
                             </div>
 
                             <div className={styles.field}>

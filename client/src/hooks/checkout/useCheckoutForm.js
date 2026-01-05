@@ -11,7 +11,7 @@ export function useCheckoutForm() {
     const navigate = useNavigate();
     const [country, setCountry] = useState("");
     const [shippingData, setShippingData] = useState({
-        firstName: "", lastName: "", email: "", address: "", city: "", postalCode: ""
+        firstName: "", lastName: "", email: "", phone: "", address: "", city: "", postalCode: ""
     });
     const [paymentData, setPaymentData] = useState({
         cardHolderName: "", cardNumber: "", expiry: "", cvc: ""
@@ -26,19 +26,18 @@ export function useCheckoutForm() {
             return digits.length >= 3 ? `${digits.slice(0, 2)} / ${digits.slice(2)}` : digits;
         }, cvc: (val) => val.replace(/\D/g, "").slice(0, 3)
     };
-
     const handleShippingChange = (e) => {
         const {name, value} = e.target;
         setShippingData(prev => ({...prev, [name]: value}));
     };
-
     const handlePaymentChange = (e) => {
         const {name, value} = e.target;
         const formatted = formatters[name] ? formatters[name](value) : value;
         setPaymentData(prev => ({...prev, [name]: formatted}));
     };
+    const isPhoneValid = /^(\+?\d{1,3}[- ]?)?\d{10}$/.test(shippingData.phone);
 
-    const isFormValid = Object.values(shippingData).every(val => val.trim() !== "") && country !== "" && shippingData.email.includes("@") && paymentData.cardNumber.length === 19 && paymentData.expiry.length === 7 && paymentData.cvc.length >= 3;
+    const isFormValid = Object.values(shippingData).every(val => val.trim() !== "") && country !== "" && shippingData.email.includes("@") && isPhoneValid && paymentData.cardNumber.length === 19 && paymentData.expiry.length === 7 && paymentData.cvc.length >= 3;
 
     const submitOrder = async (orderSummary) => {
         if (!isFormValid || loading) return;

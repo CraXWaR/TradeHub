@@ -1,7 +1,7 @@
 import {Link, Outlet} from "react-router-dom";
 import {useState} from "react";
 import {
-    FaAlignRight, FaAlignLeft, FaUsers, FaBox, FaPlus, FaChartBar,
+    FaAlignRight, FaAlignLeft, FaUsers, FaBox, FaPlus, FaChartBar, FaCubes
 } from "react-icons/fa";
 
 const AdminLayout = () => {
@@ -55,8 +55,15 @@ const AdminLayout = () => {
                 <Link
                     to="/admin/products"
                     className="flex items-center space-x-2 hover:text-[var(--deep-orange)]">
-                    <FaBox/>
+                    <FaCubes/>
                     {!collapsed && <span>View Products</span>}
+                </Link>
+
+                <Link
+                    to="/admin/orders"
+                    className="flex items-center space-x-2 hover:text-[var(--deep-orange)]">
+                    <FaBox/>
+                    {!collapsed && <span>View Orders</span>}
                 </Link>
             </nav>
         </aside>
