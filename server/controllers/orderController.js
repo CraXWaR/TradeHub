@@ -1,4 +1,4 @@
-import {createOrder} from "../services/orderService.js";
+import {createOrder, getAllOrdersFromDb, getOrderByUserId} from "../services/orderService.js";
 import {FRIENDLY_MESSAGES} from "../utils/messages.js";
 
 export const placeOrder = async (req, res, next) => {
@@ -60,3 +60,44 @@ export const placeOrder = async (req, res, next) => {
         next(error);
     }
 };
+
+export const getAllOrders = async (req, res, next) => {
+    try {
+        const orders = await getAllOrdersFromDb();
+
+        if (!orders) {
+            const error = new Error(FRIENDLY_MESSAGES[404]);
+            error.status = 404;
+            return next(error);
+        }
+
+        res.status(200).json({
+            success: true, message: FRIENDLY_MESSAGES[200], data: orders
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getUserOrders = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: FRIENDLY_MESSAGES[401]
+            });
+        }
+
+        const orders = await getOrderByUserId(userId);
+
+        res.status(200).json({
+            success: true,
+            message: FRIENDLY_MESSAGES[200],
+            data: orders
+        });
+    } catch (error) {
+        next(error);
+    }
+}

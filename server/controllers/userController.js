@@ -1,4 +1,4 @@
-import {authenticateUser, createUser, getAllUsers, getUserById} from "../services/userService.js";
+import {authenticateUser, createUser, getAllUsers, getUserById, updateUserName} from "../services/userService.js";
 import {FRIENDLY_MESSAGES} from "../utils/messages.js";
 import jwt from "jsonwebtoken";
 

@@ -48,6 +48,10 @@
     font-variant-numeric: tabular-nums;
 }
 
+.actionsCell {
+    display: flex;
+}
+
 .actionsCell button + button {
     margin-left: 0.5rem;
 }

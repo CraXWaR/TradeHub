@@ -1,0 +1,54 @@
+.errorState {
+    position: relative;
+    max-width: 500px;
+    margin: 2rem auto;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.errorContent {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1.8rem;
+    gap: 1.2rem;
+}
+
+.errorIcon {
+    color: var(--accent-500);
+    flex-shrink: 0;
+}
+
+.errorInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.errorTitle {
+    font-weight: 700;
+    color: var(--text-700);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.errorMessage {
+    margin: 0.1rem 0 0 0;
+    color: var(--text-500);
+    font-size: 0.85rem;
+}
+
+.errorBar {
+    height: 3px;
+    width: 100%;
+    background: var(--accent-500);
+    opacity: 0.8;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

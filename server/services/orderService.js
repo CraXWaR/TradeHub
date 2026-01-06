@@ -2,7 +2,7 @@ import {Order, OrderItem, sequelize} from "../models/index.js";
 
 export const createOrder = async (orderData, items) => {
     const transaction = await sequelize.transaction();
-    console.log(orderData.phone_number);
+
     try {
         const order = await Order.create(orderData, {transaction});
 
@@ -29,3 +29,23 @@ export const createOrder = async (orderData, items) => {
         };
     }
 };
+
+export const getAllOrdersFromDb = async () => {
+    try {
+        return await Order.findAll({
+            order: [['createdAt', 'DESC']]
+        });
+    } catch (error) {
+        throw new Error("Database error occurred while fetching orders.");
+    }
+}
+
+export const getOrderByUserId = async (userId) => {
+    try {
+        return await Order.findAll({
+            where: {user_id: userId}, order: [['createdAt', 'DESC']]
+        });
+    } catch (error) {
+        throw new Error("Database error occurred while fetching orders.");
+    }
+}

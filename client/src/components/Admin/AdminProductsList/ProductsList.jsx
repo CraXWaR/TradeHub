@@ -6,6 +6,11 @@ import {useProducts} from "../../../hooks/admin/useProducts.js";
 import {useUpdateProduct} from "../../../hooks/admin/useUpdateProduct.js";
 import {useDeleteProduct} from "../../../hooks/admin/useDeleteProduct.js";
 
+import {Loading} from "../Common/Loading/Loading.jsx";
+import {Error} from "../Common/Error/Error.jsx";
+import {FaInbox} from "react-icons/fa";
+import {Empty} from "../Common/Empty/Empty.jsx";
+
 import ProductsTable from "./ProductsTable.jsx";
 import styles from "./ProductsList.module.css";
 
@@ -42,9 +47,11 @@ const ProductsList = ({filters}) => {
         delayMs: 2000, onDeleted: removeProductFromList,
     });
 
-    if (loading) return <p className={styles.loading}>Loading…</p>;
-    if (error) return <p className={styles.error}>{error}</p>;
-    if (!products.length) return <p className={styles.empty}>No products found.</p>;
+    if (loading) return <Loading message="Loading products..."/>;
+    if (error) return <Error message={error}/>;
+    if (!products.length) return <Empty title="No Products Yet"
+                                        description="The database is currently empty. No products found."
+                                        icon={FaInbox}/>;
 
     return (<>
         <ProductsTable
