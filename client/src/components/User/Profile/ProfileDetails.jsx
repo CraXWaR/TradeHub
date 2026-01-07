@@ -1,59 +1,22 @@
-import {useEffect, useState, useTransition} from "react";
+import Button from "../UI/Button/Button.jsx";
+import {useUpdateProfile} from "../../../hooks/profile/useUpdateProfile.js";
+import useAuth from "../../../hooks/auth/useAuth.js";
 
 import styles from "./ProfileDetails.module.css";
-import useAuth from "../../../hooks/auth/useAuth.js";
-import Button from "../UI/Button/Button.jsx";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 const ProfileDetails = () => {
-    const {user, setUser, refreshUser} = useAuth();
-    const [status, setStatus] = useState({loading: false, error: "", ok: ""});
-    const [isPending, startTransition] = useTransition();
+    const {user} = useAuth();
+    const {name, setName, status, updateName, isPending} = useUpdateProfile();
 
-    const [name, setName] = useState(user?.name ?? "");
-    useEffect(() => {
-        setName(user?.name ?? "");
-    }, [user?.name]);
-
-    const onSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setStatus({loading: true, error: "", ok: ""});
-
-        const payload = {name: (name || "").trim()};
-        if (!payload.name) {
-            setStatus({loading: false, error: "Name is required.", ok: ""});
-            return;
-        }
-
-        try {
-            const res = await fetch(`${BASE_URL}/api/users/me`, {
-                method: "PATCH", headers: {
-                    "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}`,
-                }, body: JSON.stringify(payload),
-            });
-
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) throw new Error(data?.message || "Failed to update profile");
-
-            startTransition(() => {
-                setUser((u) => ({...u, name: payload.name}));
-            });
-
-            await refreshUser();
-
-            setStatus({loading: false, error: "", ok: "Saved!"});
-        } catch (err) {
-            setStatus({
-                loading: false, error: err?.message || "Something went wrong", ok: "",
-            });
-        }
+        updateName(name);
     };
 
     return (<section className={`profile-card ${styles.card}`}>
         <h3 className={styles.title}>Account details</h3>
 
-        <form className={styles.form} onSubmit={onSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit}>
             <label className={styles.field}>
                 <span>Full name</span>
                 <input

@@ -5,24 +5,15 @@ const ProfileSummary = ({user}) => {
     const email = user?.email || "—";
     const role = user?.role || "user";
 
-    const joined = user?.created_at
-        ? new Date(user.created_at).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-        })
-        : "—";
+    const joined = user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-GB", {
+        day: "2-digit", month: "long", year: "numeric",
+    }) : "—";
 
-    const updated = user?.updated_at
-        ? new Date(user.updated_at).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-        })
-        : "—";
+    const updated = user?.updatedAt ? new Date(user.updatedAt).toLocaleDateString("en-GB", {
+        day: "2-digit", month: "long", year: "numeric",
+    }) : "—";
 
-    return (
-        <aside className={`profile-card ${styles.card}`}>
+    return (<aside className={`profile-card ${styles.card}`}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Profile</h2>
                 <span className={styles.role}>{role}</span>
@@ -52,8 +43,7 @@ const ProfileSummary = ({user}) => {
                     </div>
                 </dl>
             </div>
-        </aside>
-    );
+        </aside>);
 };
 
 export default ProfileSummary;
