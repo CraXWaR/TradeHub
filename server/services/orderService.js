@@ -1,4 +1,4 @@
-import {Order, OrderItem, sequelize} from "../models/index.js";
+import {Order, OrderItem, Product, ProductVariants, sequelize} from "../models/index.js";
 
 export const createOrder = async (orderData, items) => {
     const transaction = await sequelize.transaction();
@@ -33,7 +33,13 @@ export const createOrder = async (orderData, items) => {
 export const getAllOrdersFromDb = async () => {
     try {
         return await Order.findAll({
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']], include: [{
+                model: OrderItem, as: 'items', include: [{
+                    model: Product, as: 'product', attributes: ['title', 'price', 'image']
+                }, {
+                    model: ProductVariants, as: 'variant', attributes: ['name', 'price']
+                }]
+            }]
         });
     } catch (error) {
         throw new Error("Database error occurred while fetching orders.");
@@ -43,9 +49,28 @@ export const getAllOrdersFromDb = async () => {
 export const getOrderByUserId = async (userId) => {
     try {
         return await Order.findAll({
-            where: {user_id: userId}, order: [['createdAt', 'DESC']]
+            where: {user_id: userId}, order: [['createdAt', 'DESC']], include: [{
+                model: OrderItem, as: 'items', include: [{
+                    model: Product, as: 'product', attributes: ['title', 'price', 'image']
+                }, {
+                    model: ProductVariants, as: 'variant', attributes: ['name', 'price']
+                }]
+            }]
         });
     } catch (error) {
         throw new Error("Database error occurred while fetching orders.");
     }
+}
+
+export const updateOrderStatusInDb = async (orderId, newStatus) => {
+    const order = await Order.findByPk(orderId);
+
+    if (!order) {
+        throw new Error('Order not found');
+    }
+
+    order.status = newStatus;
+    await order.save();
+
+    return order
 }

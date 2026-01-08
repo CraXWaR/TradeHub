@@ -1,0 +1,84 @@
+/* Card Container Section */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: var(--primary-500);
+}
+
+.cardHeader h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-700);
+    margin: 0;
+}
+
+/* Address Info Section */
+.addressGroup {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--bg-1);
+}
+
+.detailRow {
+    margin-bottom: 12px;
+}
+
+.detailRow:last-child {
+    margin-bottom: 0;
+}
+
+.detailLabel {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-500);
+    margin-bottom: 2px;
+    opacity: 0.8;
+}
+
+.primaryText {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-700);
+    margin: 0;
+}
+
+.secondaryText {
+    font-size: 13px;
+    color: var(--text-700);
+    font-weight: 500;
+    margin: 0;
+}
+
+.phoneText {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-600);
+    margin: 0;
+}
+
+/* Fees Section */
+.feeRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.feeValue {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-700);
+}

@@ -1,12 +1,22 @@
+import {useState} from "react";
+import {useUserOrders} from "../../../hooks/profile/useUserOrders.js";
+import {FaExclamationTriangle} from "react-icons/fa";
+
+import OrderDetailsModal from "../../../components/User/Orders/OrderDetailsModal.jsx";
 import Button from "../../../components/User/UI/Button/Button.jsx";
-import {FaBoxOpen, FaCalendarAlt, FaChevronRight, FaExclamationTriangle} from "react-icons/fa";
+import OrderItem from "../../../components/User/Orders/OrderItem.jsx";
 
 import styles from "./OrdersPage.module.css";
-import {useUserOrders} from "../../../hooks/profile/useUserOrders.js";
 
 const OrdersPage = () => {
     const {orders, loading, error} = useUserOrders();
 
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    const openOrder = (order) => setSelectedOrder(order);
+    const closeOrder = () => setSelectedOrder(null);
+
+    //TODO CREATE COMMON COMPONENTS FOR THIS 3 STATES
     if (loading) {
         return (<div className={styles.centerContainer}>
             <div className={styles.loaderWrapper}>
@@ -17,7 +27,6 @@ const OrdersPage = () => {
             <p className={styles.loadingText}>Fetching your orders from the vault...</p>
         </div>);
     }
-
     if (error) {
         return (<div className={styles.errorState}>
             <div className={styles.errorContent}>
@@ -32,6 +41,13 @@ const OrdersPage = () => {
             <div className={styles.errorBar}/>
         </div>);
     }
+    if (orders.length === 0) {
+        return (<div className={styles.footerAction}>
+            <Button to={'/products'} variant={"full"} size={"md"}>
+                Continue Shopping
+            </Button>
+        </div>)
+    }
 
     return (<section className={styles.page}>
         <header className={styles.header}>
@@ -40,56 +56,16 @@ const OrdersPage = () => {
         </header>
 
         <div className={styles.content}>
-            {orders.length > 0 ? (<div className={styles.orderList}>
-                {orders.map(order => (<div key={order.id} className={styles.orderItem}>
-                    <div className={styles.orderMain}>
-                        <div className={styles.iconCircle}>
-                            <FaBoxOpen/>
-                        </div>
-                        <div className={styles.orderInfo}>
-                            <span className={styles.orderId}>Order #{order.id}</span>
-                            <span className={styles.orderDate}>
-                                <FaCalendarAlt size={12}/>
-                                {new Date(order.createdAt).toLocaleDateString("en-GB")}
-                            </span>
-                        </div>
-                    </div>
-                    <div className={styles.orderStatus}>
-                        <span className={`${styles.badge} ${styles[order.status.toLowerCase()]}`}>
-                            {order.status}
-                        </span>
-                        <div className={styles.priceGroup}>
-                            <span className={styles.total}>{order.total} BGN</span>
-                            <FaChevronRight className={styles.arrow}/>
-                        </div>
-                    </div>
-                </div>))}
-            </div>) : (<div className={styles.emptyState}>
-                <div className={styles.emptyContent}>
-                    <div className={styles.emptyIconContainer}>
-                        <FaBoxOpen className={styles.emptyIcon}/>
-                    </div>
-                    <div className={styles.emptyInfo}>
-                        <span className={styles.emptyTitle}>No orders yet</span>
-                        <p className={styles.emptyMessage}>
-                            You haven't placed any orders. Start exploring our shop.
-                        </p>
-                    </div>
-                </div>
-                <div className={styles.emptyActions}>
-                    <Button to={'/products'} variant={"full"} size={"md"}>
-                        Start Shopping
-                    </Button>
-                </div>
-                <div className={styles.emptyBar}/>
-            </div>)}
+            <div className={styles.orderList}>
+                {orders.map(order => (
+                    <OrderItem key={order.id} order={order} onOpen={openOrder}/>))}
+            </div>
         </div>
 
-        {orders.length > 0 && (<div className={styles.footerAction}>
-            <Button to={'/products'} variant={"full"} size={"md"}>
-                Continue Shopping
-            </Button>
-        </div>)}
+        {selectedOrder && (<OrderDetailsModal
+                order={selectedOrder}
+                onClose={closeOrder}
+            />)}
     </section>);
 };
 

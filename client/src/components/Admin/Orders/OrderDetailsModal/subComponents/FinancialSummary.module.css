@@ -1,0 +1,38 @@
+.billTable {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid var(--bg-1);
+}
+
+.billRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+    color: var(--text-500);
+}
+
+.giftIndicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--nav-hover-bg);
+    color: var(--primary-600);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid var(--primary-400);
+    margin-top: 1rem;
+
+    animation: softPulse 2s infinite;
+}
+
+@keyframes softPulse {
+    0% {box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);}
+    70% {box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);}
+    100% {box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);}
+}

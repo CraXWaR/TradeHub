@@ -1,0 +1,34 @@
+/* Footer Container Section */
+.footer {
+    padding: 30px 40px;
+    background: var(--bg-1);
+    border-radius: 0 0 30px 30px;
+    margin-top: auto;
+}
+
+.totalContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Total Amount Section */
+.totalLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text-500);
+}
+
+.totalAmount {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-700);
+}
+
+.currency {
+    font-size: 16px;
+    color: var(--primary-600);
+    margin-right: 2px;
+}

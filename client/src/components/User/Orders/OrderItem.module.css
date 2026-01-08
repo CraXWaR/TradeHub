@@ -1,0 +1,107 @@
+/* Container Section */
+.orderItem {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.orderItem:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+    border-color: var(--primary-400);
+}
+
+/* Left Content Section */
+.orderMain {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.iconCircle {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-1);
+    color: var(--primary-500);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.orderInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderId {
+    font-weight: 700;
+    color: var(--text-700);
+    font-size: 1.05rem;
+}
+
+.orderDate {
+    font-size: 0.85rem;
+    color: var(--text-500);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+/* Right Content Section */
+.orderStatus {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pending { background: #fff3e6; color: #d9480f; }
+.paid { background: #e6fcf5; color: #087f5b; }
+.shipped { background: #e7f5ff; color: #1971c2; }
+.delivered { background: #f3f0ff; color: #6741d9; }
+.cancelled { background: #fff5f5; color: #c92a2a; }
+
+/* Pricing Section */
+.priceGroup {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.currency {
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--primary-600);
+}
+
+.total {
+    font-weight: 800;
+    color: var(--text-700);
+}
+
+.arrow {
+    color: #cbd5e1;
+    transition: transform 0.2s ease;
+}
+
+.orderItem:hover .arrow {
+    transform: translateX(3px);
+    color: var(--primary-500);
+}

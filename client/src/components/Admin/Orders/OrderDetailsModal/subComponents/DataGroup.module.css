@@ -1,0 +1,23 @@
+.dataGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.dataLabel {
+    font-size: 0.75rem;
+    color: var(--text-500);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.dataValue {
+    font-size: 0.95rem;
+    color: var(--text-700);
+    font-weight: 600;
+}
+
+.dataExtra {
+    font-size: 0.9rem;
+    color: var(--text-500);
+}

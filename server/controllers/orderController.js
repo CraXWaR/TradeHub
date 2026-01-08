@@ -1,4 +1,4 @@
-import {createOrder, getAllOrdersFromDb, getOrderByUserId} from "../services/orderService.js";
+import {createOrder, getAllOrdersFromDb, getOrderByUserId, updateOrderStatusInDb} from "../services/orderService.js";
 import {FRIENDLY_MESSAGES} from "../utils/messages.js";
 
 export const placeOrder = async (req, res, next) => {
@@ -73,6 +73,28 @@ export const getUserOrders = async (req, res, next) => {
         res.status(200).json({
             success: true, message: FRIENDLY_MESSAGES[200], data: orders
         });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const updateOrderStatus = async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        const {status} = req.body;
+
+        if (!status) {
+            const error = new Error(FRIENDLY_MESSAGES[400] || "Status is required");
+            error.statusCode = 400;
+            throw error;
+        }
+
+        const updatedOrderStatus = await updateOrderStatusInDb(id, status);
+
+        res.status(200).json({
+            success: true, message: FRIENDLY_MESSAGES[200], data: updatedOrderStatus
+        })
+
     } catch (error) {
         next(error);
     }

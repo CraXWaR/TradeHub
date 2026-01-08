@@ -99,29 +99,29 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className={styles.grid2}>
-                        <div className={styles.field}>
-                            <label htmlFor="email">Email</label>
-                            <input
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="you@example.com"
-                                autoComplete="email"
-                                value={shippingData.email}
-                                onChange={handleShippingChange}/>
-                        </div>
+                            <div className={styles.field}>
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    autoComplete="email"
+                                    value={shippingData.email}
+                                    onChange={handleShippingChange}/>
+                            </div>
 
-                        <div className={styles.field}>
-                            <label htmlFor="phone">Phone</label>
-                            <input
-                                id="phone"
-                                type="phone"
-                                name="phone"
-                                placeholder="0895888888"
-                                autoComplete="phone"
-                                value={shippingData.phone}
-                                onChange={handleShippingChange}/>
-                        </div>
+                            <div className={styles.field}>
+                                <label htmlFor="phone">Phone</label>
+                                <input
+                                    id="phone"
+                                    type="phone"
+                                    name="phone"
+                                    placeholder="0895888888"
+                                    autoComplete="phone"
+                                    value={shippingData.phone}
+                                    onChange={handleShippingChange}/>
+                            </div>
                         </div>
                         <div className={styles.field}>
                             <label htmlFor="address">Address</label>
@@ -141,9 +141,11 @@ export default function CheckoutPage() {
                                 <NiceSelect
                                     value={country}
                                     onChange={setCountry}
-                                    options={[{value: "bg", label: "Bulgaria"}, {
-                                        value: "de", label: "Germany"
-                                    }, {value: "uk", label: "United Kingdom"}, {value: "us", label: "United States"}]}/>
+                                    options={[{value: "Bulgaria", label: "Bulgaria"}, {
+                                        value: "Germany", label: "Germany"
+                                    }, {value: "United Kingdom", label: "United Kingdom"}, {
+                                        value: "United States", label: "United States"
+                                    }]}/>
                             </div>
 
                             <div className={styles.field}>

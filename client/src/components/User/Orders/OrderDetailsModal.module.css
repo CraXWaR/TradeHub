@@ -1,0 +1,112 @@
+/* Overlay Section */
+.overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.overlayClosing {
+    animation: fadeOut 0.3s ease-in forwards;
+    pointer-events: none;
+}
+
+/* Modal Core Section */
+.modal {
+    background: linear-gradient(135deg, var(--bg-0) 0%, #fffbf8 100%);
+    width: 100%;
+    max-width: 520px;
+    border-radius: 30px;
+    box-shadow: 0 25px 60px rgba(45, 27, 27, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    animation: fadeInScale 0.4s ease-out forwards;
+}
+
+.closing {
+    animation: fadeOutScale 0.4s ease-in forwards !important;
+}
+
+/* Header Section */
+.closeBtn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+.header {
+    padding: 40px 40px 20px;
+}
+
+.orderId {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-700);
+    margin: 0;
+}
+
+.statusBadge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+/* Status variants */
+.pending { background: #fff3e6; color: #d9480f; }
+.paid { background: #e6fcf5; color: #087f5b; }
+.shipped { background: #e7f5ff; color: #1971c2; }
+.delivered { background: #f3f0ff; color: #6741d9; }
+.cancelled { background: #fff5f5; color: #c92a2a; }
+
+/* Content Section */
+.scrollContent {
+    padding: 0 40px 30px;
+    overflow-y: auto;
+}
+
+.infoGrid {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--bg-1);
+    padding-bottom: 10px;
+}
+
+.infoLabel {
+    display: block;
+    font-size: 11px;
+    color: var(--text-500);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.infoValue {
+    font-weight: 700;
+    color: var(--text-700);
+}
+
+/* Animations Section */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeOutScale {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+}

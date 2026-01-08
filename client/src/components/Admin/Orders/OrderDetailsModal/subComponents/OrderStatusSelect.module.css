@@ -1,0 +1,113 @@
+.container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.fieldLabel {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--text-500);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+}
+
+.selectTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+.pending { background: #fff3e6; color: #d9480f; }
+.paid { background: #e6fcf5; color: #087f5b; }
+.shipped { background: #e7f5ff; color: #1971c2; }
+.delivered { background: #f3f0ff; color: #6741d9; }
+.cancelled { background: #fff5f5; color: #c92a2a; }
+
+.selectTrigger:hover {
+    transform: scale(1.02);
+    filter: brightness(0.97);
+}
+
+.active {
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.statusText {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    z-index: 100;
+    transform-origin: top center;
+}
+
+.slideIn {animation: dropIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;}
+
+.slideOut {animation: dropOut 0.2s cubic-bezier(0.4, 0, 1, 1) forwards;}
+
+@keyframes dropIn {
+    from {opacity: 0;transform: translateY(-10px) scale(0.95);}
+    to {opacity: 1;transform: translateY(0) scale(1);}
+}
+
+@keyframes dropOut {
+    from {opacity: 1;transform: translateY(0) scale(1);}
+    to {opacity: 0;transform: translateY(-10px) scale(0.95);}
+}
+
+.chevron {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.active .chevron {transform: rotate(180deg);}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-700);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background: #f1f3f5;
+    padding-left: 20px; /* Леко отместване надясно при ховър */
+}
+
+.selected {
+    background: #f8f9fa;
+    color: var(--primary-600);
+}
+
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot_pending { background: #fd7e14; }
+.dot_paid { background: #20c997; }
+.dot_shipped { background: #339af0; }
+.dot_delivered { background: #845ef7; }
+.dot_cancelled { background: #fa5252; }

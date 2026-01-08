@@ -1,0 +1,119 @@
+/* Card Container Section */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #f0f0f0;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: var(--primary-500);
+}
+
+.cardHeader h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-700);
+    margin: 0;
+}
+
+/* Product Row Section */
+.productRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    font-size: 14px;
+}
+
+.productRow:not(:last-child) {
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.productInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Image Assets Section */
+.imageWrapper {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+}
+
+.productImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    background: var(--bg-1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.productQtyBadge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--text-700);
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+/* Meta & Pricing Section */
+.productMeta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.productName {
+    font-weight: 700;
+    color: var(--text-700);
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.productVariant {
+    font-size: 11px;
+    color: var(--text-500);
+    margin-top: 2px;
+}
+
+.priceTag {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    background: var(--bg-1);
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 154, 86, 0.1);
+}
+
+.priceCurrency {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-600);
+}
+
+.productPrice {
+    font-weight: 800;
+    color: var(--text-700);
+    font-size: 15px;
+    letter-spacing: -0.5px;
+}

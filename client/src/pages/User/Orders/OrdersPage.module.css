@@ -1,3 +1,4 @@
+/* Page Layout Section */
 .page {
     max-width: 800px;
     margin: 2rem auto;
@@ -7,26 +8,6 @@
 .header {
     margin-bottom: 2.5rem;
     text-align: left;
-}
-
-.centerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    text-align: center;
-    padding: 2rem;
-}
-
-.centerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 450px;
-    padding: 2rem;
-    background: var(--bg-0);
 }
 
 .title {
@@ -46,113 +27,19 @@
     gap: 1rem;
 }
 
-.orderItem {
-    background: #fff;
-    border-radius: 16px;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #f1f5f9;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.orderItem:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
-    transform: translateY(-2px);
-    border-color: var(--primary-400);
-}
-
-.orderMain {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-}
-
-.iconCircle {
-    width: 48px;
-    height: 48px;
-    background: var(--bg-1);
-    color: var(--primary-500);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-}
-
-.orderInfo {
+/* Feedback States Section */
+.centerContainer {
     display: flex;
     flex-direction: column;
-}
-
-.orderId {
-    font-weight: 700;
-    color: var(--text-700);
-    font-size: 1.05rem;
-}
-
-.orderDate {
-    font-size: 0.85rem;
-    color: var(--text-500);
-    display: flex;
     align-items: center;
-    gap: 5px;
-    margin-top: 2px;
-}
-
-.orderStatus {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.badge {
-    padding: 0.4rem 0.8rem;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.badge.pending {
-    background: #fff3e6;
-    color: #e67e22;
-}
-
-.badge.shipped {
-    background: #e6fffa;
-    color: #319795;
-}
-
-.badge.delivered {
-    background: #f0fdf4;
-    color: #16a34a;
-}
-
-.priceGroup {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.total {
-    font-weight: 800;
-    color: var(--text-700);
-}
-
-.arrow {
-    color: #cbd5e1;
-}
-
-.footerAction {
-    margin-top: 3rem;
-    display: flex;
     justify-content: center;
+    min-height: 450px;
+    padding: 2rem;
+    background: var(--bg-0);
+    text-align: center;
 }
 
+/* Loading Assets Section */
 .loaderWrapper {
     position: relative;
     width: 80px;
@@ -193,6 +80,7 @@
     font-size: 0.95rem;
 }
 
+/* Error UI Section */
 .errorState {
     position: relative;
     background: var(--bg-1);
@@ -202,6 +90,7 @@
     border: 1px solid rgba(230, 57, 70, 0.1);
     max-width: 500px;
     margin: auto;
+    animation: slideIn 0.3s ease-out;
 }
 
 .errorContent {
@@ -253,38 +142,7 @@
     background: var(--accent-500);
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.errorState {
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: translate(-50%, -50%) scale(0.5);
-        opacity: 0.5;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 0;
-    }
-}
-
+/* Empty State UI Section */
 .emptyState {
     position: relative;
     background: var(--bg-1);
@@ -348,4 +206,19 @@
     height: 4px;
     width: 100%;
     background: var(--primary-500);
+}
+
+/* Action Section */
+.footerAction {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Animations Section */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
 }

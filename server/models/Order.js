@@ -31,7 +31,7 @@ const Order = sequelize.define("Order", {
     }, apply_gift_wrap: {
         type: DataTypes.BOOLEAN, defaultValue: false
     }, status: {
-        type: DataTypes.ENUM('pending', 'paid', 'shipped', 'cancelled'), defaultValue: 'pending'
+        type: DataTypes.ENUM('pending', 'paid', 'shipped', 'delivered', 'cancelled'), defaultValue: 'pending'
     }, user_id: {
         type: DataTypes.INTEGER, allowNull: true
     }

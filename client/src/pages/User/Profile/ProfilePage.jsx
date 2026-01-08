@@ -1,4 +1,3 @@
-
 import ProfileSummary from "../../../components/User/Profile/ProfileSummary.jsx";
 import ProfileDetails from "../../../components/User/Profile/ProfileDetails.jsx";
 import ProfileSecurity from "../../../components/User/Profile/ProfileSecurity.jsx";
@@ -12,8 +11,7 @@ const ProfilePage = () => {
     if (loading) return <div className={styles.loading}>Loading profile…</div>;
     if (!user) return <div className={styles.empty}>No user data available.</div>;
 
-    return (
-        <section className={styles.wrapper}>
+    return (<section className={styles.wrapper}>
             <div className={styles.grid}>
                 <ProfileSummary user={user}/>
                 <div className={styles.stack}>
@@ -21,8 +19,7 @@ const ProfilePage = () => {
                     <ProfileSecurity/>
                 </div>
             </div>
-        </section>
-    );
+        </section>);
 };
 
 export default ProfilePage;

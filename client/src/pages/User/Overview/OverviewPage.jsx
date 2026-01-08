@@ -45,6 +45,7 @@ const OverviewPage = () => {
             ? "No items saved yet."
             : `Total items: ${wlCount}`;
 
+    // TODO ADD ORDER COUNTER
     return (
         <section className={styles.page}>
             <header className={styles.header}>
