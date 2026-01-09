@@ -1,51 +1,21 @@
-import { useEffect, useState } from "react";
-import styles from "./OverviewPage.module.css";
+import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+import styles from "./OverviewPage.module.css";
+import {useUserOrders} from "../../../hooks/profile/useUserOrders.js";
 
 const OverviewPage = () => {
-    const [wlCount, setWlCount] = useState(0);
-    const [loadingWl, setLoadingWl] = useState(true);
+    const {items, loading: wlLoading} = useGetWishlistItems();
+    const wlCount = items.length;
+    const wishlistText = wlLoading
+        ? "Loading wishlist..."
+        : (wlCount === 0 ? "No items saved yet." : `Total items: ${wlCount}`);
 
-    const token = localStorage.getItem("token") || "";
+    const {orders, loading: ordersLoading} = useUserOrders();
+    const ordersCount = orders.length;
+    const ordersText = ordersLoading
+        ? "Loading orders..."
+        : (ordersCount === 0 ? "No orders yet." : `Total orders: ${ordersCount}`);
 
-    useEffect(() => {
-        let cancelled = false;
-
-        const loadWishlistCount = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/user/wishlist`, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                const data = await res.json().catch(() => ({}));
-                if (!cancelled && res.ok && Array.isArray(data.items)) {
-                    setWlCount(data.items.length);
-                }
-            } catch {
-                if (!cancelled) setWlCount(0);
-            } finally {
-                if (!cancelled) setLoadingWl(false);
-            }
-        };
-
-        if (token) loadWishlistCount();
-        else {
-            setWlCount(0);
-            setLoadingWl(false);
-        }
-
-        return () => {
-            cancelled = true;
-        };
-    }, [token]);
-
-    const wishlistText = loadingWl
-        ? "Loading…"
-        : wlCount === 0
-            ? "No items saved yet."
-            : `Total items: ${wlCount}`;
-
-    // TODO ADD ORDER COUNTER
     return (
         <section className={styles.page}>
             <header className={styles.header}>
@@ -58,7 +28,7 @@ const OverviewPage = () => {
             <div className={styles.grid}>
                 <article className={styles.card}>
                     <h3 className={styles.cardTitle}>Orders</h3>
-                    <p className={styles.cardText}>You have 0 recent orders.</p>
+                    <p className={styles.cardText}>{ordersText}</p>
                 </article>
 
                 <article className={styles.card}>

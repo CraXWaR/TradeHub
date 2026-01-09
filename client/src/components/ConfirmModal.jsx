@@ -2,7 +2,7 @@ import {Transition} from "@headlessui/react";
 
 const ConfirmModal = ({isOpen, title, message, onConfirm, onCancel, loading}) => {
     return (<Transition show={isOpen}>
-            {/* Background overlay (clickable) */}
+            {/* Background overlay */}
             <Transition.Child
                 enter="transition-opacity duration-300"
                 enterFrom="opacity-0"
@@ -13,7 +13,7 @@ const ConfirmModal = ({isOpen, title, message, onConfirm, onCancel, loading}) =>
             >
                 <div
                     className="fixed inset-0 bg-black/50 z-40"
-                    onClick={!loading ? onCancel : undefined} // 👈 prevent closing while loading
+                    onClick={!loading ? onCancel : undefined}
                 />
             </Transition.Child>
 
@@ -29,7 +29,7 @@ const ConfirmModal = ({isOpen, title, message, onConfirm, onCancel, loading}) =>
                 <div className="fixed inset-0 flex items-center justify-center z-50">
                     <div
                         className="bg-white rounded-lg shadow-lg p-6 w-80 relative"
-                        onClick={(e) => e.stopPropagation()} // 👈 stop clicks inside modal from bubbling
+                        onClick={(e) => e.stopPropagation()}
                     >
                         {/* Title */}
                         <h2 className="text-lg font-semibold text-gray-800">{title}</h2>

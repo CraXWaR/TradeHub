@@ -1,96 +1,91 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-function getToken() {
-    let token = localStorage.getItem("token") || "";
-    if (token.startsWith("Bearer ")) token = token.slice(7);
-    return token;
-}
+const getAuthData = () => {
+    const token = localStorage.getItem("token")?.replace("Bearer ", "") || "";
+    if (!token) return {token: "", userId: null};
 
-function parseJwt(token) {
     try {
-        const [, payload] = token.split(".");
-        return JSON.parse(atob(payload.replace(/-/g, "+").replace(/_/g, "/")));
+        const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+        return {token, userId: payload?.id || payload?.sub || null};
     } catch {
-        return null;
+        return {token: "", userId: null};
     }
-}
+};
 
-export function useGetWishlistItems({ auto = true } = {}) {
+export const useGetWishlistItems = ({auto = true} = {}) => {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(auto);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(null);
 
-    const token = useMemo(getToken, []);
-    const user = useMemo(() => parseJwt(token), [token]);
-    const userId = user?.id || user?.sub || null;
-
-    const abortRef = useRef(null);
+    const {token, userId} = useMemo(getAuthData, []);
+    const isMounted = useRef(true);
 
     const fetchWishlist = useCallback(async () => {
         if (!token || !userId) {
-            setItems([]);
             setLoading(false);
-            setError("");
             return;
         }
 
-        setLoading(true);
-        setError("");
-
-        if (abortRef.current) abortRef.current.abort();
-        const controller = new AbortController();
-        abortRef.current = controller;
+        const startTime = Date.now();
+        const minWait = 1500;
 
         try {
-            const res = await fetch(`${BASE_URL}/user/wishlist`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                signal: controller.signal,
+            setLoading(true);
+            setError(null);
+
+            const response = await fetch(`${BASE_URL}/user/wishlist`, {
+                headers: {Authorization: `Bearer ${token}`}
             });
 
-            const data = await res.json().catch(() => ({}));
+            const result = await response.json();
 
-            if (res.ok && Array.isArray(data.items)) {
-                const list = data.items
-                    .map((i) => {
-                        const p = i?.product ?? {};
-                        const id = p.id ?? p._id ?? i?.productId;
-                        return id ? { ...p, id } : null;
-                    })
-                    .filter(Boolean);
-                setItems(list);
-            } else {
-                setItems([]);
-                setError(data?.message || "Failed to load wishlist");
+            const elapsed = Date.now() - startTime;
+            if (elapsed < minWait) {
+                await new Promise(resolve => setTimeout(resolve, minWait - elapsed));
             }
-        } catch (e) {
-            if (e.name !== "AbortError") {
-                console.error("Fetch wishlist error:", e);
-                setError("Error connecting to server");
+
+            if (isMounted.current) {
+                if (result.success) {
+                    const processedList = (result.items || []).reduce((accumulator, currentItem) => {
+                        const productData = currentItem?.product;
+                        if (productData) {
+                            accumulator.push({
+                                ...productData,
+                                id: productData.id,
+                                wishlistRecordId: currentItem.id
+                            });
+                        }
+                        return accumulator;
+                    }, []);
+
+                    setItems(processedList);
+                } else {
+                    setError(result.message || "Failed to load wishlist");
+                }
+            }
+            // eslint-disable-next-line no-unused-vars
+        } catch (err) {
+            if (isMounted.current) {
+                setError("Could not load your wishlist. Please check your connection.");
             }
         } finally {
-            setLoading(false);
+            if (isMounted.current) {
+                setLoading(false);
+            }
         }
     }, [token, userId]);
 
     useEffect(() => {
+        isMounted.current = true;
         if (auto) fetchWishlist();
-        return () => abortRef.current?.abort();
+        return () => {
+            isMounted.current = false;
+        };
     }, [auto, fetchWishlist]);
 
-    const refetch = useCallback(() => {
-        if (!loading) return fetchWishlist();
-    }, [loading, fetchWishlist]);
-
     return {
-        items,
-        loading,
-        error,
-        refetch,
-        isAuthed: !!(token && userId),
+        items, loading, error, refetch: fetchWishlist, isAuthed: !!userId,
     };
-}
+};

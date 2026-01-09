@@ -10,7 +10,7 @@ import ShippingDetails from "./subComponents/ShippingDetails.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const OrderDetailsModal = ({order, onClose}) => {
+export const OrderDetailsModal = ({order, onClose}) => {
     const [isClosing, setIsClosing] = useState(false);
     const handleClose = () => {
         setIsClosing(true);
@@ -43,12 +43,10 @@ const OrderDetailsModal = ({order, onClose}) => {
 
                 <OrderContent items={order.items} baseUrl={BASE_URL}/>
 
-                <ShippingDetails order={order} />
+                <ShippingDetails order={order}/>
             </div>
 
             <OrderFooter total={order.total}/>
         </div>
     </div>);
 };
-
-export default OrderDetailsModal;

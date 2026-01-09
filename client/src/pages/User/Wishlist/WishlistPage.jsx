@@ -1,10 +1,13 @@
 import {useMemo} from "react";
-import {Link} from "react-router-dom";
-import ProductCard from "../../../components/ProductCard/ProductCard.jsx";
 import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
+import {LuHeartOff} from "react-icons/lu";
+
+import {ProductCard} from "../../../components/ProductCard/ProductCard.jsx";
+import {Loading} from "../../../components/User/Common/Loading/Loading.jsx";
+import {Empty} from "../../../components/User/Common/Empty/Empty.jsx";
+import {Error} from "../../../components/User/Common/Error/Error.jsx";
 
 import styles from "./WishlistPage.module.css";
-import Button from "../../../components/User/UI/Button/Button.jsx";
 
 const WishlistPage = () => {
     const {items: products, loading, error} = useGetWishlistItems();
@@ -19,24 +22,20 @@ const WishlistPage = () => {
             <p className={styles.subtitle}>Items you’ve saved for later.</p>
         </header>
 
-        {loading && (<div className={styles.spinnerWrap}>
-            <div className={styles.spinner}/>
-        </div>)}
+        {loading && (
+            <Loading message={"Preparing your wishlist"}
+                     subMessage={"Fetching your wished products from the vault..."}/>
+        )}
 
-        {!loading && error && (<div className={styles.errorBox}>
-            {error}
-        </div>)}
+        {!loading && error && (
+            <Error error={error} message={"Communication Error"}/>
+        )}
 
-        {!loading && !error && products.length === 0 && (<div className={styles.empty}>
-            <div className={styles.emptyIcon}>❤️</div>
-            <h3 className={styles.emptyTitle}>Your wishlist is empty</h3>
-            <p className={styles.emptyText}>
-                Browse products and save the ones you love!
-            </p>
-            <Button to={'/products'} variant="empty" size={'sm'}>
-                Browse products!
-            </Button>
-        </div>)}
+        {!loading && !error && products.length === 0 && (<Empty Icon={LuHeartOff}
+                                                                title="You haven't wished anything yet"
+                                                                description="When you add products in your wishlist, they will appear here. Ready to find something you love?"
+                                                                actionText="Start Wishlisting"
+                                                                actionTo="/products"/>)}
 
         {!loading && !error && products.length > 0 && (<div className={styles.grid}>
             {productCards}

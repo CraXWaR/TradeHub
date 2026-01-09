@@ -49,14 +49,14 @@ export const authenticateUser = async (email, password) => {
     try {
         const user = await User.findOne({where: {email}});
         if (!user) {
-            const err = new Error("Unauthorized");
+            const err = new Error("Invalid email or password");
             err.status = 401;
             throw err;
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            const err = new Error("Unauthorized");
+            const err = new Error("Invalid email or password");
             err.status = 401;
             throw err;
         }
@@ -65,7 +65,9 @@ export const authenticateUser = async (email, password) => {
         return userWithoutPassword;
     } catch (error) {
         throw {
-            status: error.status || 401, message: error.message, detail: error.message
+            status: error.status || 401,
+            message: error.message,
+            detail: error.message
         };
     }
 };

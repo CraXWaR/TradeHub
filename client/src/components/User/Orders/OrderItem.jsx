@@ -2,7 +2,7 @@ import {FaBoxOpen, FaCalendarAlt, FaChevronRight} from "react-icons/fa";
 
 import styles from "./OrderItem.module.css";
 
-const OrderItem = ({order, onOpen}) => {
+export const OrderItem = ({order, onOpen}) => {
     return (<div className={styles.orderItem} onClick={() => onOpen(order)}>
         <div className={styles.orderMain}>
             <div className={styles.iconCircle}>
@@ -28,5 +28,3 @@ const OrderItem = ({order, onOpen}) => {
         </div>
     </div>);
 };
-
-export default OrderItem;

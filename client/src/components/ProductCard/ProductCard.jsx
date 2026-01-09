@@ -3,7 +3,7 @@ import styles from "./ProductCard.module.css";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const ProductCard = ({product}) => {
+export const ProductCard = ({product}) => {
     const imagePath = product?.image || "";
     const normalizedPath = imagePath.startsWith("/") ? imagePath : `/${imagePath}`;
     const imageUrl = `${BASE_URL}/uploads/${normalizedPath}`;
@@ -52,5 +52,3 @@ const ProductCard = ({product}) => {
         </div>
     );
 };
-
-export default ProductCard;

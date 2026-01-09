@@ -16,18 +16,23 @@ export const useProducts = (filters) => {
             const startTime = Date.now();
 
             try {
-                const res = await fetch(`${BASE_URL}/api/products`, {
+                const res = await fetch(`${BASE_URL}/api/products`, { // Нарочно грешен
                     headers: {Accept: "application/json"},
                 });
 
-                const ct = res.headers.get("content-type") || "";
                 if (!res.ok) {
-                    const text = await res.text().catch(() => "");
-                    throw new Error(`HTTP ${res.status} ${res.statusText} — ${text.slice(0, 120)}`);
-                }
-                if (!ct.includes("application/json")) {
-                    const text = await res.text().catch(() => "");
-                    throw new Error(`Expected JSON but got ${ct}. Body: ${text.slice(0, 120)}`);
+                    const ct = res.headers.get("content-type") || "";
+                    let errorMessage = `Error ${res.status}`;
+
+                    if (ct.includes("application/json")) {
+                        const errorData = await res.json();
+                        errorMessage = errorData.message || errorMessage;
+                    } else {
+                        const text = await res.text();
+                        errorMessage = text.slice(0, 100) || errorMessage;
+                    }
+
+                    throw new Error(errorMessage);
                 }
 
                 const data = await res.json();
@@ -48,15 +53,14 @@ export const useProducts = (filters) => {
                 }
             } catch (err) {
                 if (isMounted) {
-                    console.error("Fetch products error:", err);
-                    setError(err instanceof Error ? err.message : "Error connecting to server");
+                    setError(err.message);
                 }
             } finally {
                 const elapsed = Date.now() - startTime;
                 const remaining = Math.max(0, 1500 - elapsed);
-                if (isMounted) {
-                    setTimeout(() => isMounted && setLoading(false), remaining);
-                }
+                setTimeout(() => {
+                    if (isMounted) setLoading(false);
+                }, remaining);
             }
         };
 
@@ -65,6 +69,7 @@ export const useProducts = (filters) => {
             isMounted = false;
         };
     }, [filters]);
+
 
     const products = useMemo(() => {
         let list = allProducts;

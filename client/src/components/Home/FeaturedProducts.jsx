@@ -1,6 +1,6 @@
 import styles from "./FeaturedProducts.module.css";
 import {useProducts} from "../../hooks/admin/useProducts.js";
-import ProductCard from "../ProductCard/ProductCard.jsx";
+import {ProductCard} from "../ProductCard/ProductCard.jsx";
 
 export default function FeaturedProducts() {
     const {products, error} = useProducts();

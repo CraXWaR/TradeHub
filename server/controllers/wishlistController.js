@@ -70,7 +70,10 @@ export const getWishlistItems = async (req, res, next) => {
 
         const items = await getWishlistItemsService({user_id: req.user.id});
 
-        return res.status(200).json({items});
+        return res.status(200).json({
+            success: true,
+            items
+        });
     } catch (err) {
         next(err);
     }

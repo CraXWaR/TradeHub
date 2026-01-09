@@ -3,9 +3,9 @@ import {validationResult} from "express-validator";
 export const validateRequest = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        const error = new Error("invalid: Validation failed");
+        const error = new Error();
         error.status = 400;
-        error.errors = errors.array().map(err => err.msg);
+        error.errors = errors.array();
         return next(error);
     }
     next();
