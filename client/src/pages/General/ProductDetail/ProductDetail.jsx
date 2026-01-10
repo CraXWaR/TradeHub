@@ -3,8 +3,8 @@ import {useParams, useNavigate} from "react-router-dom";
 
 import styles from "./ProductDetail.module.css";
 
-import ProductImage from "../../components/ProductDetail/ProductImage.jsx";
-import ProductInfo from "../../components/ProductDetail/ProductInfo.jsx";
+import ProductImage from "../../../components/General/ProductDetail/ProductImage.jsx";
+import ProductInfo from "../../../components/General/ProductDetail/ProductInfo.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const MIN_LOADING_TIME = 1500;

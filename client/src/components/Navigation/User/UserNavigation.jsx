@@ -2,8 +2,8 @@ import {useState} from "react";
 import {Link, NavLink} from "react-router-dom";
 import {FiShoppingCart, FiMenu, FiX} from "react-icons/fi";
 
-import useAuth from "../../hooks/auth/useAuth.js";
-import {useCartStore} from "../../contex/cart-context.jsx";
+import useAuth from "../../../hooks/auth/useAuth.js";
+import {useCartStore} from "../../../contex/cart-context.jsx";
 
 import styles from "./UserNavigation.module.css";
 

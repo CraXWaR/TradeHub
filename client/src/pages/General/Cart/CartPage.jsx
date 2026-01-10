@@ -1,18 +1,18 @@
 import {useState} from "react";
 import {Link} from "react-router-dom";
 import {FiShoppingCart, FiTrash2, FiArrowLeft, FiHelpCircle} from "react-icons/fi";
-import {useCartStore} from "../../contex/cart-context.jsx";
+import {useCartStore} from "../../../contex/cart-context.jsx";
 
-import EmptyCart from "../../components/Cart/EmptyCart.jsx";
-import CartItem from "../../components/Cart/CartItem.jsx";
-import {FreeShippingBanner} from "../../components/Cart/FreeShippingBanner.jsx";
-import {CheckoutCard} from "../../components/Cart/CheckoutCard.jsx";
+import EmptyCart from "../../../components/General/Cart/EmptyCart.jsx";
+import CartItem from "../../../components/General/Cart/CartItem.jsx";
+import {FreeShippingBanner} from "../../../components/General/Cart/FreeShippingBanner.jsx";
+import {CheckoutCard} from "../../../components/General/Cart/CheckoutCard.jsx";
 
-import {useCartTotals} from "../../hooks/cart/useCartTotals.js";
-import {useCartProducts} from "../../hooks/cart/useCartProducts.js";
+import {useCartTotals} from "../../../hooks/cart/useCartTotals.js";
+import {useCartProducts} from "../../../hooks/cart/useCartProducts.js";
 
 import styles from "./CartPage.module.css";
-import Button from "../../components/User/UI/Button/Button.jsx";
+import Button from "../../../components/User/UI/Button/Button.jsx";
 
 export default function CartPage() {
     const {cartItems, removeFromCart, clearCart, cartCount, updateItemQuantity, updateItemVariant} = useCartStore();

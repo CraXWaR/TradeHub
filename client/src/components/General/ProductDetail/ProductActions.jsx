@@ -1,8 +1,8 @@
 import styles from "./ProductActions.module.css";
 
-import {useCartStore} from "../../contex/cart-context.jsx";
+import {useCartStore} from "../../../contex/cart-context.jsx";
 import {Modal} from "../Modal.jsx";
-import Button from "../User/UI/Button/Button.jsx";
+import Button from "../../User/UI/Button/Button.jsx";
 
 const ActionButtons = ({navigate, productId, selectedVariant}) => {
     const {addToCart, isBusy: cartBusy, message: cartMessage, dismissMessage: dismissCartMessage} = useCartStore();

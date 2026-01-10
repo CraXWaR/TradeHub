@@ -16,7 +16,7 @@
     pointer-events: none;
 }
 
-/* Modal Core Section */
+/* Modals Core Section */
 .modal {
     background: linear-gradient(135deg, var(--bg-0) 0%, #fffbf8 100%);
     width: 100%;

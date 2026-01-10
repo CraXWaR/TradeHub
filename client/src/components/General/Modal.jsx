@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
 import {createPortal} from "react-dom";
-import Button from "./User/UI/Button/Button.jsx";
+import Button from "../User/UI/Button/Button.jsx";
 
 export function Modal({open, onClose, title, children}) {
     const panelRef = useRef(null);

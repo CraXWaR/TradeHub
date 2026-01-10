@@ -1,15 +1,15 @@
 import {useState} from "react";
 
-import ProductMeta from "./ProductMeta";
+import ProductMeta from "./ProductMeta.jsx";
 import ProductActions from "./ProductActions.jsx";
 
-import {useWishlist} from "../../hooks/useWishlist.js";
+import {useWishlist} from "../../../hooks/auth/useWishlist.js";
 import {Modal} from "../Modal.jsx";
 import styles from "./ProductInfo.module.css";
 
 import {FiHeart} from "react-icons/fi";
 import {FaHeart} from "react-icons/fa";
-import Button from "../User/UI/Button/Button.jsx";
+import Button from "../../User/UI/Button/Button.jsx";
 
 const ProductInfo = ({product, navigate}) => {
     const {inWishlist, isBusy, message, dismissMessage, toggleWishlist,} = useWishlist(product.id);

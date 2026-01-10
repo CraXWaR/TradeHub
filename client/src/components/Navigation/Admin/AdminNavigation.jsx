@@ -2,7 +2,7 @@ import {Link, NavLink, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {FiMenu, FiX} from "react-icons/fi";
 
-import useAuth from "../../hooks/auth/useAuth.js";
+import useAuth from "../../../hooks/auth/useAuth.js";
 import styles from "./AdminNavigation.module.css";
 
 const AdminNavigation = () => {

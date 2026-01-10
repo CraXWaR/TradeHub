@@ -1,5 +1,5 @@
 import styles from "./Hero.module.css";
-import Button from "../User/UI/Button/Button.jsx";
+import Button from "../../User/UI/Button/Button.jsx";
 
 export default function Hero() {
     return (<section className={`${styles.hero} px-8 py-20`}>

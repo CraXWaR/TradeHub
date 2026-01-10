@@ -1,4 +1,4 @@
-import Button from "../../components/User/UI/Button/Button.jsx";
+import Button from "../../../components/User/UI/Button/Button.jsx";
 
 import styles from "./Unauthorized.module.css";
 

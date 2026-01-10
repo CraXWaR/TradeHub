@@ -1,7 +1,5 @@
 import Modal from "../Modal/Modal.jsx";
-import CreateProductForm from "../CreateProductForm/CreateProductForm.jsx";
-import ConfirmModal from "../../ConfirmModal.jsx";
-
+import {LuTriangleAlert, LuLoader} from "react-icons/lu";
 import {useProducts} from "../../../hooks/admin/useProducts.js";
 import {useUpdateProduct} from "../../../hooks/admin/useUpdateProduct.js";
 import {useDeleteProduct} from "../../../hooks/admin/useDeleteProduct.js";
@@ -13,6 +11,7 @@ import {Empty} from "../Common/Empty/Empty.jsx";
 
 import ProductsTable from "./ProductsTable.jsx";
 import styles from "./ProductsList.module.css";
+import {CreateProductForm} from "../CreateProductForm/CreateProductForm.jsx";
 
 const ProductsList = ({filters}) => {
     const {
@@ -76,14 +75,47 @@ const ProductsList = ({filters}) => {
                 mode="edit"/>)}
         </Modal>
 
-        {/* Confirm delete modal */}
-        <ConfirmModal
-            isOpen={confirmOpen}
-            title="Delete Product"
-            message="Are you sure you want to delete this product? This action cannot be undone!"
-            onConfirm={confirmDelete}
-            onCancel={cancelDelete}
-            loading={modalLoading}/>
+        {/* Delete modal */}
+        <Modal open={confirmOpen} onClose={cancelDelete} title="Confirm Destruction">
+            <div className={styles.confirmWrapper}>
+                <div className={styles.alertIconSection}>
+                    <LuTriangleAlert className={styles.warningIcon} size={48}/>
+                </div>
+
+                <div className={styles.textSection}>
+                    <h4 className={styles.confirmTitle}>Are you absolutely sure?</h4>
+                    <p className={styles.confirmMessage}>
+                        This will permanently delete the product from the database.
+                        <strong> This action cannot be undone.</strong>
+                    </p>
+                </div>
+
+                <div className={styles.confirmActions}>
+                    <button
+                        className={`${styles.adminBtn} ${styles.btnCancel}`}
+                        onClick={cancelDelete}
+                        type="button"
+                        disabled={modalLoading}>
+                        No, Keep it
+                    </button>
+
+                    <button
+                        className={`${styles.adminBtn} ${styles.btnDelete}`}
+                        onClick={confirmDelete}
+                        disabled={modalLoading}
+                        type="button">
+                        {modalLoading ? (
+                            <>
+                                <LuLoader className={styles.spinner} size={18}/>
+                                Deleting...
+                            </>
+                        ) : (
+                            "Yes, Delete Product"
+                        )}
+                    </button>
+                </div>
+            </div>
+        </Modal>
     </>);
 };
 

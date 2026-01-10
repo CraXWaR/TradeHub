@@ -12,13 +12,13 @@ import AdminLayout from "./components/Admin/AdminLayout.jsx";
 import UserLayout from "./components/User/UserLayout.jsx";
 
 // ─── Navigation Components ──────────────────────────────────────
-import AdminNavigation from "./components/Navigation/AdminNavigation.jsx";
-import UserNavigation from "./components/Navigation/UserNavigation.jsx";
-import Footer from "./components/Footer/Footer.jsx";
+import AdminNavigation from "./components/Navigation/Admin/AdminNavigation.jsx";
+import UserNavigation from "./components/Navigation/User/UserNavigation.jsx";
+import Footer from "./components/General/Footer/Footer.jsx";
 
 // ─── Shared / Utility Components ────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
-import Unauthorized from "./pages/Unauthorized/Unauthorized.jsx";
+import Unauthorized from "./pages/General/Unauthorized/Unauthorized.jsx";
 import UsersList from "./components/UsersList";
 
 // ─── Pages: Authentication ──────────────────────────────────────
@@ -39,13 +39,13 @@ import WishlistPage from "./pages/User/Wishlist/WishlistPage.jsx";
 import SettingsPage from "./pages/User/Settings/SettingsPage.jsx";
 
 // ─── Pages: Shop / Public ───────────────────────────────────────
-import HomePage from "./pages/Home/HomePage.jsx";
-import Products from "./pages/Products/Products";
-import ProductDetail from "./pages/ProductDetail/ProductDetail";
-import CartPage from "./pages/Cart/CartPage.jsx";
-import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
-import NotFound from "./pages/NotFound/NotFound.jsx";
-import OrderSuccessPage from "./pages/OrderSuccess/OrderSuccessPage.jsx";
+import HomePage from "./pages/General/Home/HomePage.jsx";
+import Products from "./pages/General/Products/Products";
+import ProductDetail from "./pages/General/ProductDetail/ProductDetail";
+import CartPage from "./pages/General/Cart/CartPage.jsx";
+import CheckoutPage from "./pages/General/Checkout/CheckoutPage.jsx";
+import NotFound from "./pages/General/NotFound/NotFound.jsx";
+import OrderSuccessPage from "./pages/General/OrderSuccess/OrderSuccessPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();

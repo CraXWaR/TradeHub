@@ -1,20 +1,20 @@
 import React from "react";
 import styles from "./CreateProductForm.module.css";
 
-const CreateProductForm = ({
-                               formData = {},
-                               previewUrl = "",
-                               loading = false,
-                               message = {},
-                               handleChange,
-                               handleFileChange,
-                               handleSubmit,
-                               variants = [],
-                               handleVariantChange,
-                               addVariantRow,
-                               removeVariantRow,
-                               mode = "create",
-                           }) => {
+export const CreateProductForm = ({
+                                      formData = {},
+                                      previewUrl = "",
+                                      loading = false,
+                                      message = {},
+                                      handleChange,
+                                      handleFileChange,
+                                      handleSubmit,
+                                      variants = [],
+                                      handleVariantChange,
+                                      addVariantRow,
+                                      removeVariantRow,
+                                      mode = "create",
+                                  }) => {
     const {
         title = "",
         description = "",
@@ -141,8 +141,7 @@ const CreateProductForm = ({
                                     type="button"
                                     className={styles.removeVariantButton}
                                     onClick={() => removeVariantRow(index)}
-                                    disabled={variants.length === 1}
-                                >
+                                    disabled={variants.length === 1}>
                                     ✖
                                 </button>
                             </div>
@@ -151,8 +150,7 @@ const CreateProductForm = ({
                         <button
                             type="button"
                             className={styles.addVariantButton}
-                            onClick={addVariantRow}
-                        >
+                            onClick={addVariantRow}>
                             ➕ Add Variant
                         </button>
                     </div>
@@ -162,7 +160,7 @@ const CreateProductForm = ({
                 {previewUrl && (
                     <div className={styles.previewRow}>
                         <div className={styles.imagePreview}>
-                            <img src={previewUrl} alt="Preview" />
+                            <img src={previewUrl} alt="Preview"/>
                         </div>
                     </div>
                 )}
@@ -170,11 +168,10 @@ const CreateProductForm = ({
                 <button
                     type="submit"
                     className={`${styles.createButton} ${loading ? styles.loading : ""}`}
-                    disabled={loading}
-                >
+                    disabled={loading}>
                     {loading ? (
                         <>
-                            <div className={styles.spinner} />
+                            <div className={styles.spinner}/>
                             {mode === "edit" ? "Saving..." : "Creating..."}
                         </>
                     ) : (
@@ -185,5 +182,3 @@ const CreateProductForm = ({
         </>
     );
 };
-
-export default CreateProductForm;

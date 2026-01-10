@@ -1,6 +1,6 @@
 import {useParams, Link, useLocation, useNavigate} from "react-router-dom";
 import {FiCheckCircle, FiShoppingBag} from "react-icons/fi";
-import Button from "../../components/User/UI/Button/Button.jsx";
+import Button from "../../../components/User/UI/Button/Button.jsx";
 import styles from "./OrderSuccessPage.module.css";
 import {useEffect} from "react";
 

@@ -1,0 +1,102 @@
+.confirmWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 10px 0 10px;
+}
+
+.alertIconSection {
+    background: #fff1f2;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.warningIcon {
+    color: #e11d48;
+}
+
+.textSection {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.confirmTitle {
+    color: var(--text-700);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.confirmMessage {
+    color: var(--text-500);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0;
+}
+
+.confirmMessage strong {
+    color: #e11d48;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Действия (Бутони) */
+.confirmActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.adminBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btnCancel {
+    background: var(--bg-1);
+    color: var(--text-700);
+    border-color: #e2e8f0;
+}
+
+.btnDelete {
+    background: #e11d48;
+    color: white;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
+}
+
+.btnDelete:hover:not(:disabled) {
+    background: #be123c;
+    box-shadow: 0 6px 15px rgba(225, 29, 72, 0.3);
+}
+
+.btnDelete:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: #fb7185;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+

@@ -1,8 +1,8 @@
 import {useMemo} from "react";
-import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
+import {useGetWishlistItems} from "../../../hooks/auth/useGetWishlistItems.js";
 import {LuHeartOff} from "react-icons/lu";
 
-import {ProductCard} from "../../../components/ProductCard/ProductCard.jsx";
+import {ProductCard} from "../../../components/General/ProductCard/ProductCard.jsx";
 import {Loading} from "../../../components/User/Common/Loading/Loading.jsx";
 import {Empty} from "../../../components/User/Common/Empty/Empty.jsx";
 import {Error} from "../../../components/User/Common/Error/Error.jsx";

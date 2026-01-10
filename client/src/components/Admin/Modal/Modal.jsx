@@ -1,4 +1,6 @@
 import {useEffect, useRef, Fragment} from 'react';
+import {LuX} from "react-icons/lu";
+
 import {Transition} from '@headlessui/react';
 import styles from './Modal.module.css';
 
@@ -18,7 +20,7 @@ export default function Modal({open, onClose, children, title}) {
                 className={styles.backdrop}
                 onClick={onClose}
                 role="presentation">
-                {/* Modal panel */}
+                {/* Modals panel */}
                 <Transition.Child
                     enter="transition duration-300 transform"
                     enterFrom="opacity-0 scale-90 translate-y-4"
@@ -39,7 +41,7 @@ export default function Modal({open, onClose, children, title}) {
                                 className={styles.close}
                                 onClick={onClose}
                                 aria-label="Close">
-                                ×
+                                <LuX size={20} />
                             </button>
                         </div>
                         <div className={styles.body}>{children}</div>

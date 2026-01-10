@@ -3,7 +3,7 @@ import {FiGift, FiLock} from "react-icons/fi";
 import OrderSummary from "./OrderSummary.jsx";
 
 import styles from "./CheckoutCard.module.css";
-import Button from "../User/UI/Button/Button.jsx";
+import Button from "../../User/UI/Button/Button.jsx";
 
 export function CheckoutCard({
                                  subtotal,

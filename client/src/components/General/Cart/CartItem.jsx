@@ -2,8 +2,8 @@ import {FiTrash2} from "react-icons/fi";
 import style from "./CartItem.module.css";
 import {useState} from "react";
 import styles from "../ProductDetail/ProductInfo.module.css";
-import Button from "../User/UI/Button/Button.jsx";
-import NiceSelect from "../User/UI/Select/NiceSelect.jsx";
+import Button from "../../User/UI/Button/Button.jsx";
+import NiceSelect from "../../User/UI/Select/NiceSelect.jsx";
 
 const MIN_QTY = 1;
 const MAX_QTY = 10;

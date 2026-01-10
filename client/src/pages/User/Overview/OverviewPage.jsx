@@ -1,4 +1,4 @@
-import {useGetWishlistItems} from "../../../hooks/useGetWishlistItems.js";
+import {useGetWishlistItems} from "../../../hooks/auth/useGetWishlistItems.js";
 
 import styles from "./OverviewPage.module.css";
 import {useUserOrders} from "../../../hooks/profile/useUserOrders.js";

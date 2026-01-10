@@ -1,5 +1,5 @@
 import React from "react";
-import CreateProductForm from "../../../components/Admin/CreateProductForm/CreateProductForm.jsx";
+import {CreateProductForm} from "../../../components/Admin/CreateProductForm/CreateProductForm.jsx";
 import {useCreateProduct} from "../../../hooks/admin/useCreateProduct.js";
 import styles from "./CreateProductPage.module.css";
 

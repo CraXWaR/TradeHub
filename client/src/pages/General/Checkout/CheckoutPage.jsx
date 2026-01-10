@@ -1,10 +1,10 @@
 import {FiShoppingCart, FiLock, FiTruck, FiCreditCard, FiUnlock} from "react-icons/fi";
-import OrderSummary from "../../components/Cart/OrderSummary.jsx";
+import OrderSummary from "../../../components/General/Cart/OrderSummary.jsx";
 import {Link, Navigate, useLocation} from "react-router-dom";
-import {useCheckoutForm} from "../../hooks/checkout/useCheckoutForm.js";
+import {useCheckoutForm} from "../../../hooks/checkout/useCheckoutForm.js";
 
-import Button from "../../components/User/UI/Button/Button.jsx";
-import NiceSelect from "../../components/User/UI/Select/NiceSelect.jsx";
+import Button from "../../../components/User/UI/Button/Button.jsx";
+import NiceSelect from "../../../components/User/UI/Select/NiceSelect.jsx";
 
 import styles from "./CheckoutPage.module.css";
 

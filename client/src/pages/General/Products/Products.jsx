@@ -1,12 +1,12 @@
-import {useProducts} from "../../hooks/admin/useProducts.js";
+import {useProducts} from "../../../hooks/admin/useProducts.js";
 import {useState} from "react";
 import ReactPaginate from "react-paginate";
 
-import {ProductCard} from "../../components/ProductCard/ProductCard.jsx";
+import {ProductCard} from "../../../components/General/ProductCard/ProductCard.jsx";
 import {HiChevronLeft, HiChevronRight} from "react-icons/hi";
-import {Loading} from "../../components/User/Common/Loading/Loading.jsx";
-import {Error} from "../../components/User/Common/Error/Error.jsx";
-import {Empty} from "../../components/User/Common/Empty/Empty.jsx";
+import {Loading} from "../../../components/User/Common/Loading/Loading.jsx";
+import {Error} from "../../../components/User/Common/Error/Error.jsx";
+import {Empty} from "../../../components/User/Common/Empty/Empty.jsx";
 import {LuStore} from "react-icons/lu";
 
 import styles from './Products.module.css';
