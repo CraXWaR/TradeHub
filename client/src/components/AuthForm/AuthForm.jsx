@@ -1,11 +1,14 @@
 import {Link} from "react-router-dom";
 import styles from "./AuthForm.module.css";
 import Button from "../User/UI/Button/Button.jsx";
+import {useState} from "react";
+import {LuEye, LuEyeOff, LuLock, LuMail, LuUser} from "react-icons/lu";
 
-const AuthForm = ({
+export const AuthForm = ({
                       mode = "login", formData, onChange, onSubmit, loading, message,
                   }) => {
     const isRegister = mode === "register";
+    const [showPassword, setShowPassword] = useState(false);
 
     return (<>
         {message?.text && (<div
@@ -30,7 +33,7 @@ const AuthForm = ({
                         placeholder="Enter your name"
 
                     />
-                    <div className={styles.inputIcon}>👤</div>
+                    <div className={styles.inputIcon}><LuUser size={20} /></div>
                 </div>
             </div>)}
 
@@ -49,30 +52,34 @@ const AuthForm = ({
                         placeholder="Enter your email"
 
                     />
-                    <div className={styles.inputIcon}>📧</div>
+                    <div className={styles.inputIcon}><LuMail size={20} /></div>
                 </div>
             </div>
 
             <div className={isRegister ? styles.passwordGrid : ""}>
                 <div className={styles.formGroup}>
-                    <label htmlFor="password" className={styles.formLabel}>
-                        Password
-                    </label>
+                    <label htmlFor="password" className={styles.formLabel}>Password</label>
                     <div className={styles.inputWrapper}>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             value={formData.password || ""}
                             onChange={onChange}
                             className={styles.formInput}
                             placeholder={isRegister ? "Create password" : "Enter your password"}
-
                         />
-                        <div className={styles.inputIcon}>🔒</div>
+                        <div className={styles.inputIcon}><LuLock size={20} /></div>
+
+                        <button
+                            type="button"
+                            className={styles.eyeBtn}
+                            onClick={() => setShowPassword(!showPassword)}
+                            tabIndex="-1">
+                            {showPassword ? <LuEyeOff size={22} /> : <LuEye size={22} />}
+                        </button>
                     </div>
                 </div>
-
                 {isRegister && (<div className={styles.formGroup}>
                     <label htmlFor="confirmPassword" className={styles.formLabel}>
                         Confirm Password
@@ -88,7 +95,7 @@ const AuthForm = ({
                             placeholder="Confirm password"
 
                         />
-                        <div className={styles.inputIcon}>🔐</div>
+                        <div className={styles.inputIcon}><LuLock size={20} /></div>
                     </div>
                 </div>)}
             </div>
@@ -128,5 +135,3 @@ const AuthForm = ({
         </div>
     </>);
 };
-
-export default AuthForm;

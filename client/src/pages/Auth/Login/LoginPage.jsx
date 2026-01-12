@@ -1,7 +1,8 @@
 import {useEffect} from "react";
+import {LuShieldCheck} from "react-icons/lu";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useLogin} from "../../../hooks/auth/useLogin.js";
-import AuthForm from "../../../components/AuthForm/AuthForm.jsx";
+import {AuthForm} from "../../../components/AuthForm/AuthForm.jsx";
 
 import styles from "./LoginPage.module.css";
 
@@ -24,7 +25,9 @@ const LoginPage = () => {
     return (<div className={styles.container}>
             <div className={styles.card}>
                 <div className={styles.header}>
-                    <div className={styles.icon}>🔐</div>
+                    <div className={styles.iconContainer}>
+                        <LuShieldCheck size={58} className={styles.mainIcon} />
+                    </div>
                     <h1 className={styles.title}>Welcome Back</h1>
                     <p className={styles.subtitle}>Sign in to your TradeHub account</p>
                 </div>
@@ -35,8 +38,7 @@ const LoginPage = () => {
                     onChange={handleChange}
                     onSubmit={handleSubmit}
                     loading={loading}
-                    message={message}
-                />
+                    message={message}/>
             </div>
         </div>);
 };

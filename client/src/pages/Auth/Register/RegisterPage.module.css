@@ -39,16 +39,20 @@
     margin-bottom: 1.5rem;
 }
 
-.icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    display: inline-block;
-    animation: pulse 2s ease-in-out infinite;
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem auto;
+    background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(232, 93, 4, 0.2);
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+.mainIcon {
+    color: white;
 }
 
 .title {
@@ -75,9 +79,8 @@
         min-height: 100vh;
         height: auto;
         position: static;
-        padding: 1rem 0.5rem;
         align-items: flex-start;
-        padding-top: 2rem;
+        padding: 2rem 0.5rem 1rem;
     }
     .card {
         padding: 2rem 1.5rem;
