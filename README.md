@@ -88,7 +88,7 @@ Environment Setup: Rename the .env.example file to .env located in the /server f
 DB_HOST=localhost
 DB_USER="your_user"
 DB_PASSWORD="your_password"
-DB_NAME=tradehub
+DB_NAME="your_db_name"
 DB_PORT=3306
 DB_DIALECT=mysql
 PORT=5000
