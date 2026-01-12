@@ -68,10 +68,10 @@ Located in the `/server` directory, built with Express and Sequelize.
 
 Follow these steps to get your development environment running.
 
-### 1. Clone the Project
 ```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-cd your-repo-name
+### 1. Clone the Project
+git clone https://github.com/CraXWaR/TradeHub.git
+cd TradeHub
 
 ### 2. Database Setup (MySQL)
 Create a new MySQL database (e.g., fashion_cube_db).
@@ -79,7 +79,7 @@ Create a new MySQL database (e.g., fashion_cube_db).
 Tables will be generated automatically via migrations.
 
 ### 3. Server Configuration (Backend)
-```bash
+
 cd server
 npm install
 
@@ -97,17 +97,14 @@ JWT_SECRET="your_secret_key"
 
 CLIENT_URL="http://localhost:5173"
 
-```bash
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 
 Start the backend:
-```bash
 npm run dev
 
 4. Client Configuration (Frontend)
 Open a new terminal:
-```bash
 
 cd client
 npm install
