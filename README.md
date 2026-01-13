@@ -100,6 +100,10 @@ CLIENT_URL="http://localhost:5173"
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 
+[!TIP] Default Test Accounts: After running the seeders, you can log in with:
+Admin: admin@gmail.com | Password: 123
+User: demo@gmail.com | Password: 12345678
+
 Start the backend:
 npm run dev
 
