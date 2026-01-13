@@ -21,15 +21,20 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(
-    cors({
-        origin: process.env.CLIENT_URL,
-        credentials: false,
-        allowedHeaders: ["Content-Type", "Authorization"],
-        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-    })
-);
+// CORS is disabled in development because Vite proxy handles it
+// Enable CORS only if frontend and backend are on separate domains
+
+// app.use(
+//     cors({
+//         origin: [
+//             'http://localhost:5173',
+//             'http://192.168.0.3:5173',
+//         ],
+//         credentials: true,
+//         allowedHeaders: ["Content-Type", "Authorization"],
+//         methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+//     })
+// );
 app.use(express.json());
 
 // Static files for uploads
@@ -77,4 +82,4 @@ try {
 }
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🌍 Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`🌍 Server running on port ${PORT}`));
