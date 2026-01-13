@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export function useDeleteProduct({ onDeleted, delayMs = 2000 } = {}) {
     const [confirmOpen, setConfirmOpen] = useState(false);

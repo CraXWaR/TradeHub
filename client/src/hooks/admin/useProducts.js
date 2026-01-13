@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from "react";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const useProducts = (filters) => {
     const [allProducts, setAllProducts] = useState([]);

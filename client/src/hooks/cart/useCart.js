@@ -2,7 +2,7 @@ import {useState, useCallback, useEffect, useMemo} from "react";
 import useAuth from "../auth/useAuth.js";
 
 const STORAGE_CART_KEY = "th_cart_v1";
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export function useCart() {
     const [isBusy, setIsBusy] = useState(false);

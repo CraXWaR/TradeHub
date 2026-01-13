@@ -3,7 +3,7 @@ import {useFormHandler} from "../useFormHandler.js";
 import {useNavigate} from "react-router-dom";
 import {useCartStore} from "../../contex/cart-context.jsx";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export function useCheckoutForm() {
     const {loading, setLoading, message, setMessage, resetMessage, withMinDelay} = useFormHandler();

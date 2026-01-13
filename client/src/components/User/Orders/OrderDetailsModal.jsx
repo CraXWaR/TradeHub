@@ -8,7 +8,7 @@ import OrderContent from "./subComponents/OrderContent.jsx";
 import OrderFooter from "./subComponents/OrderFooter.jsx";
 import ShippingDetails from "./subComponents/ShippingDetails.jsx";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const OrderDetailsModal = ({order, onClose}) => {
     const [isClosing, setIsClosing] = useState(false);

@@ -8,7 +8,7 @@ import NiceSelect from "../../User/UI/Select/NiceSelect.jsx";
 const MIN_QTY = 1;
 const MAX_QTY = 10;
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export default function CartItem({item, onQtyChange, onRemove, onVariantChange, mode = "cart",}) {
     const {title, price, quantity, image, variants, id, selectedVariantId: initialSelected,} = item;

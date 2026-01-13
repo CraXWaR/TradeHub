@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import useAuth from "../auth/useAuth.js";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export function useCartProducts(cartItems) {
     const [items, setItems] = useState([]);

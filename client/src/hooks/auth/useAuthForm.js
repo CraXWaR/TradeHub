@@ -2,7 +2,7 @@ import {useState, useRef, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {useFormHandler} from "../useFormHandler";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export function useAuthForm({
                                 initialValues,

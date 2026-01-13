@@ -1,7 +1,7 @@
 import {useState, useEffect, useTransition} from 'react';
 import useAuth from "../auth/useAuth.js";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const useUpdateProfile = () => {
     const {user, setUser, refreshUser} = useAuth();

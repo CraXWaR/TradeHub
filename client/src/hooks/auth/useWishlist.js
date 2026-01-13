@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState, useCallback} from "react";
 import {useFormHandler} from "../useFormHandler.js";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 function getToken() {
     let token = localStorage.getItem("token") || "";

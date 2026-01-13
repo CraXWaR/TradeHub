@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import styles from "./ProductCard.module.css";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const ProductCard = ({product}) => {
     const imagePath = product?.image || "";

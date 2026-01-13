@@ -2,7 +2,7 @@ import {useState, useEffect, useCallback} from "react";
 import {jwtDecode} from "jwt-decode";
 import Context from "./auth-context.js";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export default function AuthProvider({children}) {
     const [user, setUser] = useState(null);

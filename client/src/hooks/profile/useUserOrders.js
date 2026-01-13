@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef, useCallback} from 'react';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const useUserOrders = () => {
     const [orders, setOrders] = useState([]);
