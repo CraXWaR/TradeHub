@@ -119,3 +119,14 @@
     align-self: start;
     height: fit-content;
 }
+
+@media (max-width: 960px) {
+    .items {
+        z-index: 1;
+    }
+
+    .summary {
+        position: relative;
+        top: 0;
+    }
+}

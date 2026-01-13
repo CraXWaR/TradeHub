@@ -9,30 +9,27 @@ const OrderContent = ({items, baseUrl}) => {
             <h3>Order Items</h3>
         </div>
 
-        {items?.map((item, idx) => (<div key={idx} className={styles.productRow}>
-            <div className={styles.productInfo}>
+        {items?.map((item, idx) => (
+            <div key={item.id || idx} className={styles.productGridRow}>
                 <div className={styles.imageWrapper}>
                     <img
                         src={`${baseUrl}/uploads/${item.product?.image}`}
-                        alt={item.product?.title}
-                        className={styles.productImage}
-                    />
+                        alt={`${item.product?.title}`}
+                        className={styles.productImage}/>
                     <span className={styles.productQtyBadge}>{item.quantity}</span>
                 </div>
 
                 <div className={styles.productMeta}>
                     <span className={styles.productName}>{item.product?.title}</span>
-                    {item.variant && (<span className={styles.productVariant}>
-                        Variant: {item.variant.name}
-                    </span>)}
+                    {item.variant && (<span className={styles.productVariant}>{item.variant.name}</span>)}
+                </div>
+
+                <div className={styles.priceTag}>
+                    <span className={styles.priceCurrency}>€</span>
+                    <span className={styles.productPrice}>{item.price}</span>
                 </div>
             </div>
-
-            <div className={styles.priceTag}>
-                <span className={styles.priceCurrency}>€</span>
-                <span className={styles.productPrice}>{item.price}</span>
-            </div>
-        </div>))}
+        ))}
     </div>);
 };
 

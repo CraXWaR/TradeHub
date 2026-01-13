@@ -22,7 +22,7 @@ function cacheKey(userId, productId) {
     return `wl:${userId}:${productId}`;
 }
 
-export const useWishlist = (productId, initialInWishlist = undefined) => {
+export const useWishlist = ({ id: productId }, initialInWishlist = undefined) => {
     const {loading, setLoading, message, setMessage, resetMessage, withMinDelay,} = useFormHandler();
 
     const [inWishlist, setInWishlist] = useState(!!initialInWishlist);
@@ -60,7 +60,7 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
         (async () => {
             try {
                 const res = await fetch(
-                    `${BASE_URL}/user/wishlist/status?productId=${productId}`,
+                    `${BASE_URL}/api/user/wishlist/status?productId=${productId}`,
                     {headers: {Authorization: `Bearer ${token}`}}
                 );
                 const data = await res.json().catch(() => ({}));
@@ -97,7 +97,7 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
         setLoading(true);
 
         try {
-            const response = await withMinDelay(fetch(`${BASE_URL}/user/wishlist`, {
+            const response = await withMinDelay(fetch(`${BASE_URL}/api/user/wishlist`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -153,7 +153,7 @@ export const useWishlist = (productId, initialInWishlist = undefined) => {
 
         try {
             const response = await withMinDelay(fetch(
-                `${BASE_URL}/user/wishlist/remove?productId=${productId}`,
+                `${BASE_URL}/api/user/wishlist/remove?productId=${productId}`,
                 {method: "DELETE", headers: {Authorization: `Bearer ${token}`}}
             ));
             const data = await response.json().catch(() => ({}));

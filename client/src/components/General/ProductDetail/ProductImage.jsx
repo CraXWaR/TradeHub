@@ -1,6 +1,6 @@
 import styles from "./ProductImage.module.css";
 
-const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className={styles["product-image-container"]}>
+export const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className={styles["product-image-container"]}>
     {image ? (<img
         src={`${baseUrl}/uploads/${image}`}
         alt={title}
@@ -16,5 +16,3 @@ const ProductImage = ({image, title, baseUrl, placeholder}) => (<div className={
         className={styles["product-detail-image"]}
     />)}
 </div>);
-
-export default ProductImage;

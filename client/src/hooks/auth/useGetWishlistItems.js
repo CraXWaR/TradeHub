@@ -35,7 +35,7 @@ export const useGetWishlistItems = ({auto = true} = {}) => {
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`${BASE_URL}/user/wishlist`, {
+            const response = await fetch(`${BASE_URL}/api/user/wishlist`, {
                 headers: {Authorization: `Bearer ${token}`}
             });
 

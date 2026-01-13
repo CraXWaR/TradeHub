@@ -92,10 +92,19 @@
     gap: 1.75rem;
 }
 
+.content > div:last-child {
+    order: -1; /* Премества го най-отгоре само на мобилни */
+}
+
 @media (min-width: 900px) {
     .content {
         grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
         align-items: flex-start;
+    }
+
+    /* Връщаме нормалната подредба за десктоп */
+    .content > div:last-child {
+        order: 0;
     }
 }
 

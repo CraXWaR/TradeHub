@@ -29,6 +29,7 @@
     max-height: 85vh;
     border: 1px solid rgba(255, 255, 255, 0.6);
     animation: fadeInScale 0.4s ease-out forwards;
+    margin-top: calc((100vh - 85vh) / 2);
 }
 
 .closing {
@@ -43,7 +44,9 @@
 }
 
 .header {
-    padding: 40px 40px 20px;
+    padding-top: clamp(20px, 4vh, 30px);
+    padding-inline: clamp(16px, 5vw, 40px);
+    padding-bottom: clamp(20px, 4vh, 30px);
 }
 
 .orderId {
@@ -72,7 +75,9 @@
 
 /* Content Section */
 .scrollContent {
-    padding: 0 40px 30px;
+    padding-top: 0;
+    padding-inline: clamp(16px, 5vw, 40px);
+    padding-bottom: clamp(20px, 4vh, 30px);
     overflow-y: auto;
 }
 

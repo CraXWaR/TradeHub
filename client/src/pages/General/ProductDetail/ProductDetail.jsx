@@ -3,8 +3,11 @@ import {useParams, useNavigate} from "react-router-dom";
 
 import styles from "./ProductDetail.module.css";
 
-import ProductImage from "../../../components/General/ProductDetail/ProductImage.jsx";
-import ProductInfo from "../../../components/General/ProductDetail/ProductInfo.jsx";
+import {ProductImage} from "../../../components/General/ProductDetail/ProductImage.jsx";
+import {ProductInfo} from "../../../components/General/ProductDetail/ProductInfo.jsx";
+import {AddToWishlist} from "../../../components/User/Wishlist/AddToWishlist.jsx";
+import {Loading} from "../../../components/Admin/Common/Loading/Loading.jsx";
+import {Error} from "../../../components/Admin/Common/Error/Error.jsx";
 
 const BASE_URL = import.meta.env.VITE_API_URL || '';
 const MIN_LOADING_TIME = 1500;
@@ -28,7 +31,7 @@ const ProductDetail = () => {
                 const data = await response.json();
 
                 if (!isMounted) return;
-                if (data.success) setProduct(data.data); else setError("Product not found");
+                if (data.success) setProduct(data.data); else setError(data.message);
             } catch (err) {
                 if (isMounted) {
                     console.error("Error fetching product:", err);
@@ -47,48 +50,37 @@ const ProductDetail = () => {
         };
     }, [id]);
 
-    if (pageLoading) {
-        return (<div
-            className={`${styles["product-detail-page"]} min-h-screen bg-white flex flex-col items-center justify-start py-10`}>
-            <div
-                className="animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent mb-4"></div>
-            <p className="text-gray-700 font-medium">Loading product...</p>
-        </div>);
-    }
+    const renderContent = () => {
+        if (pageLoading) return <Loading message="Loading product..." />;
+        if (error) return <Error message={error} />;
+        if (!product) return null;
 
-    if (error) {
-        return (<div
-            className={`${styles["product-detail-page"]} min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100 flex items-center justify-center`}>
-            <div
-                className="max-w-xl mx-auto bg-red-50 text-red-700 border border-red-200 p-6 rounded-lg text-center shadow-sm">
-                <p className="mb-4">{error}</p>
-                <button
-                    onClick={() => navigate("/products")}
-                    className="px-5 py-2 rounded-full border border-orange-300 text-orange-700 hover:bg-orange-100 transition-colors"
-                >
-                    ← Back to Products
-                </button>
-            </div>
-        </div>);
-    }
+        return (
+            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fadeIn ${styles["product-info-container"]}`}>
+                <div className="flex items-center gap-3 pt-6 px-4 mb-6 lg:hidden justify-between col-span-1">
+                    <h1 className="text-2xl font-bold text-gray-900">{product.title}</h1>
+                    <AddToWishlist id={id} />
+                </div>
 
-    if (!product) return null;
-    return (<div className={`${styles["product-detail-page"]} relative min-h-screen`}>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <div className={`${styles["product-detail"]} grid grid-cols-1 lg:grid-cols-2 gap-12 animate-fadeIn`}>
                 <ProductImage
                     image={product.image}
-                    title={product.title}
-                    baseUrl={BASE_URL}
                     placeholder={PLACEHOLDER_IMAGE}
-                />
+                    title={product.title}
+                    baseUrl={BASE_URL}/>
                 <ProductInfo
                     product={product}
-                    navigate={navigate}
-                />
+                    navigate={navigate}/>
+            </div>
+        );
+    };
+
+    return (
+        <div className={`${styles["product-detail-page"]} relative min-h-screen bg-[#fefefe]`}>
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
+                {renderContent()}
             </div>
         </div>
-    </div>);
+    );
 };
 
 export default ProductDetail;
