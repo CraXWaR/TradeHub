@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./AdminDashboard.module.css";
 import { FaPlus, FaUsers, FaCubes } from "react-icons/fa";
 import { GiPartyPopper } from "react-icons/gi";
+import {FaCubesStacked} from "react-icons/fa6";
 
 const AdminDashboard = () => {
     return (
@@ -37,8 +38,16 @@ const AdminDashboard = () => {
                     <div className={styles.iconWrapper}>
                         <FaCubes />
                     </div>
-                    <h2>View Products</h2>
+                    <h2>View Admin Products Page</h2>
                     <p>Browse and maintain product listings.</p>
+                </Link>
+
+                <Link to="/products" className={styles.adminLink}>
+                    <div className={styles.iconWrapper}>
+                        <FaCubesStacked />
+                    </div>
+                    <h2>View Products Page</h2>
+                    <p>Browse product listings.</p>
                 </Link>
             </div>
         </div>

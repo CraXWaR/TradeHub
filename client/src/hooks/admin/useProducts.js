@@ -9,21 +9,21 @@ export const useProducts = (filters) => {
 
     useEffect(() => {
         let isMounted = true;
+        const startTime = Date.now();
+        const minWait = 1500;
 
         const fetchProducts = async () => {
-            setLoading(true);
-            setError("");
-            const startTime = Date.now();
-
             try {
-                const res = await fetch(`${BASE_URL}/api/products`, { // Нарочно грешен
+                setLoading(true);
+                setError("");
+
+                const res = await fetch(`${BASE_URL}/api/products`, {
                     headers: {Accept: "application/json"},
                 });
 
                 if (!res.ok) {
                     const ct = res.headers.get("content-type") || "";
                     let errorMessage = `Error ${res.status}`;
-
                     if (ct.includes("application/json")) {
                         const errorData = await res.json();
                         errorMessage = errorData.message || errorMessage;
@@ -31,36 +31,39 @@ export const useProducts = (filters) => {
                         const text = await res.text();
                         errorMessage = text.slice(0, 100) || errorMessage;
                     }
-
                     throw new Error(errorMessage);
                 }
 
                 const data = await res.json();
-                if (!isMounted) return;
 
-                if (data?.success && Array.isArray(data.data)) {
-                    setAllProducts(data.data.map((p) => ({
-                        id: p.id ?? p._id ?? "",
-                        title: p.title ?? p.name ?? "",
-                        description: p.description ?? "",
-                        price: p.price,
-                        variants: p?.variants ?? [],
-                        image: p.image ?? p.thumbnail ?? "",
-                        created_at: p.created_at ?? p.createdAt ?? null,
-                    })));
-                } else {
-                    throw new Error(data?.message || "Failed to load products");
+                const elapsed = Date.now() - startTime;
+                if (elapsed < minWait) {
+                    await new Promise(resolve => setTimeout(resolve, minWait - elapsed));
+                }
+
+                if (isMounted) {
+                    if (data?.success && Array.isArray(data.data)) {
+                        setAllProducts(data.data.map((p) => ({
+                            id: p.id ?? p._id ?? "",
+                            title: p.title ?? p.name ?? "",
+                            description: p.description ?? "",
+                            price: p.price,
+                            variants: p?.variants ?? [],
+                            image: p.image ?? p.thumbnail ?? "",
+                            created_at: p.created_at ?? p.createdAt ?? null,
+                        })));
+                    } else {
+                        throw new Error(data?.message || "Failed to load products");
+                    }
                 }
             } catch (err) {
                 if (isMounted) {
                     setError(err.message);
                 }
             } finally {
-                const elapsed = Date.now() - startTime;
-                const remaining = Math.max(0, 1500 - elapsed);
-                setTimeout(() => {
-                    if (isMounted) setLoading(false);
-                }, remaining);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
@@ -69,7 +72,6 @@ export const useProducts = (filters) => {
             isMounted = false;
         };
     }, [filters]);
-
 
     const products = useMemo(() => {
         let list = allProducts;
