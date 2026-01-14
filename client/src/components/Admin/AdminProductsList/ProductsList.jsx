@@ -4,16 +4,16 @@ import {useProducts} from "../../../hooks/admin/useProducts.js";
 import {useUpdateProduct} from "../../../hooks/admin/useUpdateProduct.js";
 import {useDeleteProduct} from "../../../hooks/admin/useDeleteProduct.js";
 
+import {CreateProductForm} from "../CreateProductForm/CreateProductForm.jsx";
 import {Loading} from "../Common/Loading/Loading.jsx";
 import {Error} from "../Common/Error/Error.jsx";
 import {FaInbox} from "react-icons/fa";
 import {Empty} from "../Common/Empty/Empty.jsx";
+import {ProductsTable} from "./ProductsTable.jsx";
 
-import ProductsTable from "./ProductsTable.jsx";
 import styles from "./ProductsList.module.css";
-import {CreateProductForm} from "../CreateProductForm/CreateProductForm.jsx";
 
-const ProductsList = ({filters}) => {
+export const ProductsList = ({filters}) => {
     const {
         products, loading, error, updateProductInList, removeProductFromList,
     } = useProducts(filters);
@@ -118,5 +118,3 @@ const ProductsList = ({filters}) => {
         </Modal>
     </>);
 };
-
-export default ProductsList;

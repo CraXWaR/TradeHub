@@ -1,0 +1,110 @@
+.adminDashboard {
+    padding: 40px;
+    background-color: var(--bg-1);
+    min-height: 100vh;
+}
+
+.header {
+    width: 100%;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--nav-hover-bg);
+    padding-bottom: 20px;
+}
+
+.header h1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--text-700);
+    margin: 0;
+}
+
+.header p {
+    color: var(--text-500);
+    margin-top: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.linksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 24px;
+    width: 100%;
+}
+
+.adminLink {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.25s ease-in-out;
+}
+
+.adminLink:hover {
+    background: var(--nav-hover-bg);
+    transform: translateY(-4px);
+    border-color: var(--primary-400);
+}
+
+.iconWrapper {
+    width: 56px;
+    height: 56px;
+    background: var(--bg-1);
+    color: var(--primary-500);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+    transition: all 0.25s ease;
+}
+
+.adminLink:hover .iconWrapper {
+    background: #ffffff;
+    color: var(--primary-600);
+    transform: scale(1.1);
+}
+
+.adminLink h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-700);
+    margin: 0 0 10px 0;
+}
+
+.adminLink p {
+    font-size: 1rem;
+    color: var(--text-500);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.partyIcon {
+    color: var(--primary-500);
+}
+
+@media (max-width: 768px) {
+    .adminDashboard {
+        padding: 20px 15px;
+    }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .linksGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .adminLink {
+        padding: 20px;
+    }
+}

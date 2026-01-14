@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import DisplayUser from './DisplayUser';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 const UsersList = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ const UsersList = () => {
             setLoading(true);
             const startTime = Date.now();
 
-            const response = await fetch('http://localhost:5000/api/users');
+            const response = await fetch(`${BASE_URL}/api/users`);
             const data = await response.json();
 
             const elapsedTime = Date.now() - startTime;

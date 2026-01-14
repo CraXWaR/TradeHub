@@ -1,0 +1,111 @@
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.selectTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--primary-400);
+    background: var(--bg-0);
+    color: var(--text-700);
+    min-width: 180px;
+}
+
+.selectTrigger:hover {
+    border-color: var(--primary-500);
+    background: var(--nav-hover-bg);
+}
+
+.active {
+    box-shadow: 0 0 0 4px var(--nav-hover-bg);
+    border-color: var(--primary-500);
+}
+
+.statusText {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--primary-400);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transform-origin: top center;
+}
+
+.slideIn {
+    animation: dropIn 0.2s ease-out forwards;
+}
+
+.slideOut {
+    animation: dropOut 0.2s ease-in forwards;
+}
+
+@keyframes dropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes dropOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+}
+
+.chevron {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+    color: var(--primary-500);
+}
+
+.active .chevron {
+    transform: rotate(180deg);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-700);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background: var(--nav-hover-bg);
+    color: var(--primary-600);
+}
+
+.selected {
+    background: var(--nav-hover-bg);
+    color: var(--primary-600);
+    font-weight: 700;
+}

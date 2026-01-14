@@ -1,7 +1,7 @@
 import ProductRow from "./ProductRow.jsx";
 import styles from "./ProductsTable.module.css";
 
-const ProductsTable = ({products, onEdit, onDelete}) => {
+export const ProductsTable = ({products, onEdit, onDelete}) => {
     return (
         <div className={styles.wrapper}>
             <table className={styles.table}>
@@ -26,5 +26,3 @@ const ProductsTable = ({products, onEdit, onDelete}) => {
         </div>
     );
 };
-
-export default ProductsTable;

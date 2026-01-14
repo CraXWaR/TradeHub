@@ -53,7 +53,7 @@ function AppShell() {
 
     return (
         <div
-            className={`min-h-screen flex flex-col bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-green-400 ${isAdmin ? "admin-theme" : ""}`}>
+            className={`min-h-screen flex flex-col bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-700 text-blue-400 ${isAdmin ? "admin-theme" : ""}`}>
             {isAdmin ? <AdminNavigation/> : <UserNavigation/>}
 
             <main className="flex-1">

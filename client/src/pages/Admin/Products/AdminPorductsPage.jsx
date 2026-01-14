@@ -1,7 +1,18 @@
 import { useState, useMemo } from 'react';
 
+import {ProductsList} from "../../../components/Admin/AdminProductsList/ProductsList.jsx";
+import {CustomSelect} from "../../../components/Admin/UI/CustomSelect/CustomSelect.jsx";
+
 import styles from './AdminProductsPage.module.css';
-import ProductsList from "../../../components/Admin/AdminProductsList/ProductsList.jsx";
+
+const sortOptions = [
+    { value: "created_desc", label: "Newest" },
+    { value: "created_asc", label: "Oldest" },
+    { value: "title_asc", label: "Title A–Z" },
+    { value: "title_desc", label: "Title Z–A" },
+    { value: "price_asc", label: "Price: Low to High" },
+    { value: "price_desc", label: "Price: High to Low" }
+];
 
 const AdminProductsPage = () => {
     const [query, setQuery] = useState('');
@@ -19,17 +30,11 @@ const AdminProductsPage = () => {
                         placeholder="Search products…"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}/>
-                    <select
-                        className={styles.select}
+                    <CustomSelect
+                        options={sortOptions}
                         value={sort}
-                        onChange={(e) => setSort(e.target.value)}>
-                        <option value="created_desc">Newest</option>
-                        <option value="created_asc">Oldest</option>
-                        <option value="title_asc">Title A–Z</option>
-                        <option value="title_desc">Title Z–A</option>
-                        <option value="price_asc">Price ↑</option>
-                        <option value="price_desc">Price ↓</option>
-                    </select>
+                        onChange={setSort}
+                    />
                 </div>
             </header>
 
