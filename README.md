@@ -97,6 +97,7 @@ JWT_SECRET="your_secret_key"
 
 CLIENT_URL="http://localhost:5173"
 
+npx sequelize-cli db:create
 npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 
