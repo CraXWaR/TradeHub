@@ -46,6 +46,7 @@ import CartPage from "./pages/General/Cart/CartPage.jsx";
 import CheckoutPage from "./pages/General/Checkout/CheckoutPage.jsx";
 import NotFound from "./pages/General/NotFound/NotFound.jsx";
 import OrderSuccessPage from "./pages/General/OrderSuccess/OrderSuccessPage.jsx";
+import ColdStartToast from "./components/General/ColdStartToast/ColdStartToast.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -111,6 +112,7 @@ export default function App() {
             <CartProvider>
                 <Router>
                     <AppShell/>
+                    <ColdStartToast />
                 </Router>
             </CartProvider>
         </AuthProvider>
