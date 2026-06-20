@@ -13,7 +13,8 @@ module.exports = {
             password: hashedPassword,
             role: 'user',
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
+            ignoreDublicate: true
         }], {});
     },
 

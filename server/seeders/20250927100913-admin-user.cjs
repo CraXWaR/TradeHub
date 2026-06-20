@@ -13,11 +13,12 @@ module.exports = {
             password: hashedPassword,
             role: 'admin',
             created_at: new Date(),
-            updated_at: new Date()
+            updated_at: new Date(),
+            ignoreDublicate: true
         }], {});
     },
 
     async down(queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('users', {email: 'craxwar@gmail.com'}, {});
+        return queryInterface.bulkDelete('users', {email: 'admin@gmail.com'}, {});
     }
 };
