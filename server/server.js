@@ -23,18 +23,19 @@ const app = express();
 
 // CORS is disabled in development because Vite proxy handles it
 // Enable CORS only if frontend and backend are on separate domains
+app.use(
+    cors({
+        origin: [
+            'http://localhost:5173',
+            'http://192.168.0.3:5173',
+            'https://tradehub-react.vercel.app'
+        ],
+        credentials: true,
+        allowedHeaders: ["Content-Type", "Authorization"],
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    })
+);
 
-// app.use(
-//     cors({
-//         origin: [
-//             'http://localhost:5173',
-//             'http://192.168.0.3:5173',
-//         ],
-//         credentials: true,
-//         allowedHeaders: ["Content-Type", "Authorization"],
-//         methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-//     })
-// );
 app.use(express.json());
 
 // Static files for uploads
