@@ -37,7 +37,7 @@ module.exports = {
             }, user_id: {
                 type: Sequelize.INTEGER,
                 allowNull: true,
-                references: {model: 'Users', key: 'id'},
+                references: {model: 'users', key: 'id'},
                 onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
             }, created_at: {allowNull: false, type: Sequelize.DATE}, updated_at: {allowNull: false, type: Sequelize.DATE}
@@ -45,6 +45,6 @@ module.exports = {
     },
 
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Orders');
+        await queryInterface.dropTable('orders');
     }
 };
