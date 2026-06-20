@@ -42,7 +42,7 @@ export default function ColdStartToast() {
         <p className={styles.message}>
           Your first couple of requests may be a bit slow —{" "}
           <span className={styles.highlight}>
-            we&apos;re waking up the database.
+            we&apos;re waking up the backend.
           </span>{" "}
           Things will snap into speed right after.
         </p>
