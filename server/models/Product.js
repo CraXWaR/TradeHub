@@ -14,6 +14,8 @@ const Product = sequelize.define('Product', {
         type: DataTypes.FLOAT, allowNull: false
     }, image: {
         type: DataTypes.STRING, allowNull: false
+    }, is_active: {
+        type: DataTypes.BOOLEAN, defaultValue: true, allowNull: false
     },
 }, {
     tableName: 'products', underscored: true, timestamps: true,

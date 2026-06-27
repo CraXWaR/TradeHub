@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./AdminDashboard.module.css";
-import { FaPlus, FaUsers, FaCubes } from "react-icons/fa";
+import { FaPlus, FaUsers, FaCubes, FaTrashRestore } from "react-icons/fa";
 import { GiPartyPopper } from "react-icons/gi";
 import {FaCubesStacked} from "react-icons/fa6";
 
@@ -42,11 +42,19 @@ const AdminDashboard = () => {
                     <p>Browse and maintain product listings.</p>
                 </Link>
 
+                <Link to="/admin/deleted-products" className={styles.adminLink}>
+                    <div className={styles.iconWrapper}>
+                        <FaTrashRestore />
+                    </div>
+                    <h2>Deleted Products</h2>
+                    <p>Here you can restore deleted products.</p>
+                </Link>
+
                 <Link to="/products" className={styles.adminLink}>
                     <div className={styles.iconWrapper}>
                         <FaCubesStacked />
                     </div>
-                    <h2>View Products Page</h2>
+                    <h2>View Users Products Page</h2>
                     <p>Browse product listings.</p>
                 </Link>
             </div>

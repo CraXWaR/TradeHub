@@ -47,6 +47,7 @@ import CheckoutPage from "./pages/General/Checkout/CheckoutPage.jsx";
 import NotFound from "./pages/General/NotFound/NotFound.jsx";
 import OrderSuccessPage from "./pages/General/OrderSuccess/OrderSuccessPage.jsx";
 import ColdStartToast from "./components/General/ColdStartToast/ColdStartToast.jsx";
+import AdminDeletedProductsPage from "./pages/Admin/Products/AdminDeletedProductsPage.jsx";
 
 function AppShell() {
     const {isAdmin, loading} = useAuth();
@@ -90,6 +91,7 @@ function AppShell() {
                                 <Route path="dashboard" element={<AdminDashboardPage/>}/>
                                 <Route path="create" element={<CreateProductPage/>}/>
                                 <Route path="products" element={<AdminProductsPage/>}/>
+                                <Route path="deleted-products" element={<AdminDeletedProductsPage/>}/>
                                 <Route path="users" element={<UsersList/>}/>
                                 <Route path="orders" element={<OrdersList/>}/>
                             </Route>

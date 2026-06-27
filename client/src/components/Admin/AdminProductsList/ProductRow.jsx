@@ -1,8 +1,10 @@
-import styles from "./ProductRow.module.css";
-import {getProductImageUrl, formatPrice} from "../../../utils/admin/productDisplay.js";
+import { getProductImageUrl, formatPrice } from "../../../utils/admin/productDisplay.js";
+import { LuLoader } from "react-icons/lu";
 
-const ProductRow = ({product, onEdit, onDelete}) => {
-    const {id, title, price, image} = product;
+import styles from "./ProductRow.module.css";
+
+const ProductRow = ({ product, onEdit, onDelete, onRestore, restoring }) => {
+    const { id, title, price, image } = product;
 
     return (
         <tr>
@@ -24,8 +26,26 @@ const ProductRow = ({product, onEdit, onDelete}) => {
             </td>
             <td className={styles.priceCell}>{formatPrice(price)}</td>
             <td className={styles.actionsCell}>
-                <button onClick={() => onEdit(product)}>Edit</button>
-                <button onClick={() => onDelete(id)}>Delete</button>
+                {onRestore ? (
+                    <button
+                        onClick={() => onRestore(id)}
+                        disabled={restoring}
+                        type="button">
+                        {restoring ? (
+                            <>
+                                <LuLoader size={14} className={styles.spinner}/>
+                                Restoring...
+                            </>
+                        ) : (
+                            "Restore"
+                        )}
+                    </button>
+                ) : (
+                    <>
+                        <button onClick={() => onEdit(product)}>Edit</button>
+                        <button onClick={() => onDelete(id)}>Delete</button>
+                    </>
+                )}
             </td>
         </tr>
     );

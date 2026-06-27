@@ -85,8 +85,8 @@ export const ProductsList = ({filters}) => {
                 <div className={styles.textSection}>
                     <h4 className={styles.confirmTitle}>Are you absolutely sure?</h4>
                     <p className={styles.confirmMessage}>
-                        This will permanently delete the product from the database.
-                        <strong> This action cannot be undone.</strong>
+                       This will remove the product from the store.
+                        <strong> You can restore it later from the deleted products section.</strong>
                     </p>
                 </div>
 

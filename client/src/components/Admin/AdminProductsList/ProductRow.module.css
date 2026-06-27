@@ -5,9 +5,6 @@
     max-width: 160px;
 }
 
-.productCell {
-}
-
 .productWrap {
     display: flex;
     align-items: center;
@@ -49,9 +46,30 @@
 }
 
 .actionsCell {
-    display: flex;
+     display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 72px;
 }
 
 .actionsCell button + button {
     margin-left: 0.5rem;
+}
+
+.actionsCell button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

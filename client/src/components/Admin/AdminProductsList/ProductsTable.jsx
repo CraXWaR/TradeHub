@@ -1,7 +1,7 @@
 import ProductRow from "./ProductRow.jsx";
 import styles from "./ProductsTable.module.css";
 
-export const ProductsTable = ({products, onEdit, onDelete}) => {
+export const ProductsTable = ({products, onEdit, onDelete, onRestore, restoring}) => {
     return (
         <div className={styles.wrapper}>
             <table className={styles.table}>
@@ -19,7 +19,9 @@ export const ProductsTable = ({products, onEdit, onDelete}) => {
                         key={p.id || idx}
                         product={p}
                         onEdit={onEdit}
-                        onDelete={onDelete}/>
+                        onDelete={onDelete}
+                        onRestore={onRestore}
+                        restoring={restoring}/>
                 ))}
                 </tbody>
             </table>

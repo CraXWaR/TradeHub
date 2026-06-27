@@ -44,6 +44,7 @@ export const createProduct = async ({user_id, title, description, price, image, 
 export const getAllProducts = async () => {
     try {
         const products = await Product.findAll({
+            where: { is_active: true },
             order: [["created_at", "DESC"]], include: [{model: User, attributes: ["id", "name", "email", "role"],}, {
                 model: ProductVariants, as: "variants",
             },]
@@ -56,10 +57,12 @@ export const getAllProducts = async () => {
 
 export const getProductById = async (id) => {
     try {
-        const product = await Product.findByPk(id, {
-            include: [{model: User, attributes: ["id", "name", "email", "role"],}, {
-                model: ProductVariants, as: "variants",
-            },],
+        const product = await Product.findOne({
+            where: { id, is_active: true },
+            include: [
+                { model: User, attributes: ["id", "name", "email", "role"] },
+                { model: ProductVariants, as: "variants" }
+            ],
         });
 
         return product ? product.get({plain: true}) : null;
@@ -71,9 +74,9 @@ export const getProductById = async (id) => {
 export const getProductsByUserId = async (userId) => {
     try {
         const products = await Product.findAll({
-            where: {user_id: userId},
+            where: { user_id: userId, is_active: true },
             order: [["created_at", "DESC"]],
-            include: {model: User, attributes: ["id", "name", "email", "role"]},
+            include: { model: User, attributes: ["id", "name", "email", "role"] },
         });
 
         return products.map(p => p.get({plain: true}));
@@ -84,12 +87,41 @@ export const getProductsByUserId = async (userId) => {
 
 export const deleteProductById = async (id) => {
     try {
-        const deletedCount = await Product.destroy({where: {id}});
-        return deletedCount > 0;
+        const product = await Product.findByPk(id);
+        if (!product) return false;
+        await product.update({is_active: false});
+        return true;
     } catch (error) {
-        throw new Error(`Failed to delete product: ${error.message}`);
+        throw new Error(`Failed to 'delete' product: ${error.message}`);
     }
 };
+
+export const restoreProductById = async (id) => {
+    try {
+        const product = await Product.findByPk(id);
+        if (!product) return false;
+        await product.update({ is_active: true });
+        return true;
+    } catch (error) {
+        throw new Error(`Failed to restore product: ${error.message}`);
+    }
+};
+
+export const getDeletedProducts = async () => {
+    try {
+        const products = await Product.findAll({
+            where: { is_active: false },
+            order: [["updated_at", "DESC"]],
+            include: [
+                { model: User, attributes: ["id", "name", "email", "role"] },
+                { model: ProductVariants, as: "variants" }
+            ],
+        });
+        return products.map(p => p.get({ plain: true }));
+    } catch (error) {
+        throw new Error(`Failed to fetch deleted products: ${error.message}`);
+    }
+}
 
 export const updateProduct = async (id, productData) => {
     try {

@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import {useState, useRef} from "react";
-import {FaAlignRight, FaAlignLeft, FaUsers, FaBox, FaPlus, FaChartBar, FaCubes} from "react-icons/fa";
+import {FaAlignRight, FaAlignLeft, FaUsers, FaBox, FaPlus, FaChartBar, FaCubes, FaTrashRestore} from "react-icons/fa";
 
 const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(window.innerWidth < 768);
@@ -59,6 +59,7 @@ const AdminLayout = () => {
                         {to: "/admin/create", icon: <FaPlus/>, label: "Create Product"},
                         {to: "/admin/users", icon: <FaUsers/>, label: "Manage Users"},
                         {to: "/admin/products", icon: <FaCubes/>, label: "View Products"},
+                        {to: "/admin/deleted-products", icon: <FaTrashRestore/>, label: "Deleted Products"},
                         {to: "/admin/orders", icon: <FaBox/>, label: "View Orders"},
                     ].map((link) => (
                         <Link
