@@ -27,7 +27,7 @@ app.use(
     cors({
         origin: [
             'http://localhost:5173',
-            'https://tradehub-react.vercel.app'
+            'https://tradehub-crax.vercel.app'
         ],
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
